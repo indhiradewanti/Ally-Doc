@@ -176,7 +176,7 @@ class MainController {
 				throw { code: 400, msg: `Age cannot be empty` };
 			}
 			if (!phone_number) {
-				throw { code: 400, msg: `phone_number Number cannot be empty` };
+				throw { code: 400, msg: `Phone Number cannot be empty` };
 			}
 			let updateUser = await UserModel.updateOne(
 				{ _id: id },

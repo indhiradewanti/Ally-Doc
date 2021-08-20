@@ -2,7 +2,7 @@ const multer = require("multer");
 
 const upload = multer({
 	storage: multer.memoryStorage(),
-	limits: { fileSize: 255000 },
+	limits: { fileSize: 2621440 },
 	fileFilter: function (req, file, cb) {
 		if (!file.mimetype.includes("image")) {
 			cb(null, false);

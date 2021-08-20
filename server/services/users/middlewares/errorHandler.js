@@ -6,7 +6,7 @@ const errorHandler = (err, req, res, next) => {
 
 	if (err instanceof multer.MulterError) {
 		code = `400`;
-		err.msg = `File size is larger than 255kb`;
+		err.msg = `File size is larger than 2.5mb`;
 	}
 
 	switch (code) {
