@@ -7,15 +7,25 @@ class ControllerAdmin {
     try {
       let { email, password, username } = req.body;
       password = hashSync(password);
-      const data = await Admin.create({ email, password, username });
+      const data = await Admin.create({ email, password, username })
       if (!data) {
         throw { code: 400, message: "Error Create Admin" };
       } else {
-        console.log(data);
-        res.status(201).json(data);
+        const access_token = jwt.sign(
+            { id: find._id, username: find.username, role: find.role },
+            process.env.SECRET_KEY
+          );
+          res.status(201).json({ access_token, role: find.role });
       }
     } catch (err) {
-      console.log(err);
+      console.log(err.message);
+      if (err.name === "ValidationError") {
+        let errorMessages = [];
+        for (let key in err.errors) {
+            errorMessages.push(err.errors[key].message);
+        }
+        next({ code: 400, message: errorMessages.join(", ") });
+      }
       const code = err.code;
       const message = err.message;
       next({
@@ -27,7 +37,7 @@ class ControllerAdmin {
   static async loginAdmin(req, res, next) {
     try {
       let { email, password } = req.body;
-      const find = await Admin.findOne({ email }, (err) => console.log(err)).exec();
+      const find = await Admin.findOne({ email }).exec();
     //   console.log(find, "ini di login admin");
       if (find) {
         if (find.role === "Admin") {
@@ -49,7 +59,8 @@ class ControllerAdmin {
         throw { code: 401, message: "Email/Password is Wrong" };
       }
     } catch (err) {
-      console.log(...err);
+      console.log(err);
+      res.status(500).json(err)
       const code = err.code || 500;
       const message = err.message || "internal server error";
       next({
