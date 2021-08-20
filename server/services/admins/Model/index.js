@@ -3,15 +3,15 @@ const {Schema, model} = require('mongoose')
 const AdminSchema = new Schema({
     email: {
         type: String,
-        required: true
+        required: [true, 'email must be filled']
     },
     password: {
         type: String,
-        required: true
+        required: [true, 'password must be filled']
     },
     username: {
         type: String,
-        required: true
+        required: [true, 'username must be filled']
     },
     role:{
         type: String,

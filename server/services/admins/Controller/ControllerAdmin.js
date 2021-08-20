@@ -15,7 +15,7 @@ class ControllerAdmin {
         res.status(201).json(data);
       }
     } catch (err) {
-      console.log(...err);
+      console.log(err);
       const code = err.code;
       const message = err.message;
       next({
@@ -27,7 +27,7 @@ class ControllerAdmin {
   static async loginAdmin(req, res, next) {
     try {
       let { email, password } = req.body;
-      const find = await Admin.findOne({ email }).exec();
+      const find = await Admin.findOne({ email }, (err) => console.log(err)).exec();
     //   console.log(find, "ini di login admin");
       if (find) {
         if (find.role === "Admin") {
@@ -49,7 +49,7 @@ class ControllerAdmin {
         throw { code: 401, message: "Email/Password is Wrong" };
       }
     } catch (err) {
-      console.log(err);
+      console.log(...err);
       const code = err.code || 500;
       const message = err.message || "internal server error";
       next({

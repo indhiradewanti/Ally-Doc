@@ -12,4 +12,6 @@ app.use(express.json())
 
 app.use(router)
 
-app.listen(port, (_) => console.log('server listen in port ', port))
+app.listen(port, (_) => console.log('server listen in port', port))
+
+module.exports = app
