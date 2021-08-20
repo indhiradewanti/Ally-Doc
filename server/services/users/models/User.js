@@ -8,7 +8,7 @@ const UserSchema = new Schema({
 		required: [true, "Password is required"],
 	},
 	username: { type: String, required: [true, "Username is required"] },
-	role: String,
+	role: { type: String, default: `User` },
 	display_picture: String,
 	height: { type: Number, required: [true, "Height is required"] },
 	weight: { type: Number, required: [true, "Weight is required"] },

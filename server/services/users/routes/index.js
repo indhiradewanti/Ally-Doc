@@ -9,10 +9,11 @@ router.get("/", MainController.findAllUsers);
 router.get("/:id", MainController.findUser);
 
 router.patch(
-	"/:id",
+	"/image/:id",
 	upload.single("display_picture"),
-	MainController.updateUser
+	MainController.updateUserImage
 );
+router.patch("/:id", MainController.updateUser);
 router.patch("/payment/:id", MainController.updateUserPayment);
 
 router.delete("/:id", MainController.deleteUser);

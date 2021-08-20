@@ -13,9 +13,12 @@ class MainController {
 				req.file.buffer,
 				req.file.originalname
 			);
+			let newPassword = req.body.password
+				? hashPassword(req.body.password)
+				: req.body.password;
 			const newUser = new UserModel({
 				email: req.body.email,
-				password: hashPassword(req.body.password),
+				password: newPassword,
 				username: req.body.username,
 				display_picture: uploadedImage.url,
 				height: req.body.height,
@@ -23,8 +26,6 @@ class MainController {
 				age: req.body.age,
 				phone_number: req.body.phone_number,
 				gender: req.body.gender,
-				payment: req.body.payment,
-				role: "User",
 			});
 			let createdNewUser = await newUser.save();
 			let access_token = jwtSign(
@@ -34,7 +35,21 @@ class MainController {
 			);
 			res.status(201).json({ access_token });
 		} catch (err) {
-			console.log(err);
+			if (err.code) {
+				next(err);
+			} else if (err.name === "ValidationError") {
+				let errorMessages = [];
+				for (let key in err.errors) {
+					errorMessages.push(err.errors[key].message);
+				}
+				let errorOutput =
+					errorMessages.length > 1
+						? errorMessages.join(", ")
+						: errorMessages[0];
+				next({ code: 400, msg: errorOutput });
+			} else {
+				next({ code: 500 });
+			}
 		}
 	}
 
@@ -44,13 +59,13 @@ class MainController {
 			if (!email) {
 				throw {
 					code: 400,
-					msg: `Email cannot be empty`,
+					msg: `Email is required`,
 				};
 			}
 			if (!password) {
 				throw {
 					code: 400,
-					msg: `Password cannot be empty`,
+					msg: `Password is required`,
 				};
 			}
 			let foundUser = await UserModel.findOne({ email });
@@ -74,7 +89,11 @@ class MainController {
 			);
 			res.status(200).json({ access_token });
 		} catch (err) {
-			console.log(err);
+			if (err.code) {
+				next(err);
+			} else {
+				next({ code: 500 });
+			}
 		}
 	}
 
@@ -86,7 +105,7 @@ class MainController {
 			);
 			res.status(200).json(foundListUsers);
 		} catch (err) {
-			console.log(err);
+			next({ code: 500 });
 		}
 	}
 
@@ -97,17 +116,24 @@ class MainController {
 				{ _id: id },
 				{ password: 0 }
 			);
+			if (!foundUser) {
+				throw { code: 404, msg: `User not found` };
+			}
 			res.status(200).json(foundUser);
 		} catch (err) {
-			console.log(err);
+			if (err.code) {
+				next(err);
+			} else {
+				next({ code: 500 });
+			}
 		}
 	}
 
-	static async updateUser(req, res, next) {
+	static async updateUserImage(req, res, next) {
 		try {
 			let { id } = req.params;
 			if (!req.file) {
-				throw { code: 400, message: "No file chosen" };
+				throw { code: 400, msg: "No file chosen" };
 			}
 			let uploadedImage = await imageKit(
 				req.file.buffer,
@@ -117,13 +143,51 @@ class MainController {
 				{ _id: id },
 				{
 					$set: {
-						email: req.body.email,
 						display_picture: uploadedImage.url,
-						height: req.body.height,
-						weight: req.body.weight,
-						age: req.body.age,
-						phone_number: req.body.phone_number,
-						gender: req.body.gender,
+					},
+				}
+			);
+			res.status(201).json({
+				msg: `Profile picture updated successfully`,
+			});
+		} catch (err) {
+			if (err.code) {
+				next(err);
+			} else {
+				next({ code: 500 });
+			}
+		}
+	}
+
+	static async updateUser(req, res, next) {
+		try {
+			let { id } = req.params;
+			let { email, height, weight, age, phone_number, gender } = req.body;
+			if (!email) {
+				throw { code: 400, msg: `Email cannot be empty` };
+			}
+			if (!height) {
+				throw { code: 400, msg: `Height cannot be empty` };
+			}
+			if (!weight) {
+				throw { code: 400, msg: `Weight cannot be empty` };
+			}
+			if (!age) {
+				throw { code: 400, msg: `Age cannot be empty` };
+			}
+			if (!phone_number) {
+				throw { code: 400, msg: `phone_number Number cannot be empty` };
+			}
+			let updateUser = await UserModel.updateOne(
+				{ _id: id },
+				{
+					$set: {
+						email,
+						height,
+						weight,
+						age,
+						phone_number,
+						gender,
 					},
 				}
 			);
@@ -133,7 +197,11 @@ class MainController {
 			);
 			res.status(201).json(updatedUser);
 		} catch (err) {
-			console.log(err);
+			if (err.code) {
+				next(err);
+			} else {
+				next({ code: 500 });
+			}
 		}
 	}
 
@@ -180,7 +248,11 @@ class MainController {
 			);
 			res.status(201).json({ msg: `Payment updated successfully` });
 		} catch (err) {
-			console.log(err);
+			if (err.code) {
+				next(err);
+			} else {
+				next({ code: 500 });
+			}
 		}
 	}
 
@@ -188,9 +260,16 @@ class MainController {
 		try {
 			let { id } = req.params;
 			let deleteUser = await UserModel.deleteOne({ _id: id });
-			res.status(200).json(deleteUser);
+			if (!deleteUser.deletedCount) {
+				throw { code: 404, msg: `User not found` };
+			}
+			res.status(200).json({ msg: `User deleted successfully` });
 		} catch (err) {
-			console.log(err);
+			if (err.code) {
+				next(err);
+			} else {
+				next({ code: 500 });
+			}
 		}
 	}
 }
