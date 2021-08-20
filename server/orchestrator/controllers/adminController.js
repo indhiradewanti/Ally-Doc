@@ -1,9 +1,18 @@
 const axios = require("../helpers/axiosAdmin.js");
-
+// /admin
 class AdminController {
 	static async registerAdmin(req, res, next) {
 		try {
-			// send email, password, username
+			let { email, password, username } = req.body;
+			let registeredAdmin = await axios({
+				method: "POST",
+				url: `/admin/regis`,
+				data: {
+					email,
+					password,
+					username,
+				},
+			});
 			// return admin data
 		} catch (err) {
 			console.log(err);
@@ -12,7 +21,15 @@ class AdminController {
 
 	static async loginAdmin(req, res, next) {
 		try {
-			// send email password
+			let { email, password } = req.body;
+			let loggedInAdmin = await axios({
+				method: "POST",
+				url: `/admin/login`,
+				data: {
+					email,
+					password,
+				},
+			});
 			// return access token and role
 		} catch (err) {
 			console.log(err);
