@@ -45,7 +45,7 @@
 
 .cigra {
   font-family: 'cigra';
-  color: rgb(255, 255, 255);
+
 }
 
 @font-face {
@@ -55,7 +55,6 @@
 
 .she {
   font-family: 'she';
-  color: rgb(255, 255, 255);
 }
 
 @font-face {
@@ -95,5 +94,74 @@
 
 .caslon {
   font-family: 'caslon';
-  color: rgb(0, 0, 0);
+}
+
+.btn-outline {
+  background-color: transparent;
+  border-color: #b3a075;
+  --tw-text-opacity: 1;
+  color: hsla(var(--bc)/var(--tw-text-opacity,1));
+}
+
+.btn-outline:hover {
+  --tw-bg-opacity: 1;
+  background-color: #94886d;
+  --tw-border-opacity: 1;
+  border-color: #b3a075;
+  --tw-text-opacity: 1;
+  color: hsla(var(--b1)/var(--tw-text-opacity,1));
+}
+
+.btn-outline1 {
+  background-color: #94886d;
+  border-color: #b3a075;
+  --tw-text-opacity: 1;
+  color: hsla(var(--bc)/var(--tw-text-opacity,1));
+}
+
+.btn-outline1:hover {
+  --tw-bg-opacity: 1;
+  background-color: #7e7561;
+  --tw-border-opacity: 1;
+  border-color: #b3a075;
+  --tw-text-opacity: 1;
+  color: hsla(var(--b1)/var(--tw-text-opacity,1));
+}
+
+.btn-circle {
+  border-radius: 9999px;
+  color: rgb(158, 156, 129);
+  height: 3rem/* 48px */;
+  padding: 0;
+  width: 3rem/* 48px */;
+}
+
+.btn.loading .btn-circle:before {
+  margin-right: 0;
+}
+
+.artboard .phone-2 {
+  width: 375px;
+  height: 300px;
+}
+
+.bg-brown {
+  background-color: #d3bb85;
+}
+
+.bg-nude1 {
+  background-color: #b3a075 ;
+}
+
+.bd-nude {
+  border-color: #b3a075;
+}
+
+.bd-nude1 {
+  border-color: #6b624e;
+
+}
+
+.text-nude {
+  color: #b3a075;
 }
