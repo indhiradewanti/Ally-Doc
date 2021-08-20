@@ -107,7 +107,7 @@ class MainController {
 		} catch (err) {
 			next({ code: 500 });
 		}
-	}
+	} // Admin
 
 	static async findUser(req, res, next) {
 		try {
@@ -127,7 +127,7 @@ class MainController {
 				next({ code: 500 });
 			}
 		}
-	}
+	} // User
 
 	static async updateUserImage(req, res, next) {
 		try {
@@ -157,7 +157,7 @@ class MainController {
 				next({ code: 500 });
 			}
 		}
-	}
+	} // User
 
 	static async updateUser(req, res, next) {
 		try {
@@ -203,7 +203,7 @@ class MainController {
 				next({ code: 500 });
 			}
 		}
-	}
+	} // User
 
 	static async updateUserPayment(req, res, next) {
 		try {
@@ -254,7 +254,7 @@ class MainController {
 				next({ code: 500 });
 			}
 		}
-	}
+	} // User
 
 	static async deleteUser(req, res, next) {
 		try {
@@ -271,7 +271,7 @@ class MainController {
 				next({ code: 500 });
 			}
 		}
-	}
+	} // User
 }
 
 module.exports = MainController;

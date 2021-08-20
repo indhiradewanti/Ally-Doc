@@ -5,4 +5,9 @@ const jwtSign = (id, email, role) => {
 	return access_token;
 };
 
-module.exports = { jwtSign };
+const jwtVerify = (access_token) => {
+	let verified = jwt.verify(access_token, process.env.SECRET_KEY);
+	return verified;
+};
+
+module.exports = { jwtSign, jwtVerify };
