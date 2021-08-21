@@ -8,8 +8,7 @@ class DoctorController {
 				method: "GET",
 				url: "/doctor",
 			});
-			console.log(allDoctorsList);
-			res.status(200).json(allDoctorsList);
+			res.status(200).json(allDoctorsList.data);
 		} catch (err) {
 			res.status(err.response.status).json(err.response.data);
 		}
