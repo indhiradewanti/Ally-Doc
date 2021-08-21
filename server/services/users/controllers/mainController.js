@@ -16,7 +16,7 @@ class MainController {
 			let newPassword = req.body.password
 				? hashPassword(req.body.password)
 				: req.body.password;
-			const newUser = new UserModel({
+			const newUser = await UserModel.create({
 				email: req.body.email,
 				password: newPassword,
 				username: req.body.username,
@@ -27,14 +27,17 @@ class MainController {
 				phone_number: req.body.phone_number,
 				gender: req.body.gender,
 			});
-			let createdNewUser = await newUser.save();
+			console.log(`test1`);
+			// let createdNewUser = await newUser.save();
 			let access_token = jwtSign(
-				createdNewUser._id,
-				createdNewUser.email,
-				createdNewUser.role
+				newUser._id,
+				newUser.email,
+				newUser.role
 			);
+			console.log(`test2`);
 			res.status(201).json({ access_token });
 		} catch (err) {
+			// console.log(err);
 			if (err.code) {
 				next(err);
 			} else if (err.name === "ValidationError") {

@@ -14,7 +14,6 @@ const instanceAxios = axios.create({
 
 let uploadImage = async (fileBuffer, filename) => {
 	let fileData = fileBuffer.toString("base64");
-
 	const formDataImageKit = new formData();
 
 	formDataImageKit.append("fileName", filename);
@@ -22,7 +21,7 @@ let uploadImage = async (fileBuffer, filename) => {
 
 	let uploaded = await instanceAxios({
 		method: "POST",
-		url: "/files/upload",
+		url: "/",
 		data: formDataImageKit,
 		headers: {
 			...formDataImageKit.getHeaders(),
