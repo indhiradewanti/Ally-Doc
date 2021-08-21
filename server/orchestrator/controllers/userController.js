@@ -1,19 +1,17 @@
 const axios = require("../helpers/axiosUser.js");
+const uploadImage = require("../helpers/imagekit.js");
 
 class UserController {
 	static async createNewUser(req, res, next) {
 		try {
-			console.log(req);
 			let newUserData = req.body;
-			if (req.file) {
-				newUserData.display_picture = req.file;
-			}
+			newUserData.display_picture = req.file;
 			let createdUser = await axios({
 				method: "POST",
 				url: "/",
 				data: newUserData,
 			});
-			res.status(201).json(newUserData);
+			res.status(201).json(createdUser.data);
 		} catch (err) {
 			res.status(err.response.status).json(err.response.data);
 		}
