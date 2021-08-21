@@ -8,7 +8,7 @@ const UserModel = require("../models/User.js");
 let createdUser = {};
 
 beforeAll(async () => {
-	await mongoose.connect("mongodb://localhost:27017/test", {
+	await mongoose.connect("mongodb://localhost:27016/test", {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	});

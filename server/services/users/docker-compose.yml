@@ -1,0 +1,13 @@
+version: "3.6"
+
+services:
+    mongo:
+        image: "mongo:4.2"
+        ports:
+            - "27016:27017"
+        command: "mongod"
+    app:
+        image: "final-project-users"
+        ports:
+            - "3002:3002"
+        command: "npm run start"
