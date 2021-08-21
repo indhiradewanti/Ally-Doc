@@ -1,18 +1,16 @@
 const UserModel = require("../models/User.js");
 const { hashPassword, checkPassword } = require("../helpers/password.js");
-const imageKit = require("../helpers/imagekit.js");
 const { jwtSign } = require("../helpers/jwt.js");
 
 class MainController {
 	static async createUser(req, res, next) {
 		try {
-			if (!req.file) {
-				throw { code: 400, msg: "No file chosen" };
+			if (!req.body.display_picture) {
+				throw {
+					code: 400,
+					msg: "No file chosen",
+				};
 			}
-			let uploadedImage = await imageKit(
-				req.file.buffer,
-				req.file.originalname
-			);
 			let newPassword = req.body.password
 				? hashPassword(req.body.password)
 				: req.body.password;
@@ -20,7 +18,7 @@ class MainController {
 				email: req.body.email,
 				password: newPassword,
 				username: req.body.username,
-				display_picture: uploadedImage.url,
+				display_picture: req.body.display_picture,
 				height: req.body.height,
 				weight: req.body.weight,
 				age: req.body.age,
@@ -132,18 +130,14 @@ class MainController {
 	static async updateUserImage(req, res, next) {
 		try {
 			let { id } = req.params;
-			if (!req.file) {
+			if (!req.body.display_picture) {
 				throw { code: 400, msg: "No file chosen" };
 			}
-			let uploadedImage = await imageKit(
-				req.file.buffer,
-				req.file.originalname
-			);
 			let updateUser = await UserModel.updateOne(
 				{ _id: id },
 				{
 					$set: {
-						display_picture: uploadedImage.url,
+						display_picture: req.body.display_picture,
 					},
 				}
 			);

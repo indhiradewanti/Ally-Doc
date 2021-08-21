@@ -20,20 +20,25 @@ afterAll(async () => {
 	await mongoose.connection.close();
 });
 
+let createUserTesting = {
+	email: "test@mail.com",
+	password: "testPassword",
+	username: "testUsername",
+	height: 100,
+	weight: 100,
+	age: 100,
+	gender: "Male",
+	phone_number: "1234567890",
+	display_picture:
+		"https://upload.wikimedia.org/wikipedia/en/9/95/Test_image.jpg",
+};
+
 // CREATE USER
 describe("POST / [SUCCESS CASE]", () => {
 	test("Should return an object with key: access_token and value: any string", (done) => {
 		request(app)
 			.post("/")
-			.field("email", "test@mail.com")
-			.field("password", "testPassword")
-			.field("username", "testUsername")
-			.field("height", 100)
-			.field("weight", 100)
-			.field("age", 100)
-			.field("gender", "Male")
-			.field("phone_number", "102983012938")
-			.attach("display_picture", "./tests/testimage.png")
+			.send(createUserTesting)
 			.then((response) => {
 				createdUser = response.body;
 				expect(response.status).toBe(201);
@@ -51,17 +56,10 @@ describe("POST / [SUCCESS CASE]", () => {
 
 describe("POST / [ERROR CASE]", () => {
 	test("[Case - Email is empty] Should return 'Email is required'", (done) => {
+		let userData = { ...createUserTesting, email: null };
 		request(app)
 			.post("/")
-			.field("email", "")
-			.field("password", "testPassword")
-			.field("username", "testUsername")
-			.field("height", 100)
-			.field("weight", 100)
-			.field("age", 100)
-			.field("gender", "Male")
-			.field("phone_number", "102983012938")
-			.attach("display_picture", "./tests/testimage.png")
+			.send(userData)
 			.then((response) => {
 				expect(response.status).toBe(400);
 				expect(response.body).toHaveProperty(
@@ -76,17 +74,10 @@ describe("POST / [ERROR CASE]", () => {
 	});
 
 	test("[Case - Password is empty] Should return 'Password is required'", (done) => {
+		let userData = { ...createUserTesting, password: null };
 		request(app)
 			.post("/")
-			.field("email", "test@mail.com")
-			.field("password", "")
-			.field("username", "testUsername")
-			.field("height", 100)
-			.field("weight", 100)
-			.field("age", 100)
-			.field("gender", "Male")
-			.field("phone_number", "102983012938")
-			.attach("display_picture", "./tests/testimage.png")
+			.send(userData)
 			.then((response) => {
 				expect(response.status).toBe(400);
 				expect(response.body).toHaveProperty(
@@ -101,17 +92,10 @@ describe("POST / [ERROR CASE]", () => {
 	});
 
 	test("[Case - Username is empty] Should return 'Username is required'", (done) => {
+		let userData = { ...createUserTesting, username: null };
 		request(app)
 			.post("/")
-			.field("email", "test@mail.com")
-			.field("password", "testPassword")
-			.field("username", "")
-			.field("height", 100)
-			.field("weight", 100)
-			.field("age", 100)
-			.field("gender", "Male")
-			.field("phone_number", "102983012938")
-			.attach("display_picture", "./tests/testimage.png")
+			.send(userData)
 			.then((response) => {
 				expect(response.status).toBe(400);
 				expect(response.body).toHaveProperty(
@@ -126,17 +110,10 @@ describe("POST / [ERROR CASE]", () => {
 	});
 
 	test("[Case - Height is empty] Should return 'Height is required'", (done) => {
+		let userData = { ...createUserTesting, height: null };
 		request(app)
 			.post("/")
-			.field("email", "test@mail.com")
-			.field("password", "testPassword")
-			.field("username", "testUsername")
-			.field("height", "")
-			.field("weight", 100)
-			.field("age", 100)
-			.field("gender", "Male")
-			.field("phone_number", "102983012938")
-			.attach("display_picture", "./tests/testimage.png")
+			.send(userData)
 			.then((response) => {
 				expect(response.status).toBe(400);
 				expect(response.body).toHaveProperty(
@@ -151,17 +128,10 @@ describe("POST / [ERROR CASE]", () => {
 	});
 
 	test("[Case - Weight is empty] Should return 'Weight is required'", (done) => {
+		let userData = { ...createUserTesting, weight: null };
 		request(app)
 			.post("/")
-			.field("email", "test@mail.com")
-			.field("password", "testPassword")
-			.field("username", "testUsername")
-			.field("height", 100)
-			.field("weight", "")
-			.field("age", 100)
-			.field("gender", "Male")
-			.field("phone_number", "102983012938")
-			.attach("display_picture", "./tests/testimage.png")
+			.send(userData)
 			.then((response) => {
 				expect(response.status).toBe(400);
 				expect(response.body).toHaveProperty(
@@ -176,17 +146,10 @@ describe("POST / [ERROR CASE]", () => {
 	});
 
 	test("[Case - Age is empty] Should return 'Age is required'", (done) => {
+		let userData = { ...createUserTesting, age: null };
 		request(app)
 			.post("/")
-			.field("email", "test@mail.com")
-			.field("password", "testPassword")
-			.field("username", "testUsername")
-			.field("height", 100)
-			.field("weight", 100)
-			.field("age", "")
-			.field("gender", "Male")
-			.field("phone_number", "102983012938")
-			.attach("display_picture", "./tests/testimage.png")
+			.send(userData)
 			.then((response) => {
 				expect(response.status).toBe(400);
 				expect(response.body).toHaveProperty("msg", "Age is required");
@@ -198,17 +161,10 @@ describe("POST / [ERROR CASE]", () => {
 	});
 
 	test("[Case - Phone Number is empty] Should return 'Phone Number is required'", (done) => {
+		let userData = { ...createUserTesting, phone_number: null };
 		request(app)
 			.post("/")
-			.field("email", "test@mail.com")
-			.field("password", "testPassword")
-			.field("username", "testUsername")
-			.field("height", 100)
-			.field("weight", 100)
-			.field("age", 100)
-			.field("gender", "Male")
-			.field("phone_number", "")
-			.attach("display_picture", "./tests/testimage.png")
+			.send(userData)
 			.then((response) => {
 				expect(response.status).toBe(400);
 				expect(response.body).toHaveProperty(
@@ -223,70 +179,13 @@ describe("POST / [ERROR CASE]", () => {
 	});
 
 	test("[Case - Display picture is empty] Should return 'No file chosen'", (done) => {
+		let userData = { ...createUserTesting, display_picture: null };
 		request(app)
 			.post("/")
-			.field("email", "test@mail.com")
-			.field("password", "testPassword")
-			.field("username", "testUsername")
-			.field("height", 100)
-			.field("weight", 100)
-			.field("age", 100)
-			.field("gender", "Male")
-			.field("phone_number", "102983012938")
-			.attach("display_picture", "")
+			.send(userData)
 			.then((response) => {
 				expect(response.status).toBe(400);
 				expect(response.body).toHaveProperty("msg", "No file chosen");
-				done();
-			})
-			.catch((err) => {
-				done(err);
-			});
-	});
-
-	test("[Case - Image is larger than 1,5mb] Should return 'File size is larger than 1,5mb'", (done) => {
-		request(app)
-			.post("/")
-			.field("email", "test@mail.com")
-			.field("password", "testPassword")
-			.field("username", "testUsername")
-			.field("height", 100)
-			.field("weight", 100)
-			.field("age", 100)
-			.field("gender", "Male")
-			.field("phone_number", "102983012938")
-			.attach("display_picture", "./tests/testlargeimage.jpg")
-			.then((response) => {
-				expect(response.status).toBe(400);
-				expect(response.body).toHaveProperty(
-					"msg",
-					"File size is larger than 1,5mb"
-				);
-				done();
-			})
-			.catch((err) => {
-				done(err);
-			});
-	});
-
-	test("[Case - Display picture is not a picture] Should return 'File type is not an image'", (done) => {
-		request(app)
-			.post("/")
-			.field("email", "test@mail.com")
-			.field("password", "testPassword")
-			.field("username", "testUsername")
-			.field("height", 100)
-			.field("weight", 100)
-			.field("age", 100)
-			.field("gender", "Male")
-			.field("phone_number", "102983012938")
-			.attach("display_picture", "./tests/testnotimage.pdf")
-			.then((response) => {
-				expect(response.status).toBe(400);
-				expect(response.body).toHaveProperty(
-					"msg",
-					"File type is not an image"
-				);
 				done();
 			})
 			.catch((err) => {
@@ -427,7 +326,7 @@ describe("GET / [SUCCESS CASE]", () => {
 				expect(response.body[0]).toHaveProperty("age", 100);
 				expect(response.body[0]).toHaveProperty(
 					"phone_number",
-					"102983012938"
+					expect.any(String)
 				);
 				expect(response.body[0]).toHaveProperty("gender", "Male");
 				expect(response.body[0]).toHaveProperty(
@@ -554,10 +453,14 @@ describe("PATCH /image/:id [SUCCESS CASE]", () => {
 			createdUser.access_token,
 			process.env.SECRET_KEY
 		);
+		let userImageData = {
+			display_picture:
+				"https://upload.wikimedia.org/wikipedia/en/9/95/Test_image.jpg",
+		};
 		request(app)
 			.patch(`/image/${access.id}`)
 			.set("access_token", createdUser.access_token)
-			.attach("display_picture", "./tests/testimage.png")
+			.send(userImageData)
 			.then((response) => {
 				expect(response.status).toBe(201);
 				expect(response.body).toHaveProperty(
@@ -585,50 +488,6 @@ describe("PATCH /image/:id [ERROR CASE]", () => {
 			.then((response) => {
 				expect(response.status).toBe(400);
 				expect(response.body).toHaveProperty("msg", "No file chosen");
-				done();
-			})
-			.catch((err) => {
-				done(err);
-			});
-	});
-
-	test(`[Case - Display picture size larger than 1,5mb] Should return 'File size is larger than 1,5mb'`, (done) => {
-		let access = jwt.verify(
-			createdUser.access_token,
-			process.env.SECRET_KEY
-		);
-		request(app)
-			.patch(`/image/${access.id}`)
-			.attach("display_picture", "./tests/testlargeimage.jpg")
-			.set("access_token", createdUser.access_token)
-			.then((response) => {
-				expect(response.status).toBe(400);
-				expect(response.body).toHaveProperty(
-					"msg",
-					"File size is larger than 1,5mb"
-				);
-				done();
-			})
-			.catch((err) => {
-				done(err);
-			});
-	});
-
-	test(`[Case - Display picture is not an image] Should return 'File type is not an image'`, (done) => {
-		let access = jwt.verify(
-			createdUser.access_token,
-			process.env.SECRET_KEY
-		);
-		request(app)
-			.patch(`/image/${access.id}`)
-			.attach("display_picture", "./tests/testnotimage.pdf")
-			.set("access_token", createdUser.access_token)
-			.then((response) => {
-				expect(response.status).toBe(400);
-				expect(response.body).toHaveProperty(
-					"msg",
-					"File type is not an image"
-				);
 				done();
 			})
 			.catch((err) => {
@@ -1030,7 +889,6 @@ describe("DELETE /:id [ERROR CASE]", () => {
 		);
 		access.id.split("");
 		access.id[-1] = "a";
-		console.log(access.id);
 		request(app)
 			.delete(`/${access.id}`)
 			.set("access_token", createdUser.access_token)
