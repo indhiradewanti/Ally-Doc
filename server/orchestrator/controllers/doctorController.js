@@ -8,7 +8,8 @@ class DoctorController {
 				method: "GET",
 				url: "/doctor",
 			});
-			res.status(200).json(allDoctorsList.data);
+			console.log(allDoctorsList);
+			res.status(200).json(allDoctorsList);
 		} catch (err) {
 			res.status(err.response.status).json(err.response.data);
 		}
@@ -17,9 +18,13 @@ class DoctorController {
 	static async getDoctorById(req, res, next) {
 		try {
 			let { id } = req.params;
+			let { access_token } = req.headers;
 			let getDoctor = await axios({
 				method: "GET",
 				url: `/doctor/${id}`,
+				headers: {
+					access_token,
+				},
 			});
 			res.status(200).json(getDoctor.data);
 		} catch (err) {
@@ -32,6 +37,10 @@ class DoctorController {
 			let { access_token } = req.headers;
 			let { email, username, password, specialist, address, price } =
 				req.body;
+			let uploadedImage = await uploadImage(
+				req.file.buffer,
+				req.file.originalname
+			);
 			let registeredDoctor = await axios({
 				method: "POST",
 				url: "/doctor",
@@ -41,8 +50,8 @@ class DoctorController {
 					password,
 					specialist,
 					address,
-					price,
-					photo: req.file,
+					price: Number(price),
+					photo: uploadedImage.url,
 				},
 				headers: {
 					access_token,
@@ -76,6 +85,10 @@ class DoctorController {
 			let { id } = req.params;
 			let { email, username, password, specialist, address, price } =
 				req.body;
+			let uploadedImage = await uploadImage(
+				req.file.buffer,
+				req.file.originalname
+			);
 			let updatedDoctor = await axios({
 				method: "PUT",
 				url: `/doctor/${id}`,
@@ -86,7 +99,7 @@ class DoctorController {
 					specialist,
 					address,
 					price,
-					photo: req.file,
+					photo: uploadedImage.url,
 				},
 			});
 			res.status(201).json(updatedDoctor.data);
