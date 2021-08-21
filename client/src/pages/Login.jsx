@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 export default function Login() {
   return (
     <div className="bg-no-repeat bg-cover bg-center relative login-bg-image">
@@ -48,7 +50,8 @@ export default function Login() {
               <p>
                 Don't have any accounts yet ?{" "}
                 <span className="text-yellow-400 hover:text-yellow-600 ">
-                  <a href="#">Register here !</a>
+                <NavLink to="/register">Register here !</NavLink>
+
                 </span>
               </p>
             </div>
