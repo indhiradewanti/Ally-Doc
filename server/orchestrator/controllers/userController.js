@@ -49,9 +49,9 @@ class UserController {
 					access_token,
 				},
 			});
-			// return all users data
+			res.status(200).json(allUsersData.data);
 		} catch (err) {
-			console.log(err);
+			res.status(err.response.status).json(err.response.data);
 		}
 	}
 
@@ -66,9 +66,9 @@ class UserController {
 					access_token,
 				},
 			});
-			// return user data
+			res.status(200).json(foundUserById.data);
 		} catch (err) {
-			console.log(err);
+			res.status(err.response.status).json(err.response.data);
 		}
 	}
 
@@ -76,19 +76,23 @@ class UserController {
 		try {
 			let { id } = req.params;
 			let { access_token } = req.headers;
+			let uploadedImage = await uploadImage(
+				req.file.buffer,
+				req.file.originalname
+			);
 			let updatedUserImage = await axios({
 				method: "PATCH",
 				url: `/image/${id}`,
 				data: {
-					display_picture: req.file,
+					display_picture: uploadedImage.url,
 				},
 				headers: {
 					access_token,
 				},
 			});
-			// return updated message
+			res.status(201).json(updatedUserImage.data);
 		} catch (err) {
-			console.log(err);
+			res.status(err.response.status).json(err.response.data);
 		}
 	}
 
@@ -111,9 +115,9 @@ class UserController {
 					access_token,
 				},
 			});
-			// return returned updated data
+			res.status(201).json(updatedUserData.data);
 		} catch (err) {
-			console.log(err);
+			res.status(err.response.status).json(err.response.data);
 		}
 	}
 
@@ -135,9 +139,9 @@ class UserController {
 					access_token,
 				},
 			});
-			// return success string
+			res.status(200).json(updatedUserPayment.data);
 		} catch (err) {
-			console.log(err);
+			res.status(err.response.status).json(err.response.data);
 		}
 	}
 
@@ -146,14 +150,15 @@ class UserController {
 			let { id } = req.params;
 			let { access_token } = req.headers;
 			let deletedUserData = await axios({
-				method: `/${id}`,
+				method: `DELETE`,
+				url: `/${id}`,
 				headers: {
 					access_token,
 				},
 			});
-			// return success string
+			res.status(200).json(deletedUserData.data);
 		} catch (err) {
-			console.log(err);
+			res.status(err.response.status).json(err.response.data);
 		}
 	}
 }
