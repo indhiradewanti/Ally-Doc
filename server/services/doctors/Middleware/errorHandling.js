@@ -1,23 +1,25 @@
 const errorHandling = (err, req, res, next) => {
     // console.log(err)
     const message = err.message
+    const code = err.code || 500
     switch(err.code){
         case 400:
-            res.status(err.code).json({message})
+            res.status(code).json({message})
             break;
         case 401:
-            res.status(err.code).json({message})
+            res.status(code).json({message})
             break;
         case 403:
-            res.status(err.code).json({message})
+            res.status(code).json({message})
             break;
         case 500:
-            res.status(err.code).json({message})
+            res.status(code).json({message})
             break
         case 404:
-            res.status(err.code).json({message})
+            res.status(code).json({message})
+            break
         default:
-            res.status(500).json({message: 'Internal server error'})
+            res.status(500).json(err)
     }
 }
 
