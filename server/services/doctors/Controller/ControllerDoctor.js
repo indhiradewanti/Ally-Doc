@@ -1,7 +1,6 @@
 const Doctor = require("../Model/DoctorSchema");
 const { hashSync, compareSync } = require("../Helper/Bcrypt");
 const jwt = require("jsonwebtoken");
-const getAxios = require("../Helper/Axios");
 
 class ControllerDoctor {
   static async createDoctor(req, res, next) {
@@ -9,32 +8,34 @@ class ControllerDoctor {
       const { access_token } = req.headers;
       const { role } = jwt.verify(access_token, process.env.SECRET_KEY);
       if (role === "Admin") {
-        let { email, username, password, specialist, address, price } =
+        let { email, username, password, specialist, address, price, photo } =
           req.body;
-        password = hashSync(password);
-        const { originalname } = req.file;
-        const buffer = req.file.buffer.toString("base64");
-        let imgUrl = await getAxios(originalname, buffer);
-        imgUrl = imgUrl.url;
+          // console.log({ email, username, password, specialist, address, price, photo })
+        password = password ? hashSync(password): undefined
         const data = await Doctor.create({
           email,
           username,
           password,
-          photo: imgUrl,
+          photo,
           specialist,
           address,
           price,
+          role: 'Doctor'
         });
         if (!data) {
           throw { code: 400, message: "Error Create Doctor" };
         } else {
-          res.status(201).json({ email, username, specialist, address, price });
+          const token_doctor = jwt.sign(
+            { _id: data._id, email: data.email, role: data.role },
+            process.env.SECRET_KEY
+          );
+          res.status(201).json({ access_token: token_doctor });
         }
       } else {
         throw { code: 403, message: "Forbidden access" };
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err.message);
       if (err.name === "ValidationError") {
         let errorMessages = [];
         for (let key in err.errors) {
@@ -44,7 +45,11 @@ class ControllerDoctor {
       }
       if (err.message === "Illegal arguments: undefined, string") {
         err.code = 400;
-        err.message = "password wrong/empty";
+        err.message = "Password wrong/empty";
+      }
+      if (err.message === 'jwt malformed'){
+        err.code = 403
+        err.message = 'Forbidden access'
       }
       const code = err.code;
       const message = err.message;
@@ -71,14 +76,20 @@ class ControllerDoctor {
   static async getIdDoctor(req, res, next) {
     try {
       const { _id } = req.params;
-      const data = await Doctor.findById(_id).exec();
-      if (data) {
-        res.status(200).json(data);
+      console.log(_id)
+      const {email, username, specialist, address, price, photo, status} = await Doctor.findById(_id).exec();
+      if (email) {
+        res.status(200).json({email, username, specialist, address, price, photo, status});
       } else {
         throw { code: 404, message: "Data not found" };
       }
     } catch (err) {
-      const code = err.code;
+      console.log(err.message)
+      if(err.message = 'Cast to ObjectId failed for value "6" (type string) at path "_id" for model "Doctor"'){
+        // console.log('masuk sini')
+        err = { code: 404, message: "Data not found" }
+      }
+      const code = err.code
       const message = err.message;
       next({
         code,
@@ -90,11 +101,7 @@ class ControllerDoctor {
   static async updateDoctor(req, res, next) {
     try {
       const { _id } = req.params;
-      let { email, username, specialist, address, price } = req.body;
-      const { originalname } = req.file;
-      const buffer = req.file.buffer.toString("base64");
-      let imgUrl = await getAxios(originalname, buffer);
-      imgUrl = imgUrl.url;
+      let { email, username, specialist, address, price, photo} = req.body;
       const data = await Doctor.updateOne(
         { _id },
         {
@@ -104,16 +111,14 @@ class ControllerDoctor {
             specialist,
             address,
             price,
-            status: "Online",
-            photo: imgUrl,
+            photo,
           },
         }
       );
       if (data) {
-        const dataDoctor = await Doctor.findById(_id);
-        res.status(201).json(dataDoctor);
+        res.status(201).json({email, username, specialist, address, price, photo});
       } else {
-        throw { code: 400, message: "Bad request" };
+        throw { code: 404, message: "Data not found" };
       }
     } catch (err) {
       console.log(err);
@@ -160,33 +165,33 @@ class ControllerDoctor {
       const { email, password } = req.body;
       const data = await Doctor.findOne({ email });
       if (data) {
-        if (data.role === "Doctor") {
-          const bool = compareSync(password, data.password);
-          if (bool) {
-            await Doctor.updateOne(
-              { _id: data._id },
-              { $set: { status: "Online" } }
-            );
-            const access_token = jwt.sign(
-              {
-                id: data._id,
-                role: data.role,
-                username: data.username,
-              },
-              process.env.SECRET_KEY
-            );
-            res.status(200).json({ access_token });
-          } else {
-            throw { code: 400, message: "Bad Request" };
-          }
+        const bool = compareSync(password, data.password);
+        if (bool) {
+          await Doctor.updateOne(
+            { _id: data._id },
+            { $set: { status: "Online" } }
+          );
+          const access_token = jwt.sign(
+            {
+              id: data._id,
+              role: data.role,
+              username: data.username,
+            },
+            process.env.SECRET_KEY
+          );
+          res.status(200).json({ access_token });
         } else {
           throw { code: 400, message: "Bad Request" };
         }
       } else {
-        throw { code: 404, message: "Email/Password is wrong" };
+        throw { code: 400, message: "Email/Password is wrong" };
       }
     } catch (err) {
       console.log(err);
+      if (err.message === "Illegal arguments: undefined, string") {
+        err.code = 400;
+        err.message = "Password wrong/empty";
+      }
       const code = err.code;
       const message = err.message;
       next({
@@ -220,11 +225,8 @@ class ControllerDoctor {
   static async patchPhoto(req, res, next) {
     try {
       const { _id } = req.params;
-      const { originalname } = req.file;
-      const buffer = req.file.buffer.toString("base64");
-      let imgUrl = await getAxios(originalname, buffer);
-      imgUrl = imgUrl.url;
-      const data = await Doctor.updateOne({ _id }, { $set: { photo: imgUrl } });
+      const {photo} = req.body
+      const data = await Doctor.updateOne({ _id }, { $set: { photo} });
       if (data) {
         res.status(201).json(data);
       } else {
