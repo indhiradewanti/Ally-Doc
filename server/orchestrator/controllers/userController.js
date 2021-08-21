@@ -4,8 +4,13 @@ const uploadImage = require("../helpers/imagekit.js");
 class UserController {
 	static async createNewUser(req, res, next) {
 		try {
+			console.log(req.file, req.body);
+			let uploadedImage = await uploadImage(
+				req.file.buffer,
+				req.file.originalname
+			);
 			let newUserData = req.body;
-			newUserData.display_picture = req.file;
+			newUserData.display_picture = uploadedImage.url;
 			let createdUser = await axios({
 				method: "POST",
 				url: "/",
@@ -28,9 +33,9 @@ class UserController {
 					password,
 				},
 			});
-			// return access_token
+			res.status(200).json(loggedInUser.data);
 		} catch (err) {
-			console.log(err);
+			res.status(err.response.status).json(err.response.data);
 		}
 	}
 
