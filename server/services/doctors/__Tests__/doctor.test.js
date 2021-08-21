@@ -246,22 +246,18 @@ describe("PUT Update Doctor", () => {
     })
     test("Should PUT error return data not found", (done) => {
         request(app)
-        .put(`/doctor/61200c1f499a7557b234d026`)
-        .send({...updateObj})
+        .put(`/doctor/61200c1f499a7557b2349`)
+        .send(updateObj)
         .then((response) => {
-            expect(response.status).toBe(400)
-            expect(response.body).toHaveProperty('message', 'email cannot be empty')
+            expect(response.status).toBe(404)
+            expect(response.body).toHaveProperty('message', 'Data not found')
             done()
         })
     })
     test("Should PUT error return email error", (done) => {
         request(app)
         .put(`/doctor/${id}`)
-        .field("username", "testname")
-        .field("specialist", "dokter kandungan")
-        .field("address", "cimanggu")
-        .field("price", 20000)
-        .field("photo", picture)
+        .send({...updateObj, email: undefined})
         .then((response) => {
             expect(response.status).toBe(400)
             expect(response.body).toHaveProperty('message', 'email cannot be empty')
@@ -271,25 +267,17 @@ describe("PUT Update Doctor", () => {
     test("Should PUT error return username error", (done) => {
         request(app)
         .put(`/doctor/${id}`)
-        .field("email", "test@mail.com")
-        .field("specialist", "dokter kandungan")
-        .field("address", "cimanggu")
-        .field("price", 20000)
-        .field("photo", picture)
+        .send({...updateObj, username: undefined})
         .then((response) => {
             expect(response.status).toBe(400)
             expect(response.body).toHaveProperty('message', 'username cannot be empty')
             done()
         })
     })
-    test("Should PUT return specialist error", (done) =>{
+    test("Should PUT error return specialist error", (done) =>{
         request(app)
         .put(`/doctor/${id}`)
-        .field("email", "test@mail.com")
-        .field("username", "testname")
-        .field("address", "cimanggu")
-        .field("price", 20000)
-        .field("photo", picture)
+        .send({...updateObj, specialist: undefined})
         .then((response) => {
             expect(response.status).toBe(400)
             expect(response.body).toHaveProperty('message', 'specialist cannot be empty')
@@ -299,45 +287,98 @@ describe("PUT Update Doctor", () => {
     test("Should PUT return address error", (done) => {
         request(app)
         .put(`/doctor/${id}`)
-        .field("email", "test@mail.com")
-        .field("username", "testname")
-        .field("specialist", "dokter kandungan")
-        .field("price", 20000)
-        .field("photo", picture)
+        .send({...updateObj, address: undefined})
         .then((response) => {
             expect(response.status).toBe(400)
-            expect(response.body).toHaveProperty('message', 'specialist cannot be empty')
+            expect(response.body).toHaveProperty('message', 'address cannot be empty')
             done()
         })
     })
     test("Should PUT return price error", (done) => {
         request(app)
         .put(`/doctor/${id}`)
-        .field("email", "test@mail.com")
-        .field("username", "testname")
-        .field("specialist", "dokter kandungan")
-        .field("address", "cimanggu")
-        .field("photo", picture)
+        .send({...updateObj, price: undefined})
         .then((response) => {
             expect(response.status).toBe(400)
-            expect(response.body).toHaveProperty('message', 'specialist cannot be empty')
+            expect(response.body).toHaveProperty('message', 'price cannot be empty')
             done()
         })
     })
-    test("Should PUT return image error type", (done) => {
+    test("Should PUT return photo error", (done) => {
         request(app)
         .put(`/doctor/${id}`)
-        .field("email", "test@mail.com")
-        .field("username", "testname")
-        .field("specialist", "dokter kandungan")
-        .field("address", "cimanggu")
-        .field("photo", "")
+        .send({...updateObj, photo: undefined})
         .then((response) => {
             expect(response.status).toBe(400)
-            expect(response.body).toHaveProperty('message', 'specialist cannot be empty')
+            expect(response.body).toHaveProperty('message', 'photo cannot be empty')
             done()
         })
     })
 })
 
+describe("Should PATCH Status", () => {
+    test("Should PATCH status [success PORT]", (done) => {
+        console.log(id)
+        request(app)
+        .patch(`/doctor/status/${id}`)
+        .send({status: "Online"})
+        .then((response) => {
+            expect(response.status).toBe(201)
+            expect(response.body).toHaveProperty('message', 'success to update')
+            done()
+        })
+    })
+    test("Should return error status", (done) => {
+        request(app)
+        .patch(`/doctor/status/${id}`)
+        .send({status: undefined })
+        .then((response) => {
+            expect(response.status).toBe(400)
+            expect(response.body).toHaveProperty('message', 'Status cannot be empty')
+            done()
+        })
+    })
+    test("Should return error not found", (done) => {
+        request(app)
+        .patch(`/doctor/status/${6}`)
+        .send({status:'Online' })
+        .then((response) => {
+            expect(response.status).toBe(404)
+            expect(response.body).toHaveProperty('message', 'Data not found')
+            done()
+        })
+    })
+})
 
+describe("Should PATCH Photo", () => {
+    test('Should PATCH Photo [success PORT]', (done) => {
+        request(app)
+        .patch(`/doctor/photo/${id}`)
+        .send({photo: 'coba coba'})
+        .then((response) => {
+            expect(response.status).toBe(201)
+            expect(response.body).toHaveProperty('message', "success update photo")
+            done()
+        })
+    })
+    test('Should return error photo', (done) => {
+        request(app)
+        .patch(`/doctor/photo/${id}`)
+        .send({photo: undefined})
+        .then((response) => {
+            expect(response.status).toBe(400)
+            expect(response.body).toHaveProperty('message', 'Photo cannot be empty')
+            done()
+        })
+    })
+    test('Should return error data not found', (done) => {
+        request(app)
+        .patch(`/doctor/photo/${5}`)
+        .send({photo: 'coba coba'})
+        .then((response) => {
+            expect(response.status).toBe(404)
+            expect(response.body).toHaveProperty('message', 'Data not found')
+            done()
+        })
+    })
+})
