@@ -1,4 +1,5 @@
 const axios = require("../helpers/axiosDoctor.js");
+const uploadImage = require("../helpers/imagekit.js");
 
 class DoctorController {
 	static async getAllDoctors(req, res, next) {
@@ -7,9 +8,9 @@ class DoctorController {
 				method: "GET",
 				url: "/doctor",
 			});
-			// return all doctors list
+			res.status(200).json(allDoctorsList.data);
 		} catch (err) {
-			console.log(err);
+			res.status(err.response.status).json(err.response.data);
 		}
 	}
 
@@ -20,9 +21,9 @@ class DoctorController {
 				method: "GET",
 				url: `/doctor/${id}`,
 			});
-			// return doctor object
+			res.status(200).json(getDoctor.data);
 		} catch (err) {
-			console.log(err);
+			res.status(err.response.status).json(err.response.data);
 		}
 	}
 
@@ -47,9 +48,9 @@ class DoctorController {
 					access_token,
 				},
 			});
-			// return doctor
+			res.status(201).json(registeredDoctor.data);
 		} catch (err) {
-			console.log(err);
+			res.status(err.response.status).json(err.response.data);
 		}
 	}
 
@@ -64,9 +65,9 @@ class DoctorController {
 					password,
 				},
 			});
-			// return access token
+			res.status(200).json(loggedInDoctor.data);
 		} catch (err) {
-			console.log(err);
+			res.status(err.response.status).json(err.response.data);
 		}
 	}
 
@@ -88,9 +89,9 @@ class DoctorController {
 					photo: req.file,
 				},
 			});
-			// return updated doctor data
+			res.status(201).json(updatedDoctor.data);
 		} catch (err) {
-			console.log(err);
+			res.status(err.response.status).json(err.response.data);
 		}
 	}
 
@@ -105,25 +106,29 @@ class DoctorController {
 					status,
 				},
 			});
-			// return updated doctor status
+			res.status(201).json(updatedStatus.data);
 		} catch (err) {
-			console.log(err);
+			res.status(err.response.status).json(err.response.data);
 		}
 	}
 
 	static async updatePhoto(req, res, next) {
 		try {
 			let { id } = req.params;
+			let uploadedImage = await uploadImage(
+				req.file.buffer,
+				req.file.originalname
+			);
 			let updatedPhoto = await axios({
 				method: "PATCH",
 				url: `/doctor/photo/${id}`,
 				data: {
-					photo: req.file,
+					photo: uploadedImage.url,
 				},
 			});
-			// return updated doctor data
+			res.status(201).json(updatedPhoto.data);
 		} catch (err) {
-			console.log(err);
+			res.status(err.response.status).json(err.response.data);
 		}
 	}
 
@@ -134,9 +139,9 @@ class DoctorController {
 				method: "DELETE",
 				url: `/doctor/${id}`,
 			});
-			// return success string
+			res.status(200).json(deletedDoctor.data);
 		} catch (err) {
-			console.log(err);
+			res.status(err.response.status).json(err.response.data);
 		}
 	}
 }
