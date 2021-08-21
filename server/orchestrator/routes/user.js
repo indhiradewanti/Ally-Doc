@@ -4,7 +4,7 @@ const { upload } = require("../middlewares/multer.js");
 
 router.post(
 	"/create",
-	upload.single("display_picture"),
+	// upload.single("display_picture"),
 	UserController.createNewUser
 );
 router.post("/login", UserController.loginUser);

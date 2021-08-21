@@ -13,10 +13,9 @@ class AdminController {
 					username,
 				},
 			});
-			console.log(registeredAdmin);
-			// return admin data
+			res.status(201).json(registeredAdmin.data);
 		} catch (err) {
-			console.log(err);
+			res.status(err.response.status).json(err.response.data);
 		}
 	}
 
@@ -31,9 +30,9 @@ class AdminController {
 					password,
 				},
 			});
-			// return access token and role
+			res.status(200).json(loggedInAdmin.data);
 		} catch (err) {
-			console.log(err);
+			res.status(err.response.status).json(err.response.data);
 		}
 	}
 }

@@ -3,8 +3,11 @@ const axios = require("../helpers/axiosUser.js");
 class UserController {
 	static async createNewUser(req, res, next) {
 		try {
+			console.log(req);
 			let newUserData = req.body;
-			newUserData.display_picture = req.file;
+			if (req.file) {
+				newUserData.display_picture = req.file;
+			}
 			let createdUser = await axios({
 				method: "POST",
 				url: "/",
@@ -12,7 +15,7 @@ class UserController {
 			});
 			res.status(201).json(newUserData);
 		} catch (err) {
-			console.log(err);
+			res.status(err.response.status).json(err.response.data);
 		}
 	}
 
