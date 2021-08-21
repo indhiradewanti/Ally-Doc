@@ -31,6 +31,8 @@ class ControllerDoctor {
             .status(201)
             .json({ email, username, specialist, address, price, status });
         }
+      }else {
+        throw {code: 403, message: "Forbidden access"}
       }
     } catch (err) {
       console.log(err.message);
@@ -40,6 +42,10 @@ class ControllerDoctor {
           errorMessages.push(err.errors[key].message);
         }
         next({ code: 400, message: errorMessages.join(", ") });
+      }
+      if (err.message === "Illegal arguments: undefined, string") {
+        err.code = 400;
+        err.message = "password wrong/empty";
       }
       const code = err.code;
       const message = err.message;
@@ -70,7 +76,7 @@ class ControllerDoctor {
       if (data) {
         res.status(200).json(data);
       } else {
-        throw {};
+        throw {code: 404, message: 'Data not found'};
       }
     } catch (err) {
       const code = err.code;
@@ -101,7 +107,7 @@ class ControllerDoctor {
             address,
             price,
             status: "Online",
-            photo: imgUrl
+            photo: imgUrl,
           },
         }
       );
@@ -131,8 +137,15 @@ class ControllerDoctor {
 
   static async deleteDoctor(req, res, next) {
     try {
-      const data = await Doctor.deleteOne({ _id });
-      res.status(200).json({ message: "success to delete" });
+      const {access_token} = req.headers
+      const {role} = jwt.verify(access_token, proceess.env.SECRET_KEY)
+      if(role === "Admin"){
+          const { _id } = req.params;
+          await Doctor.deleteOne({ _id });
+          res.status(200).json({ message: "success to delete" });
+      }else{
+        throw { code: 403, message: "Forbidden to access"}
+      }
     } catch (err) {
       console.log(err);
       const code = err.code;
@@ -149,7 +162,7 @@ class ControllerDoctor {
       const { email, password } = req.body;
       const data = await Doctor.findOne({ email });
       if (data) {
-        if (data.role) {
+        if (data.role === "Doctor") {
           const bool = compareSync(password, data.password);
           if (bool) {
             const access_token = jwt.sign(
