@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 3003
@@ -14,3 +15,5 @@ app.use(routes)
 app.use(errorHandling)
 
 app.listen(port, () => console.log('running doctor in port', port))
+
+module.exports = app

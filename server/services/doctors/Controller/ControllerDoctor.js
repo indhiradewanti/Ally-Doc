@@ -7,12 +7,14 @@ class ControllerDoctor {
   static async createDoctor(req, res, next) {
     try {
       const { access_token } = req.headers;
-      const { role } = jwt.verify(access_token, proceess.env.SECRET_KEY);
+      const { role } = jwt.verify(access_token, process.env.SECRET_KEY);
       if (role === "Admin") {
-        let { email, username, password, specialist, address, price, photo } =
+        let { email, username, password, specialist, address, price } =
           req.body;
         password = hashSync(password);
-        let imgUrl = await getAxios(photo.originalname, photo.buffer);
+        const { originalname } = req.file;
+        const buffer = req.file.buffer.toString("base64");
+        let imgUrl = await getAxios(originalname, buffer);
         imgUrl = imgUrl.url;
         const data = await Doctor.create({
           email,
@@ -22,20 +24,17 @@ class ControllerDoctor {
           specialist,
           address,
           price,
-          status: "Online",
         });
         if (!data) {
           throw { code: 400, message: "Error Create Doctor" };
         } else {
-          res
-            .status(201)
-            .json({ email, username, specialist, address, price, status });
+          res.status(201).json({ email, username, specialist, address, price });
         }
-      }else {
-        throw {code: 403, message: "Forbidden access"}
+      } else {
+        throw { code: 403, message: "Forbidden access" };
       }
     } catch (err) {
-      console.log(err.message);
+      console.log(err);
       if (err.name === "ValidationError") {
         let errorMessages = [];
         for (let key in err.errors) {
@@ -76,7 +75,7 @@ class ControllerDoctor {
       if (data) {
         res.status(200).json(data);
       } else {
-        throw {code: 404, message: 'Data not found'};
+        throw { code: 404, message: "Data not found" };
       }
     } catch (err) {
       const code = err.code;
@@ -91,10 +90,10 @@ class ControllerDoctor {
   static async updateDoctor(req, res, next) {
     try {
       const { _id } = req.params;
-      let { email, username, password, specialist, address, price, photo } =
-        req.body;
-      password = hashSync(password);
-      let imgUrl = await getAxios(photo.originalname, photo.buffer);
+      let { email, username, specialist, address, price } = req.body;
+      const { originalname } = req.file;
+      const buffer = req.file.buffer.toString("base64");
+      let imgUrl = await getAxios(originalname, buffer);
       imgUrl = imgUrl.url;
       const data = await Doctor.updateOne(
         { _id },
@@ -102,7 +101,6 @@ class ControllerDoctor {
           $set: {
             email,
             username,
-            photo,
             specialist,
             address,
             price,
@@ -137,14 +135,14 @@ class ControllerDoctor {
 
   static async deleteDoctor(req, res, next) {
     try {
-      const {access_token} = req.headers
-      const {role} = jwt.verify(access_token, proceess.env.SECRET_KEY)
-      if(role === "Admin"){
-          const { _id } = req.params;
-          await Doctor.deleteOne({ _id });
-          res.status(200).json({ message: "success to delete" });
-      }else{
-        throw { code: 403, message: "Forbidden to access"}
+      const { access_token } = req.headers;
+      const { role } = jwt.verify(access_token, proceess.env.SECRET_KEY);
+      if (role === "Admin") {
+        const { _id } = req.params;
+        await Doctor.deleteOne({ _id });
+        res.status(200).json({ message: "success to delete" });
+      } else {
+        throw { code: 403, message: "Forbidden to access" };
       }
     } catch (err) {
       console.log(err);
@@ -165,6 +163,10 @@ class ControllerDoctor {
         if (data.role === "Doctor") {
           const bool = compareSync(password, data.password);
           if (bool) {
+            await Doctor.updateOne(
+              { _id: data._id },
+              { $set: { status: "Online" } }
+            );
             const access_token = jwt.sign(
               {
                 id: data._id,
@@ -217,9 +219,10 @@ class ControllerDoctor {
 
   static async patchPhoto(req, res, next) {
     try {
-      const { photo } = req.body;
       const { _id } = req.params;
-      let imgUrl = await getAxios(photo.originalname, photo.buffer);
+      const { originalname } = req.file;
+      const buffer = req.file.buffer.toString("base64");
+      let imgUrl = await getAxios(originalname, buffer);
       imgUrl = imgUrl.url;
       const data = await Doctor.updateOne({ _id }, { $set: { photo: imgUrl } });
       if (data) {
