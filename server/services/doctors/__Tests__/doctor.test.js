@@ -382,3 +382,37 @@ describe("Should PATCH Photo", () => {
         })
     })
 })
+
+describe("Should DELETE Success", () => {
+    test('Should error forbidden', (done) => {
+        console.log(id)
+        request(app)
+        .delete(`/doctor/${id}`)
+        .set("access_token", "bababab")
+        .then((response) => {
+            expect(response.status).toBe(403)
+            expect(response.body).toHaveProperty('message', "Forbidden to access" )
+            done()
+        })
+    })
+    test('Should error not found', (done) => {
+        request(app)
+        .delete(`/doctor/${1}`)
+        .set("access_token", access_token)
+        .then((response) => {
+            expect(response.status).toBe(404)
+            expect(response.body).toHaveProperty('message', 'Data not found')
+            done()
+        })
+    })
+    test("Should Delete [success PORT]", (done) => {
+        request(app)
+        .delete(`/doctor/${id}`)
+        .set("access_token", access_token)
+        .then((response) => {
+            expect(response.status).toBe(200)
+            expect(response.body).toHaveProperty('message', "success to delete")
+            done()
+        })
+    })
+})

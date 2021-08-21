@@ -155,7 +155,7 @@ class ControllerDoctor {
   static async deleteDoctor(req, res, next) {
     try {
       const { access_token } = req.headers;
-      const { role } = jwt.verify(access_token, proceess.env.SECRET_KEY);
+      const { role } = jwt.verify(access_token, process.env.SECRET_KEY);
       if (role === "Admin") {
         const { _id } = req.params;
         await Doctor.deleteOne({ _id });
@@ -165,6 +165,13 @@ class ControllerDoctor {
       }
     } catch (err) {
       console.log(err);
+      if (err.message === 'jwt malformed'){
+        err.code = 403
+        err.message = 'Forbidden to access'
+      }
+      if(!err.code){
+        err = { code: 404, message: "Data not found" }
+      }
       const code = err.code;
       const message = err.message;
       next({
