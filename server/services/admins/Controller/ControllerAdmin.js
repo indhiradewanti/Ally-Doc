@@ -7,16 +7,31 @@ class ControllerAdmin {
     try {
       let { email, password, username } = req.body;
       password = hashSync(password);
+      // console.log(password, 'ini password create admin')
       const data = await Admin.create({ email, password, username });
       if (!data) {
         throw { code: 400, message: "Error Create Admin" };
       } else {
-        console.log(data);
-        res.status(201).json(data);
+        const access_token = jwt.sign(
+          { id: data._id, username: data.username, role: data.role },
+          process.env.SECRET_KEY
+        );
+        res.status(201).json({ access_token });
       }
     } catch (err) {
-      console.log(err);
-      const code = err.code;
+      // console.log(err.message);
+      if (err.name === "ValidationError") {
+        let errorMessages = [];
+        for (let key in err.errors) {
+          errorMessages.push(err.errors[key].message);
+        }
+        next({ code: 400, message: errorMessages.join(", ") });
+      }
+      if (err.message === "Illegal arguments: undefined, string") {
+        err.code = 400;
+        err.message = "password wrong/empty";
+      }
+      const code = err.code || 500;
       const message = err.message;
       next({
         code,
@@ -27,8 +42,8 @@ class ControllerAdmin {
   static async loginAdmin(req, res, next) {
     try {
       let { email, password } = req.body;
-      const find = await Admin.findOne({ email }, (err) => console.log(err)).exec();
-    //   console.log(find, "ini di login admin");
+      const find = await Admin.findOne({ email }).exec();
+      //   console.log(find, "ini di login admin");
       if (find) {
         if (find.role === "Admin") {
           const hash = find.password;
@@ -38,7 +53,7 @@ class ControllerAdmin {
               { id: find._id, username: find.username, role: find.role },
               process.env.SECRET_KEY
             );
-            res.status(200).json({ access_token, role: find.role });
+            res.status(200).json({ access_token });
           } else {
             throw { code: 401, message: "Data Not Found" };
           }
@@ -49,7 +64,7 @@ class ControllerAdmin {
         throw { code: 401, message: "Email/Password is Wrong" };
       }
     } catch (err) {
-      console.log(...err);
+      // console.log(err);
       const code = err.code || 500;
       const message = err.message || "internal server error";
       next({
