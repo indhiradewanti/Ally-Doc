@@ -165,3 +165,8 @@
 .text-nude {
   color: #b3a075;
 }
+
+.hover\:text-indigo-700:hover {
+
+  color: #282c34;
+}

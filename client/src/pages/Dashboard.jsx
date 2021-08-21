@@ -57,7 +57,7 @@ export default function Dashboard() {
           <div className="flex flex-wrap">
             <div className="p-3 -mb-20 lg:w-1/3">
               <div className="h-full bg-brown bg-opacity-75 px-8 pt-16 rounded-lg overflow-hidden text-center relative">
-                <h1 className="title-font sm:text-2xl text-xl font-medium text-gray-900 mb-3">Why Choose AllyDoc?</h1>
+                <h1 className="title-font font-bold text-4xl text-white mb-3 meg">Why Choose AllyDoc?</h1>
                 <p className="leading-relaxed mb-3">
                   AllyDoc is a Telemedicine platform where users can get medical advice from doctors. We stringently verify our online doctors to ensure they are fully licensed so that the care we provide will always be of the highest
                   quality. Team-AllyDoc consists of eminent doctors, researchers and programmers who work round the clock to innovate, create and implement the best web technologies for the use of doctors, users and hospitals.
@@ -113,7 +113,7 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <div className="px-8 py-10 relative z-10 w-full border-4 bd-nude1 bg-nude1 opacity-0 hover:opacity-100">
-                  <h2 className="tracking-widest text-sm title-font font-medium text-white mb-1">CHATTING</h2>
+                  <h2 className="tracking-widest text-xl title-font font-medium text-white mb-1">CHATTING</h2>
                   <h1 className="title-font text-lg font-medium text-white mb-3 text-nude">Shooting Stars</h1>
                   <p className="leading-relaxed text-white">Start chatting with our healthcare professionals and they will provide you with advice to your medical condition .</p>
                 </div>
@@ -135,7 +135,7 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <div className="px-8 py-10 relative z-10 w-full border-4 bd-nude1 bg-nude1 opacity-0 hover:opacity-100">
-                  <h2 className="tracking-widest text-sm title-font font-medium text-white mb-1">CALLING</h2>
+                  <h2 className="tracking-widest text-xl title-font font-medium text-white mb-1">CALLING</h2>
                   <h1 className="title-font text-lg font-medium text-white mb-3 text-nude">Shooting Stars</h1>
                   <p className="leading-relaxed text-white">Start chatting with our healthcare professionals and they will provide you with advice to your medical condition .</p>
                 </div>
@@ -152,7 +152,7 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <div className="px-8 py-10 relative z-10 w-full border-4 bd-nude1 bg-nude1 opacity-0 hover:opacity-100">
-                  <h2 className="tracking-widest text-sm title-font font-medium text-white mb-1">VIDEO CALLS</h2>
+                  <h2 className="tracking-widest text-xl title-font font-medium text-white mb-1">VIDEO CALLS</h2>
                   <h1 className="title-font text-lg font-medium text-white mb-3 text-nude">Shooting Stars</h1>
                   <p className="leading-relaxed text-white">Start video calling with our healthcare professionals and they will provide you with advice to your medical condition .</p>
                 </div>

@@ -11,9 +11,9 @@ export default function Navbar() {
         </NavLink>
         <ul>
           <li className="space-x-5 text-xl">
-            <button className="btn btn-outline hidden sm:inline-block text-gray-700 hover:text-indigo-700 vogue font-bold w-24">
-              <NavLink to="/doctors">Doctors</NavLink>
-            </button>
+            <NavLink className="hidden sm:inline-block text-gray-700 hover:text-indigo-700 vogue font-bold w-24" to="/doctors">
+              Doctors
+            </NavLink>
             <button className="btn btn-outline hidden sm:inline-block text-gray-700 hover:text-indigo-700 vogue font-bold w-24">
               <NavLink to="/sign-in">Login</NavLink>
             </button>
