@@ -6,7 +6,7 @@ export default function Dashboard() {
     <div>
       <div className="w-full carousel">
         <div id="slide1" className="relative w-full carousel-item">
-          <img src="https://demo.joomlashine.com/joomla-templates/jsn_hospital/pro/hospital/images/joomlashine/sample/homepage/background-img.jpg" className="w-full" />
+          <img src="https://demo.joomlashine.com/joomla-templates/jsn_hospital/pro/hospital/images/joomlashine/sample/homepage/background-img.jpg" alt="background" className="w-full" />
           <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
             <a href="/#slide3" className="btn btn-circle mt-10">
               ❮
@@ -14,7 +14,10 @@ export default function Dashboard() {
             <div className="text-left text-gray-700 -ml-80">
               <h1 className="font-bold text-left text-4xl she -mt-10">WELCOME TO</h1>
               <h1 className="font-bold text-left text-4xl she mt-5">ALLYDOC</h1>
-              <h2 className="text-left text-4xl mt-10 caslon">Connect securely anytime, <br/>anywhere with 24/7 doctors available just for you</h2>
+              <h2 className="text-left text-4xl mt-10 caslon">
+                Connect securely anytime, <br />
+                anywhere with 24/7 doctors available just for you
+              </h2>
             </div>
             <a href="/#slide2" className="btn btn-circle mt-10">
               ❯
@@ -22,7 +25,7 @@ export default function Dashboard() {
           </div>
         </div>
         <div id="slide2" className="relative w-full carousel-item">
-          <img src="https://demo.joomlashine.com/joomla-templates/jsn_hospital/pro/hospital/images/joomlashine/sample/homepage/s2.jpg" className="w-full" />
+          <img src="https://demo.joomlashine.com/joomla-templates/jsn_hospital/pro/hospital/images/joomlashine/sample/homepage/s2.jpg" alt="background1" className="w-full" />
           <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
             <a href="/#slide1" className="btn btn-circle mt-10">
               ❮
@@ -37,13 +40,15 @@ export default function Dashboard() {
           </div>
         </div>
         <div id="slide3" className="relative w-full carousel-item">
-          <img src="https://demo.joomlashine.com/joomla-templates/jsn_hospital/pro/hospital/images/joomlashine/sample/homepage/s1.jpg" className="w-full" />
+          <img src="https://demo.joomlashine.com/joomla-templates/jsn_hospital/pro/hospital/images/joomlashine/sample/homepage/s1.jpg" alt="background3" className="w-full" />
           <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
             <a href="/#slide2" className="btn btn-circle mt-10 -mr-20">
               ❮
             </a>
             <div className="text-left text-gray-700 -ml-96">
-              <h1 className="font-bold text-left text-6xl uppercase cigra">More than 100 <br/> medical doctors</h1>
+              <h1 className="font-bold text-left text-6xl uppercase cigra">
+                More than 100 <br /> medical doctors
+              </h1>
               <h2 className="text-left text-4xl caslon">And professors are highly qualified doctors</h2>
             </div>
             <a href="/#slide1" className="btn btn-circle mt-10">
@@ -113,8 +118,7 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <div className="px-8 py-10 relative z-10 w-full border-4 bd-nude1 bg-nude1 opacity-0 hover:opacity-100">
-                  <h2 className="tracking-widest text-xl title-font font-medium text-white mb-1">CHATTING</h2>
-                  <h1 className="title-font text-lg font-medium text-white mb-3 text-nude">Shooting Stars</h1>
+                  <h2 className="tracking-widest text-xl title-font font-medium text-white mb-10">CHATTING</h2>
                   <p className="leading-relaxed text-white">Start chatting with our healthcare professionals and they will provide you with advice to your medical condition .</p>
                 </div>
               </div>
@@ -135,8 +139,7 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <div className="px-8 py-10 relative z-10 w-full border-4 bd-nude1 bg-nude1 opacity-0 hover:opacity-100">
-                  <h2 className="tracking-widest text-xl title-font font-medium text-white mb-1">CALLING</h2>
-                  <h1 className="title-font text-lg font-medium text-white mb-3 text-nude">Shooting Stars</h1>
+                  <h2 className="tracking-widest text-xl title-font font-medium text-white mb-10">CALLING</h2>
                   <p className="leading-relaxed text-white">Start chatting with our healthcare professionals and they will provide you with advice to your medical condition .</p>
                 </div>
               </div>
@@ -152,8 +155,7 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <div className="px-8 py-10 relative z-10 w-full border-4 bd-nude1 bg-nude1 opacity-0 hover:opacity-100">
-                  <h2 className="tracking-widest text-xl title-font font-medium text-white mb-1">VIDEO CALLS</h2>
-                  <h1 className="title-font text-lg font-medium text-white mb-3 text-nude">Shooting Stars</h1>
+                  <h2 className="tracking-widest text-xl title-font font-medium text-white mb-10">VIDEO CALLS</h2>
                   <p className="leading-relaxed text-white">Start video calling with our healthcare professionals and they will provide you with advice to your medical condition .</p>
                 </div>
               </div>
