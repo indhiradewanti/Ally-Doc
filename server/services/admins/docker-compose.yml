@@ -2,7 +2,7 @@ version: "3.6"
 
 services:
     app:
-        image: "final-project-admins"
+        image: "final-project-admin"
         ports:
             - "3001:3001"
         command: "npm run start"
