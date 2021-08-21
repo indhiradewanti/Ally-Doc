@@ -7,7 +7,7 @@ class MainController {
 	static async createUser(req, res, next) {
 		try {
 			if (!req.file) {
-				throw { code: 400, message: "No file chosen" };
+				throw { code: 400, msg: "No file chosen" };
 			}
 			let uploadedImage = await imageKit(
 				req.file.buffer,
@@ -16,7 +16,7 @@ class MainController {
 			let newPassword = req.body.password
 				? hashPassword(req.body.password)
 				: req.body.password;
-			const newUser = await UserModel.create({
+			const newUser = new UserModel({
 				email: req.body.email,
 				password: newPassword,
 				username: req.body.username,
@@ -27,17 +27,14 @@ class MainController {
 				phone_number: req.body.phone_number,
 				gender: req.body.gender,
 			});
-			console.log(`test1`);
-			// let createdNewUser = await newUser.save();
+			let createdNewUser = await newUser.save();
 			let access_token = jwtSign(
-				newUser._id,
-				newUser.email,
-				newUser.role
+				createdNewUser._id,
+				createdNewUser.email,
+				createdNewUser.role
 			);
-			console.log(`test2`);
 			res.status(201).json({ access_token });
 		} catch (err) {
-			// console.log(err);
 			if (err.code) {
 				next(err);
 			} else if (err.name === "ValidationError") {

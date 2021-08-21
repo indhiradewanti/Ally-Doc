@@ -29,7 +29,6 @@ const authorizationUser = async (req, res, next) => {
 		}
 		next();
 	} catch (err) {
-		console.log(err);
 		if (err.code) {
 			next(err);
 		} else {
@@ -43,7 +42,7 @@ const authorizationAdmin = async (req, res, next) => {
 	try {
 		let accessTokenData = jwtVerify(access_token);
 		let { role } = accessTokenData;
-		if (role !== "User") {
+		if (role !== "Admin") {
 			throw {
 				code: 403,
 				msg: `Unauthorized access`,
@@ -51,7 +50,6 @@ const authorizationAdmin = async (req, res, next) => {
 		}
 		next();
 	} catch (err) {
-		console.log(err);
 		if (err.code) {
 			next(err);
 		} else {
