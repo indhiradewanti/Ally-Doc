@@ -13,6 +13,7 @@ class AdminController {
 					username,
 				},
 			});
+			console.log(registeredAdmin);
 			// return admin data
 		} catch (err) {
 			console.log(err);

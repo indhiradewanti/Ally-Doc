@@ -10,7 +10,7 @@ class UserController {
 				url: "/",
 				data: newUserData,
 			});
-			// return access_token
+			res.status(201).json(newUserData);
 		} catch (err) {
 			console.log(err);
 		}
