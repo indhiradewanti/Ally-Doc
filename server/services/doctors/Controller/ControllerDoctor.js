@@ -35,7 +35,6 @@ class ControllerDoctor {
         throw { code: 403, message: "Forbidden access" };
       }
     } catch (err) {
-      console.log(err.message);
       if (err.name === "ValidationError") {
         let errorMessages = [];
         for (let key in err.errors) {
@@ -212,7 +211,6 @@ class ControllerDoctor {
         throw { code: 400, message: "Email/Password is wrong" };
       }
     } catch (err) {
-      console.log(err);
       if (err.message === "Illegal arguments: undefined, string") {
         err.code = 400;
         err.message = "Password wrong/empty";
@@ -241,7 +239,6 @@ class ControllerDoctor {
         }
       }
     } catch (err) {
-      console.log(err);
       if (!err.code) {
         err = { code: 404, message: "Data not found" };
       }
@@ -269,7 +266,6 @@ class ControllerDoctor {
         throw { code: 400, message: "Photo cannot be empty" };
       }
     } catch (err) {
-      console.log(err);
       if (!err.code) {
         err = { code: 404, message: "Data not found" };
       }

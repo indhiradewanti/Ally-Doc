@@ -36,11 +36,11 @@ afterAll(async () => {
 describe("POST History", () => {
   test("Should POST [success PORT]", (done) => {
     request(app)
-      .set("access_token", access_token)
-      .post("/history/")
+    .post("/history/")
+    .set("access_token", access_token)
       .send(postHistory)
       .then((response) => {
-          id = response._id
+          id = response.body._id
         expect(response.status).toBe(201);
         expect(response.body).toHaveProperty("_id", expect.any(String))
         expect(response.body).toHaveProperty("name", "test");
@@ -51,19 +51,19 @@ describe("POST History", () => {
   });
   test("Should POST error access_token", (done) => {
     request(app)
-      .set("access_token", false_token)
-      .post("/history/")
+    .post("/history/")
+    .set("access_token", false_token)
       .send(postHistory)
       .then((response) => {
-        expet(response.status).toBe(403);
+        expect(response.status).toBe(403);
         expect(response.body).toHaveProperty("message", "Forbidden to access");
         done();
       });
   });
   test("Should POST return name error", (done) => {
     request(app)
-      .set("access_token", access_token)
-      .post("/history/")
+    .post("/history/")
+    .set("access_token", access_token)
       .send({ ...postHistory, name: undefined })
       .then((response) => {
         expect(response.status).toBe(400);
@@ -73,8 +73,8 @@ describe("POST History", () => {
   });
   test("Should POST return age error", (done) => {
       request(app)
+      .post("/history/")
       .set("access_token", access_token)
-        .post("/history/")
         .send({...postHistory, age: undefined})
         .then((response) => {
             expect(response.status).toBe(400)
@@ -84,8 +84,8 @@ describe("POST History", () => {
   })
   test("Should POST return gender error", (done) => {
       request(app)
-      .set("access_token", access_token)
       .post("/history/")
+      .set("access_token", access_token)
       .send({...postHistory, gender: undefined})
       .then((response) => {
           expect(response.status).toBe(400)
@@ -98,8 +98,8 @@ describe("POST History", () => {
 describe("GET History", () => {
     test("Should GET [success PORT]", (done) => {
         request(app)
-        .set("access_token", access_token)
         .get("/history/")
+        .set("access_token", access_token)
         .then((response) => {
             expect(response.status).toBe(200);
             expect(Array.isArray(response.body)).toBeTruthy();
@@ -109,10 +109,10 @@ describe("GET History", () => {
     })
     test("Should GET return access_token error", (done) => {
         request(app)
-        .set("access_token", false_token)
         .get('/history/')
+        .set("access_token", false_token)
         .then((response) => {
-            expet(response.status).toBe(403);
+            expect(response.status).toBe(403);
             expect(response.body).toHaveProperty("message", "Forbidden to access");
             done();
         })
@@ -120,10 +120,11 @@ describe("GET History", () => {
 })
 
 describe("PATCH status history", () => {
+    console.log(id)
     test("Should PATCH [success PORT]", (done) => {
         request(app)
-        .set("access_token", access_token)
         .patch(`/history/${id}`)
+        .set("access_token", access_token)
         .send({status: 'completed'})
         .then((response) => {
             expect(response.status).toBe(201)
@@ -133,8 +134,8 @@ describe("PATCH status history", () => {
     })
     test("Should PATCH return access_token error", (done) => {
         request(app)
-        .set("access_token", false_token)
         .patch(`/history/${id}`)
+        .set("access_token", false_token)
         .send({status: 'completed'})
         .then((response) => {
             expect(response.status).toBe(403)
@@ -144,8 +145,8 @@ describe("PATCH status history", () => {
     })
     test("Should PATCH return status error", (done) => {
         request(app)
-        .set("access_token", access_token)
         .patch(`/history/${id}`)
+        .set("access_token", access_token)
         .send({status: undefined})
         .then((response) => {
             expect(response.status).toBe(400)
