@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const db = mongoose.connection
 
-mongoose.connect('mongodb://localhost:27017', {useNewUrlParser: true, useUnifiedTopology: true, dbName: 'AllyDoc'}, () => {
+mongoose.connect(process.env.DB_ATLAS, {useNewUrlParser: true, useUnifiedTopology: true, dbName: 'AllyDoc'}, () => {
     console.log('connect to db')
 })
 
