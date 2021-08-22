@@ -1,14 +1,27 @@
 const axios = require("../helpers/axiosDoctor.js");
 const uploadImage = require("../helpers/imagekit.js");
+const Redis = require("ioredis");
+const redis = new Redis();
 
 class DoctorController {
 	static async getAllDoctors(req, res, next) {
 		try {
-			let allDoctorsList = await axios({
-				method: "GET",
-				url: "/doctor",
-			});
-			res.status(200).json(allDoctorsList.data);
+			let redisDoctorStorage = await redis.get("allDoctors");
+			if (redisDoctorStorage) {
+				res.status(200).json(JSON.parse(redisDoctorStorage));
+			} else {
+				let allDoctorsList = await axios({
+					method: "GET",
+					url: "/doctor",
+				});
+				await redis.set(
+					"allDoctors",
+					JSON.stringify(allDoctorsList.data),
+					"EX",
+					86400
+				);
+				res.status(200).json(allDoctorsList.data);
+			}
 		} catch (err) {
 			res.status(err.response.status).json(err.response.data);
 		}
@@ -17,16 +30,24 @@ class DoctorController {
 	static async getDoctorById(req, res, next) {
 		try {
 			let { id } = req.params;
-			let { access_token } = req.headers;
-			let getDoctor = await axios({
-				method: "GET",
-				url: `/doctor/${id}`,
-				headers: {
-					access_token,
-				},
-			});
-			res.status(200).json(getDoctor.data);
+			let redisDoctorStorage = await redis.get(`doctor${id}`);
+			if (redisDoctorStorage) {
+				res.status(200).json(JSON.parse(redisDoctorStorage));
+			} else {
+				let getDoctor = await axios({
+					method: "GET",
+					url: `/doctor/${id}`,
+				});
+				await redis.set(
+					`doctor${id}`,
+					JSON.stringify(getDoctor.data),
+					"EX",
+					86400
+				);
+				res.status(200).json(getDoctor.data);
+			}
 		} catch (err) {
+			console.log(err);
 			res.status(err.response.status).json(err.response.data);
 		}
 	}
@@ -56,6 +77,7 @@ class DoctorController {
 					access_token,
 				},
 			});
+			await redis.del("doctor");
 			res.status(201).json(registeredDoctor.data);
 		} catch (err) {
 			res.status(err.response.status).json(err.response.data);
@@ -82,8 +104,7 @@ class DoctorController {
 	static async updateDoctor(req, res, next) {
 		try {
 			let { id } = req.params;
-			let { email, username, password, specialist, address, price } =
-				req.body;
+			let { email, username, specialist, address, price } = req.body;
 			let uploadedImage = await uploadImage(
 				req.file.buffer,
 				req.file.originalname
@@ -94,13 +115,14 @@ class DoctorController {
 				data: {
 					email,
 					username,
-					password,
 					specialist,
 					address,
 					price,
 					photo: uploadedImage.url,
 				},
 			});
+			await redis.del("doctor");
+			await redis.del(`doctor${id}`);
 			res.status(201).json(updatedDoctor.data);
 		} catch (err) {
 			res.status(err.response.status).json(err.response.data);
@@ -118,6 +140,8 @@ class DoctorController {
 					status,
 				},
 			});
+			await redis.del("doctor");
+			await redis.del(`doctor${id}`);
 			res.status(201).json(updatedStatus.data);
 		} catch (err) {
 			res.status(err.response.status).json(err.response.data);
@@ -127,6 +151,7 @@ class DoctorController {
 	static async updatePhoto(req, res, next) {
 		try {
 			let { id } = req.params;
+			console.log(req.file);
 			let uploadedImage = await uploadImage(
 				req.file.buffer,
 				req.file.originalname
@@ -138,6 +163,8 @@ class DoctorController {
 					photo: uploadedImage.url,
 				},
 			});
+			await redis.del("doctor");
+			await redis.del(`doctor${id}`);
 			res.status(201).json(updatedPhoto.data);
 		} catch (err) {
 			res.status(err.response.status).json(err.response.data);
@@ -151,6 +178,8 @@ class DoctorController {
 				method: "DELETE",
 				url: `/doctor/${id}`,
 			});
+			await redis.del("doctor");
+			await redis.del(`doctor${id}`);
 			res.status(200).json(deletedDoctor.data);
 		} catch (err) {
 			res.status(err.response.status).json(err.response.data);

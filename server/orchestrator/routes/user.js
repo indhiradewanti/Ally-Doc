@@ -1,6 +1,11 @@
 const router = require("express").Router();
 const UserController = require("../controllers/userController.js");
 const { upload } = require("../middlewares/multer.js");
+const {
+	authentication,
+	authorizationUser,
+	authorizationAdmin,
+} = require("../middlewares/auth.js");
 
 router.post(
 	"/create",
@@ -9,17 +14,28 @@ router.post(
 );
 router.post("/login", UserController.loginUser);
 
-router.get("/", UserController.findAllUsers);
-router.get("/:id", UserController.findUserById);
+router.get(
+	"/",
+	authentication,
+	authorizationAdmin,
+	UserController.findAllUsers
+);
+router.get("/:id", authorizationUser, UserController.findUserById);
 
 router.patch(
 	"/image/:id",
 	upload.single("display_picture"),
+	authentication,
+	authorizationUser,
 	UserController.updateUserImage
 );
-router.patch("/:id", UserController.updateUserData);
-router.patch("/payment/:id", UserController.updateUserPayment);
+router.patch("/:id", authorizationUser, UserController.updateUserData);
+router.patch(
+	"/payment/:id",
+	authorizationUser,
+	UserController.updateUserPayment
+);
 
-router.delete("/:id", UserController.deleteUser);
+router.delete("/:id", authorizationUser, UserController.deleteUser);
 
 module.exports = router;

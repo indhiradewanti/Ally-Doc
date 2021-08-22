@@ -1,10 +1,11 @@
 const axios = require("../helpers/axiosUser.js");
 const uploadImage = require("../helpers/imagekit.js");
+const Redis = require("ioredis");
+const redis = new Redis();
 
 class UserController {
 	static async createNewUser(req, res, next) {
 		try {
-			console.log(req.file, req.body);
 			let uploadedImage = await uploadImage(
 				req.file.buffer,
 				req.file.originalname
@@ -16,6 +17,7 @@ class UserController {
 				url: "/",
 				data: newUserData,
 			});
+			await redis.del(`user`);
 			res.status(201).json(createdUser.data);
 		} catch (err) {
 			res.status(err.response.status).json(err.response.data);
@@ -42,14 +44,25 @@ class UserController {
 	static async findAllUsers(req, res, next) {
 		try {
 			let { access_token } = req.headers;
-			let allUsersData = await axios({
-				method: "GET",
-				url: "/",
-				headers: {
-					access_token,
-				},
-			});
-			res.status(200).json(allUsersData.data);
+			let redisUserStorage = await redis.get("user");
+			if (redisUserStorage) {
+				res.status(200).json(JSON.parse(redisUserStorage));
+			} else {
+				let allUsersData = await axios({
+					method: "GET",
+					url: "/",
+					headers: {
+						access_token,
+					},
+				});
+				await redis.set(
+					"user",
+					JSON.stringify(allUsersData),
+					"EX",
+					86400
+				);
+				res.status(200).json(allUsersData.data);
+			}
 		} catch (err) {
 			res.status(err.response.status).json(err.response.data);
 		}
@@ -59,14 +72,20 @@ class UserController {
 		try {
 			let { id } = req.params;
 			let { access_token } = req.headers;
-			let foundUserById = await axios({
-				method: "GET",
-				url: `${id}`,
-				headers: {
-					access_token,
-				},
-			});
-			res.status(200).json(foundUserById.data);
+			let redisUserStorage = await redis.get(`user${id}`);
+			if (redisUserStorage) {
+				res.status(200).json(JSON.parse(redisUserStorage));
+			} else {
+				let foundUserById = await axios({
+					method: "GET",
+					url: `${id}`,
+					headers: {
+						access_token,
+					},
+				});
+				await redis.set(`user${id}`);
+				res.status(200).json(foundUserById.data);
+			}
 		} catch (err) {
 			res.status(err.response.status).json(err.response.data);
 		}
@@ -90,6 +109,8 @@ class UserController {
 					access_token,
 				},
 			});
+			await redis.del("user");
+			await redis.del(`user${id}`);
 			res.status(201).json(updatedUserImage.data);
 		} catch (err) {
 			res.status(err.response.status).json(err.response.data);
@@ -115,6 +136,8 @@ class UserController {
 					access_token,
 				},
 			});
+			await redis.del("user");
+			await redis.del(`user${id}`);
 			res.status(201).json(updatedUserData.data);
 		} catch (err) {
 			res.status(err.response.status).json(err.response.data);
@@ -139,6 +162,7 @@ class UserController {
 					access_token,
 				},
 			});
+			await redis.del(`user${id}`);
 			res.status(200).json(updatedUserPayment.data);
 		} catch (err) {
 			res.status(err.response.status).json(err.response.data);
@@ -156,6 +180,8 @@ class UserController {
 					access_token,
 				},
 			});
+			await redis.del("user");
+			await redis.del(`user${id}`);
 			res.status(200).json(deletedUserData.data);
 		} catch (err) {
 			res.status(err.response.status).json(err.response.data);
