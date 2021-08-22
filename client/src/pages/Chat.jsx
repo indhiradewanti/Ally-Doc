@@ -1,6 +1,12 @@
 import React, { useState, useRef } from "react";
 import AgoraRTM from "agora-rtm-sdk";
 
+const appId = "ca2e9fc223264aa59fecda2bbcded5fc";
+
+const client = AgoraRTM.createInstance(appId);
+
+let channel = client.createChannel("testing");
+
 export default function Chat() {
 	let [messages, setMessages] = useState([]);
 
@@ -8,17 +14,6 @@ export default function Chat() {
 	let inputMessage = useRef("");
 	let inputPeerId = useRef("");
 	let inputChannelMessage = useRef("");
-
-	let [userId, setUserId] = useState("");
-
-	let options = {
-		uid: `${userId}`,
-		token: "006a71ad7d579c44e188bf98de217c53964IAALWGH4+EztS9TNg48f2fhA4JMKzGkCGz+CgvfyBpC9CAZa8+gAAAAAEAB1cLwP0nQjYQEAAQDSdCNh",
-	};
-
-	const appID = "a71ad7d579c44e188bf98de217c53964";
-
-	const client = AgoraRTM.createInstance(appID);
 
 	client.on("MessageFromPeer", (message, peerId) => {
 		let newMessages = [
@@ -36,8 +31,6 @@ export default function Chat() {
 		setMessages(newMessages);
 	});
 
-	let channel = client.createChannel("testing");
-
 	channel.on("MemberJoined", (memberId) => {
 		let newMessages = [...messages, `${memberId} joined the channel`];
 		setMessages(newMessages);
@@ -49,8 +42,7 @@ export default function Chat() {
 	});
 
 	const loginHandler = async () => {
-		console.log(options);
-		await client.login(options);
+		await client.login({ uid: `${inputUserId}` });
 	};
 
 	const logoutHandler = async () => {
@@ -58,13 +50,16 @@ export default function Chat() {
 	};
 
 	const createAndJoinChannel = async () => {
-		await channel.join().then(() => {
+		try {
+			await channel.join();
 			let newMessages = [
 				...messages,
 				`You have successfully joined channel ${channel.channelId}`,
 			];
 			setMessages(newMessages);
-		});
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	const leaveChannel = async () => {
@@ -121,8 +116,7 @@ export default function Chat() {
 							<div className="input-field">
 								<label>User ID</label>
 								<input
-									// ref={inputUserId}
-									onChange={(e) => setUserId(e.target.value)}
+									ref={inputUserId}
 									type="text"
 									placeholder="User ID"
 									id="userID"
@@ -216,17 +210,15 @@ export default function Chat() {
 					</div>
 				</div>
 			</form>
-			{messages.length ? (
-				<div>
-					{messages.map((mess) => {
-						<span>{mess}</span>;
-					})}
-				</div>
-			) : (
-				<div>
-					<h1>Empty array</h1>
-				</div>
-			)}
+			<div>
+				{messages.length ? (
+					messages.map((mess, index) => (
+						<p key={`${index}${mess}`}>{mess}</p>
+					))
+				) : (
+					<h1>Empty</h1>
+				)}
+			</div>
 		</div>
 	);
 }
