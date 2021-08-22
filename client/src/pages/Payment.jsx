@@ -17,7 +17,7 @@ export default function Payment() {
   const handleSubmit = () => {};
 
   return (
-    <div className="justify-center bg-gray-200 mt-20 place-content-center flex">
+    <div className="justify-center bg-gray-200 mt-20 place-content-center flex flex-row">
       <form onSubmit={handleSubmit}>
         <div className="min-w-screen min-h-screen items-center justify-center px-5 pb-10 pt-16 max-ww content-center">
           <div className="w-full mx-auto rounded-lg new-bg p-5 text-gray-700 shadow-2xl">
@@ -116,8 +116,8 @@ export default function Payment() {
           </div>
         </div>
       </form>
-      <div className="flex flex-col my-auto px-10">
-        <div className="space-y-16 py-10">
+      <div className="flex flex-col justify-center -mt-20">
+        <div className="space-y-10">
           <div className="w-96 h-56 m-auto bg-gray-900 rounded-xl relative text-white transition-transform transform hover:scale-110">
             <img className="relative object-cover w-full h-full rounded-xl opacity-10" src="https://i.imgur.com/kGkSg1v.png" alt="" />
             <div className="w-full px-8 absolute top-8">
@@ -153,23 +153,23 @@ export default function Payment() {
               </div>
             </div>
           </div>
-        </div>
-        <div class="transition-transform transform hover:scale-110">
-          <div class="container flex justify-center">
-            <div class="p-3 bg-white rounded-xl max-w-lg hover:shadow">
-              <div class="flex justify-between w-full">
-                <div class="ml-2">
-                  <div class="p-3">
-                    <h3 class="text-2xl">Dr. siapa</h3> <span>Spesialis apa</span>
-                  </div>
-                  <div class="flex justify-between items-center p-3 bg-gray-200 rounded-lg">
-                    <div class="avatar">
-                      <div class=" rounded-full w-24 h-24">
-                        <img src="https://i.imgur.com/CeVfZyY.jpg" alt="" />
-                      </div>
+          <div class="transition-transform transform hover:scale-110">
+            <div class="container flex justify-center">
+              <div class="p-3 bg-white rounded-xl max-w-lg hover:shadow">
+                <div class="flex justify-between w-full">
+                  <div class="ml-2">
+                    <div class="p-3">
+                      <h3 class="text-2xl">Dr. siapa</h3> <span>Spesialis apa</span>
                     </div>
-                    <div class="px-10">
-                      <span class="text-gray-400 block">Cost</span> <span class="font-bold text-black text-xl">Rp30.000</span>
+                    <div class="flex justify-between items-center p-3 bg-gray-200 rounded-lg">
+                      <div class="avatar">
+                        <div class=" rounded-full w-24 h-24">
+                          <img src="https://i.imgur.com/CeVfZyY.jpg" alt="" />
+                        </div>
+                      </div>
+                      <div class="px-10">
+                        <span class="text-gray-400 block">Cost</span> <span class="font-bold text-black text-xl">Rp30.000</span>
+                      </div>
                     </div>
                   </div>
                 </div>

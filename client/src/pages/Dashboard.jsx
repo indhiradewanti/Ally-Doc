@@ -3,7 +3,7 @@ import "../App.css";
 
 export default function Dashboard() {
   return (
-    <div>
+    <div >
       <div className="w-full carousel">
         <div id="slide1" className="relative w-full carousel-item">
           <img src="https://demo.joomlashine.com/joomla-templates/jsn_hospital/pro/hospital/images/joomlashine/sample/homepage/background-img.jpg" alt="background" className="w-full" />
@@ -11,7 +11,7 @@ export default function Dashboard() {
             <a href="/#slide3" className="btn btn-circle mt-10">
               ❮
             </a>
-            <div className="text-left text-gray-700 -ml-80">
+            <div className="text-left absolute text-gray-700 ml-20">
               <h1 className="font-bold text-left text-4xl she -mt-10">WELCOME TO</h1>
               <h1 className="font-bold text-left text-4xl she mt-5">ALLYDOC</h1>
               <h2 className="text-left text-4xl mt-10 caslon">
@@ -31,8 +31,8 @@ export default function Dashboard() {
               ❮
             </a>
             <div className="mx-4 text-center text-white">
-              <h1 className="font-bold text-6xl mb-4 cigra">FRIENDLY DOCTORS</h1>
-              <h2 className=" text-4xl mb-12 caslon">and highly specialized</h2>
+              <h1 className="font-bold text-6xl cigra">FRIENDLY DOCTORS</h1>
+              <h2 className=" text-4xl caslon">and highly specialized</h2>
             </div>
             <a href="/#slide3" className="btn btn-circle mt-10">
               ❯
@@ -45,7 +45,7 @@ export default function Dashboard() {
             <a href="/#slide2" className="btn btn-circle mt-10 -mr-20">
               ❮
             </a>
-            <div className="text-left text-gray-700 -ml-96">
+            <div className="text-left text-gray-700 absolute ml-20">
               <h1 className="font-bold text-left text-6xl uppercase cigra">
                 More than 100 <br /> medical doctors
               </h1>
@@ -62,8 +62,8 @@ export default function Dashboard() {
           <div className="flex flex-wrap">
             <div className="p-3 -mb-20 lg:w-1/3">
               <div className="h-full bg-brown bg-opacity-75 px-8 pt-16 rounded-lg overflow-hidden text-center relative">
-                <h1 className="title-font font-bold text-4xl text-white mb-3 meg">Why Choose AllyDoc?</h1>
-                <p className="leading-relaxed mb-3">
+                <h1 className="title-font font-bold text-4xl text-white my-auto meg">Why Choose AllyDoc?</h1>
+                <p className="leading-relaxed my-auto mt-10">
                   AllyDoc is a Telemedicine platform where users can get medical advice from doctors. We stringently verify our online doctors to ensure they are fully licensed so that the care we provide will always be of the highest
                   quality. Team-AllyDoc consists of eminent doctors, researchers and programmers who work round the clock to innovate, create and implement the best web technologies for the use of doctors, users and hospitals.
                 </p>

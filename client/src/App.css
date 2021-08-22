@@ -250,6 +250,10 @@
   background-color: #c7c5b096;
 }
 
+.brown-bg {
+  background-color: #998d77;
+}
+
 .text-brown {
   color: #615b4d;
 }
@@ -265,3 +269,11 @@
 .chat-bg {
   background-color: #c7c5b07a;
 }
+
+.hover\:bg-brown:hover {
+  background-color: #5a5953f3;
+}
+
+.nudebrown {
+  background-color: #999889;
+} 

@@ -1,7 +1,7 @@
 import { Route, Switch } from "react-router-dom";
 import "./App.css";
 import { Navbar } from "./components";
-import { Dashboard, DoctorDetail, DoctorsList, Payment, Login, Register, UserDetail, Chat } from "./pages";
+import { Dashboard, DoctorDetail, DoctorsList, Payment, Login, Register, UserDetail, Chat, DoctorPage, HistoryDoctor } from "./pages";
 
 function App() {
   return (
@@ -11,16 +11,22 @@ function App() {
         <Route path="/payment">
           <Payment />
         </Route>
-        <Route path="/doctors">
+        <Route path="/doctors/list">
           <DoctorsList />
         </Route>
-        <Route path="/doctor/:id">
+        <Route path="/doctors/history">
+          <HistoryDoctor />
+        </Route>
+        <Route path="/doctors/patient">
+          <DoctorPage />
+        </Route>
+        <Route path="/doctors/:id">
           <DoctorDetail />
         </Route>
-        <Route path="/login">
+        <Route path="/sign-in">
           <Login />
         </Route>
-        <Route path="/register">
+        <Route path="/sign-up">
           <Register />
         </Route>
         <Route path="/user-profile">
