@@ -1,8 +1,9 @@
-export {default as Dashboard} from './Dashboard'
-export {default as Payment} from './Payment'
-export {default as DoctorDetail} from './DoctorDetail'
-export {default as DoctorsList} from './DoctorsList'
-export {default as Login} from './Login'
-export {default as Register} from './Register'
-export {default as UserDetail} from './UserDetail'
-export {default as Chat} from './Chat'
+export { default as Dashboard } from "./Dashboard";
+export { default as Payment } from "./Payment";
+export { default as DoctorDetail } from "./DoctorDetail";
+export { default as DoctorsList } from "./DoctorsList";
+export { default as Login } from "./Login";
+export { default as Register } from "./Register";
+export { default as UserDetail } from "./UserDetail";
+export { default as Chat } from "./Chat";
+export { default as VideoCall } from "./VideoCall";
