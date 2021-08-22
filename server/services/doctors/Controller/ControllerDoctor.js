@@ -10,8 +10,8 @@ class ControllerDoctor {
       if (role === "Admin") {
         let { email, username, password, specialist, address, price, photo } =
           req.body;
-          // console.log({ email, username, password, specialist, address, price, photo })
-        password = password ? hashSync(password): undefined
+        // console.log({ email, username, password, specialist, address, price, photo })
+        password = password ? hashSync(password) : undefined;
         const data = await Doctor.create({
           email,
           username,
@@ -20,7 +20,7 @@ class ControllerDoctor {
           specialist,
           address,
           price,
-          role: 'Doctor'
+          role: "Doctor",
         });
         if (!data) {
           throw { code: 400, message: "Error Create Doctor" };
@@ -47,9 +47,9 @@ class ControllerDoctor {
         err.code = 400;
         err.message = "Password wrong/empty";
       }
-      if (err.message === 'jwt malformed'){
-        err.code = 403
-        err.message = 'Forbidden access'
+      if (err.message === "jwt malformed") {
+        err.code = 403;
+        err.message = "Forbidden access";
       }
       const code = err.code;
       const message = err.message;
@@ -76,20 +76,23 @@ class ControllerDoctor {
   static async getIdDoctor(req, res, next) {
     try {
       const { _id } = req.params;
-      console.log(_id)
-      const {email, username, specialist, address, price, photo, status} = await Doctor.findById(_id).exec();
+      console.log(_id);
+      const { email, username, specialist, address, price, photo, status } =
+        await Doctor.findById(_id).exec();
       if (email) {
-        res.status(200).json({email, username, specialist, address, price, photo, status});
+        res
+          .status(200)
+          .json({ email, username, specialist, address, price, photo, status });
       } else {
         throw { code: 404, message: "Data not found" };
       }
     } catch (err) {
-      console.log(err.message)
-      if(!err.code){
+      // console.log(err.message);
+      if (!err.code) {
         // console.log('masuk sini')
-        err = { code: 404, message: "Data not found" }
+        err = { code: 404, message: "Data not found" };
       }
-      const code = err.code
+      const code = err.code;
       const message = err.message;
       next({
         code,
@@ -101,15 +104,16 @@ class ControllerDoctor {
   static async updateDoctor(req, res, next) {
     try {
       const { _id } = req.params;
-      let { email, username, specialist, address, price, photo} = req.body;
-      if(!email || !username || !specialist || !address || !price || !photo){
-        if(!email) throw { code: 400, message: 'email cannot be empty'}
-        if(!username) throw { code:400, message: 'username cannot be empty'}
-        if(!address) throw { code: 400, message: 'address cannot be empty'}
-        if(!price) throw { code: 400, message: 'price cannot be empty'}
-        if(!photo) throw { code: 400, message: 'photo cannot be empty'}
-        if(!specialist) throw { code: 400, message: 'specialist cannot be empty'}
-      }else{
+      let { email, username, specialist, address, price, photo } = req.body;
+      if (!email || !username || !specialist || !address || !price || !photo) {
+        if (!email) throw { code: 400, message: "email cannot be empty" };
+        if (!username) throw { code: 400, message: "username cannot be empty" };
+        if (!address) throw { code: 400, message: "address cannot be empty" };
+        if (!price) throw { code: 400, message: "price cannot be empty" };
+        if (!photo) throw { code: 400, message: "photo cannot be empty" };
+        if (!specialist)
+          throw { code: 400, message: "specialist cannot be empty" };
+      } else {
         const data = await Doctor.updateOne(
           { _id },
           {
@@ -124,15 +128,16 @@ class ControllerDoctor {
           }
         );
         if (data) {
-          const data = await Doctor.findById(_id).exec()
-          console.log(data)
-          res.status(201).json({email, username, specialist, address, price, photo});
+          const data = await Doctor.findById(_id).exec();
+          console.log(data);
+          res
+            .status(201)
+            .json({ email, username, specialist, address, price, photo });
         } else {
           throw { code: 404, message: "Data not found" };
         }
       }
     } catch (err) {
-      console.log(err);
       if (err.name === "ValidationError") {
         let errorMessages = [];
         for (let key in err.errors) {
@@ -140,8 +145,8 @@ class ControllerDoctor {
         }
         next({ code: 400, message: errorMessages.join(", ") });
       }
-      if(!err.code){
-        err = { code: 404, message: "Data not found" }
+      if (!err.code) {
+        err = { code: 404, message: "Data not found" };
       }
       const code = err.code;
       const message = err.message;
@@ -164,13 +169,12 @@ class ControllerDoctor {
         throw { code: 403, message: "Forbidden to access" };
       }
     } catch (err) {
-      console.log(err);
-      if (err.message === 'jwt malformed'){
-        err.code = 403
-        err.message = 'Forbidden to access'
+      if (err.message === "jwt malformed") {
+        err.code = 403;
+        err.message = "Forbidden to access";
       }
-      if(!err.code){
-        err = { code: 404, message: "Data not found" }
+      if (!err.code) {
+        err = { code: 404, message: "Data not found" };
       }
       const code = err.code;
       const message = err.message;
@@ -226,20 +230,20 @@ class ControllerDoctor {
     try {
       const { status } = req.body;
       const { _id } = req.params;
-      if(!status){
-        throw { code: 400, message: 'Status cannot be empty'}
-      } else{
+      if (!status) {
+        throw { code: 400, message: "Status cannot be empty" };
+      } else {
         const data = await Doctor.updateOne({ _id }, { $set: { status } });
         if (data) {
-          res.status(201).json({message: 'success to update'});
+          res.status(201).json({ message: "success to update" });
         } else {
-          throw {code: 404, message: 'Data not found'}
+          throw { code: 404, message: "Data not found" };
         }
       }
     } catch (err) {
       console.log(err);
-      if(!err.code){
-        err = { code: 404, message: "Data not found" }
+      if (!err.code) {
+        err = { code: 404, message: "Data not found" };
       }
       const code = err.code;
       const message = err.message;
@@ -253,21 +257,21 @@ class ControllerDoctor {
   static async patchPhoto(req, res, next) {
     try {
       const { _id } = req.params;
-      const {photo} = req.body
-      if(photo){
-        const data = await Doctor.updateOne({ _id }, { $set: { photo} });
+      const { photo } = req.body;
+      if (photo) {
+        const data = await Doctor.updateOne({ _id }, { $set: { photo } });
         if (data) {
-          res.status(201).json({message: "success update photo"});
+          res.status(201).json({ message: "success update photo" });
         } else {
-          throw { code:404, message: "Data not found"}
+          throw { code: 404, message: "Data not found" };
         }
-      }else{
-        throw { code:400, message: "Photo cannot be empty"}
+      } else {
+        throw { code: 400, message: "Photo cannot be empty" };
       }
     } catch (err) {
       console.log(err);
-      if(!err.code){
-        err = { code: 404, message: "Data not found" }
+      if (!err.code) {
+        err = { code: 404, message: "Data not found" };
       }
       const code = err.code;
       const message = err.message;

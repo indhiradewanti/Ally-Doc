@@ -10,4 +10,5 @@ router.patch('/status/:_id', ControllerDoctor.patchStatus)
 router.patch('/photo/:_id', ControllerDoctor.patchPhoto)
 router.delete('/:_id', ControllerDoctor.deleteDoctor)
 
+
 module.exports = router
