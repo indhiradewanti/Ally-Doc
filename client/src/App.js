@@ -11,6 +11,7 @@ import {
 	UserDetail,
 	Chat,
 	VideoCall,
+	Call,
 } from "./pages";
 
 function App() {
@@ -35,6 +36,9 @@ function App() {
 				</Route>
 				<Route path="/user-profile">
 					<UserDetail />
+				</Route>
+				<Route path="/call">
+					<Call />
 				</Route>
 				<Route path="/video">
 					<VideoCall />

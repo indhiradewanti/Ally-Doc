@@ -15,10 +15,10 @@ const VideoCall = () => {
 	const inputUserId = useRef(""); // Untuk uid yang unik (boleh masukin ObjectId(User/Doctor))
 
 	let options = {
-		appId: "c445744ae9a0475d8dcfed2ec130bc6f",
+		appId: "ca2e9fc223264aa59fecda2bbcded5fc",
 		channel: "testing", // Untuk channel, harus sama untuk 2 orang bisa dikonek (ObjectId(User) + ObjectId(Doctor))
-		token: "006c445744ae9a0475d8dcfed2ec130bc6fIAB2V7v+Fw6LucJKJW8pkRg4w9LtTz+eN0JoMQOg1B5IIgZa8+gAAAAAEAB1cLwPgLsjYQEAAQCAuyNh",
-		uid: `${inputUserId.current.value}`,
+		token: null,
+		uid: inputUserId.current.value,
 	};
 
 	async function handleSubmit(e) {

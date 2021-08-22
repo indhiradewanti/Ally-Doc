@@ -7,3 +7,4 @@ export { default as Register } from "./Register";
 export { default as UserDetail } from "./UserDetail";
 export { default as Chat } from "./Chat";
 export { default as VideoCall } from "./VideoCall";
+export { default as Call } from "./Call";
