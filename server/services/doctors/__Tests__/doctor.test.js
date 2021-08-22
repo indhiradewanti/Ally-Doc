@@ -202,7 +202,6 @@ describe("GET All Doctor Success", () => {
 
 describe("GET Id Doctor", () => {
     test('Should GET Id Success', (done) => {
-        console.log(id)
         request(app)
         .get(`/doctor/${id}`)
         .then((response) => {
@@ -318,7 +317,6 @@ describe("PUT Update Doctor", () => {
 
 describe("Should PATCH Status", () => {
     test("Should PATCH status [success PORT]", (done) => {
-        console.log(id)
         request(app)
         .patch(`/doctor/status/${id}`)
         .send({status: "Online"})
@@ -385,7 +383,6 @@ describe("Should PATCH Photo", () => {
 
 describe("Should DELETE Success", () => {
     test('Should error forbidden', (done) => {
-        console.log(id)
         request(app)
         .delete(`/doctor/${id}`)
         .set("access_token", "bababab")

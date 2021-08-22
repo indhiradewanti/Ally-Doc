@@ -120,7 +120,6 @@ describe("GET History", () => {
 })
 
 describe("PATCH status history", () => {
-    console.log(id)
     test("Should PATCH [success PORT]", (done) => {
         request(app)
         .patch(`/history/${id}`)
