@@ -1,4 +1,4 @@
-const History = require("../Model/History");
+const History = require("../Model/HistorySchema");
 
 class ControllerHistory{
     static async getHistory(req, res, next) {
@@ -6,7 +6,6 @@ class ControllerHistory{
           const data = await History.find();
           res.status(200).json(data);
         } catch (err) {
-          console.log(err, 'ini di get history');
           if (err.message === "jwt malformed") {
             err.code = 403;
             err.message = "Forbidden to access";

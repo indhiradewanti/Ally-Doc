@@ -6,7 +6,7 @@ const HistorySchema = new Schema({
         required: [true, 'name cannot be empty']
     },
     age: {
-        type: String,
+        type: Number,
         required: [true, 'age cannot be empty']
     },
     gender: {
