@@ -1,6 +1,102 @@
 import "../App.css";
+import React, { useState, useEffect, useRef } from "react";
+import AgoraRTM from "agora-rtm-sdk";
+
+const appId = "ca2e9fc223264aa59fecda2bbcded5fc";
+const client = AgoraRTM.createInstance(appId);
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const mic = new SpeechRecognition();
+
+mic.continuous = true;
+mic.interimResults = true;
+mic.lang = "id-ID";
 
 export default function Chat() {
+  let [messages, setMessages] = useState([]);
+  const [isListening, setIsListening] = useState(false);
+  const [note, setNote] = useState(null);
+  const [savedNotes, setSavedNotes] = useState([]);
+
+  let inputUserId = useRef("");
+  let inputMessage = useRef("");
+  let inputPeerId = useRef("");
+
+  useEffect(() => {
+    handleListen();
+  }, [isListening]);
+
+  const handleListen = () => {
+    if (isListening) {
+      mic.start();
+      mic.onend = () => {
+        console.log("continue..");
+        mic.start();
+      };
+    } else {
+      mic.stop();
+      mic.onend = () => {
+        console.log("Stopped Mic on Click");
+      };
+    }
+    mic.onstart = () => {
+      console.log("Mics on");
+    };
+
+    mic.onresult = (event) => {
+      const transcript = Array.from(event.results)
+        .map((result) => result[0])
+        .map((result) => result.transcript)
+        .join("");
+      console.log(transcript);
+      setNote(transcript);
+      mic.onerror = (event) => {
+        console.log(event.error);
+      };
+    };
+  };
+
+  const handleSaveNote = () => {
+    sendPeerMessage();
+    setSavedNotes([...savedNotes, note]);
+    setNote("");
+  };
+
+  client.on("MessageFromPeer", ({ text }, peerId) => {
+    let newMessages = [...messages, `Message from: ${peerId}, Message: ${text}`];
+    setMessages(newMessages);
+  });
+
+  client.on("ConnectionStateChanged", (state, reason) => {
+    let newMessages = [...messages, `State changed to ${state} reason: ${reason}`];
+    setMessages(newMessages);
+  });
+
+  const loginHandler = async () => {
+    let uid = `${inputUserId.current.value}`;
+    console.log(uid);
+    await client.login({ uid });
+  };
+
+  const logoutHandler = async () => {
+    await client.logout();
+  };
+
+  const sendPeerMessage = async () => {
+    let peerId = String(inputPeerId.current.value);
+    let peerMessage = String(inputMessage.current.value);
+
+    await client.sendMessageToPeer({ text: peerMessage }, peerId).then((sendResult) => {
+      if (sendResult.hasPeerReceived) {
+        let newMessages = [...messages, peerMessage];
+        setMessages(newMessages);
+      } else {
+        let newMessages = [...messages, peerMessage];
+        setMessages(newMessages);
+      }
+    });
+  };
+
+  console.log(messages);
   return (
     <div className="relative inset-y-20">
       <div className="flex he antialiased text-gray-800">
@@ -43,47 +139,28 @@ export default function Chat() {
                         </div>
                       </div>
                     </div>
-                    <div className="col-start-6 col-end-13 p-3 rounded-lg">
-                      <div className="flex items-center justify-start flex-row-reverse">
-                        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">A</div>
-                        <div className="relative mr-3 text-sm nudebrown text-white py-2 px-4 shadow rounded-xl">
-                          <div>Apaan?</div>
+                    {savedNotes.map((n) => (
+                      <div className="col-start-6 col-end-13 p-3 rounded-lg" key={n}>
+                        <div className="flex items-center justify-start flex-row-reverse">
+                          <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">A</div>
+                          <div className="relative mr-3 text-sm nudebrown text-white py-2 px-4 shadow rounded-xl">
+                            <div>{n}</div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="col-start-6 col-end-13 p-3 rounded-lg">
-                      <div className="flex items-center justify-start flex-row-reverse">
-                        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">A</div>
-                        <div className="relative mr-3 text-sm nudebrown text-white py-2 px-4 shadow rounded-xl">
-                          <div>Lorem ipsum dolor sit, amet consectetur adipisicing. ?</div>
+                    ))}
+                    {messages.length && (
+                      messages.map((mess, index) => (
+                        <div className="col-start-6 col-end-13 p-3 rounded-lg" key={`${index}${mess}`} >
+                          <div className="flex items-center justify-start flex-row-reverse">
+                            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">A</div>
+                            <div className="relative mr-3 text-sm nudebrown text-white py-2 px-4 shadow rounded-xl">
+                              <div>{mess}</div>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div className="col-start-1 col-end-8 p-3 rounded-lg">
-                      <div className="flex flex-row items-center">
-                        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">A</div>
-                        <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                          <div>Lorem ipsum dolor sit amet !</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-start-6 col-end-13 p-3 rounded-lg">
-                      <div className="flex items-center justify-start flex-row-reverse">
-                        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">A</div>
-                        <div className="relative mr-3 text-sm nudebrown text-white py-2 px-4 shadow rounded-xl">
-                          <div>Lorem ipsum dolor sit, amet consectetur adipisicing. ?</div>
-                          <div className="absolute text-xs bottom-0 right-0 -mb-5 mr-2 text-gray-500">Seen</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-start-1 col-end-8 p-3 rounded-lg">
-                      <div className="flex flex-row items-center">
-                        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">A</div>
-                        <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                          <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, in.</div>
-                        </div>
-                      </div>
-                    </div>
+                      ))
+                    )}
                   </div>
                 </div>
               </div>
@@ -97,11 +174,26 @@ export default function Chat() {
                 </div>
                 <div className="flex-grow ml-4">
                   <div className="relative w-full">
-                    <input type="text" className="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10" />
+                    <input type="text" className="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10" ref={inputMessage || note} />
+                    <button className="absolute flex items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600 -mt-1" onClick={() => setIsListening((prevState) => !prevState)}>
+                      {isListening ? (
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                          <path
+                            fillRule="evenodd"
+                            d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      ) : (
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                        </svg>
+                      )}
+                    </button>
                   </div>
                 </div>
                 <div className="ml-4">
-                  <button className="flex items-center justify-center brown-bg hover:bg-brown rounded-xl text-white px-4 py-1 flex-shrink-0">
+                  <button className="flex items-center justify-center brown-bg hover:bg-brown rounded-xl text-white px-4 py-1 flex-shrink-0" onClick={handleSaveNote}>
                     <span>Send</span>
                     <span className="ml-2">
                       <svg className="w-4 h-4 transform rotate-45 -mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -114,6 +206,43 @@ export default function Chat() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="mt-20">
+        <h1>RTM Quickstart</h1>
+        <form id="loginForm">
+          <div className="col">
+            <div className="card">
+              <div className="row card-content">
+                <div className="input-field">
+                  <label>User ID</label>
+                  <input ref={inputUserId} type="text" placeholder="User ID" id="userID" />
+                </div>
+                <div className="row">
+                  <div>
+                    <button className="px-5" type="button" id="login" onClick={() => loginHandler()}>
+                      LOGIN
+                    </button>
+                    <button className="px-5" type="button" id="logout" onClick={() => logoutHandler()}>
+                      LOGOUT
+                    </button>
+                  </div>
+                </div>
+                <div className="input-field">
+                  <label>Peer Id</label>
+                  <input ref={inputPeerId} type="text" placeholder="peer id" id="peerId" />
+                </div>
+                <div className="input-field channel-padding">
+                  <label>Peer Message</label>
+                  <input ref={inputMessage} type="text" placeholder="peer message" id="peerMessage" />
+                  <button onClick={handleSaveNote} type="button" id="send_peer_message">
+                    SEND
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        
       </div>
     </div>
   );
