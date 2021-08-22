@@ -6,7 +6,7 @@ const redis = new Redis();
 class DoctorController {
 	static async getAllDoctors(req, res, next) {
 		try {
-			let redisDoctorStorage = await redis.get("allDoctors");
+			let redisDoctorStorage = await redis.get("doctor");
 			if (redisDoctorStorage) {
 				res.status(200).json(JSON.parse(redisDoctorStorage));
 			} else {
@@ -15,7 +15,7 @@ class DoctorController {
 					url: "/doctor",
 				});
 				await redis.set(
-					"allDoctors",
+					"doctor",
 					JSON.stringify(allDoctorsList.data),
 					"EX",
 					86400
@@ -174,9 +174,13 @@ class DoctorController {
 	static async deleteDoctor(req, res, next) {
 		try {
 			let { id } = req.params;
+			let { access_token } = req.headers;
 			let deletedDoctor = await axios({
 				method: "DELETE",
 				url: `/doctor/${id}`,
+				headers: {
+					access_token,
+				},
 			});
 			await redis.del("doctor");
 			await redis.del(`doctor${id}`);
