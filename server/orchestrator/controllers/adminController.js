@@ -15,6 +15,7 @@ class AdminController {
 			});
 			res.status(201).json(registeredAdmin.data);
 		} catch (err) {
+			console.log(err);
 			res.status(err.response.status).json(err.response.data);
 		}
 	}
