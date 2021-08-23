@@ -10,6 +10,7 @@ export const ActionTypeDoctor = {
     patchPhoto: 'PATCH_PHOTO_DOCTOR',
     errorDoctor: 'ERROR_DOCTOR',
     loadingDoctor: 'LOADING_DOCTOR',
+    loggedIn: 'LOGGED_IN_DOCTOR'
 }
 
 export const allDoctor = (payload) => {
@@ -22,20 +23,6 @@ export const allDoctor = (payload) => {
 export const detailDoctor = (payload) => {
     return {
         type: ActionTypeDoctor.detailDoctor,
-        payload
-    }
-}
-
-export const createDoctor = (payload) => {
-    return {
-        type: ActionTypeDoctor.createDoctor,
-        payload
-    }
-}
-
-export const removeDoctor = (payload) => {
-    return {
-        type: ActionTypeDoctor.removeDoctor,
         payload
     }
 }
@@ -74,6 +61,14 @@ export const patchPhotoDoctor = (payload) => {
         payload
     }
 }
+
+export const loggedIn = (payload) => {
+    return {
+        type: ActionTypeDoctor.loggedIn,
+        payload
+    }
+}
+
 export const fetchDataDoctor = () => async (dispatch) => {
     try {
         dispatch(loadingDoctor(true))
@@ -99,9 +94,23 @@ export const fetchDetailDoctor = (id) => async (dispatch) => {
 
 export const createNewDoctor = (doctor) => async (dispatch) => {
     try {
-        const {data} = await axios.post(`/doctor/`, doctor)
+        const access_token = localStorage.getItem('access_token')
+        const {data} = await axios.post(`/doctor/`, doctor, {
+            headers: {access_token}
+        })
         console.log(data)
         dispatch(fetchDataDoctor())
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+
+export const loginDoctor = (doctor) => async (dispatch) => {
+    try {
+        const {data} = await axios.post(`/doctor/login`, doctor)
+        console.log(data)
+        localStorage.setItem('access_token', data.access_token)
     } catch (err) {
         console.log(err)
     }
@@ -110,6 +119,7 @@ export const createNewDoctor = (doctor) => async (dispatch) => {
 export const updateRecentDoctor = (doctor) => async (dispatch) => {
     try {
         const {data} = await axios.put(`/doctor/${doctor._id}`, doctor)
+        console.log(data)
         dispatch(updateDoctor(data))
     } catch (err) {
         console.log(err)
@@ -119,6 +129,7 @@ export const updateRecentDoctor = (doctor) => async (dispatch) => {
 export const updateStatusDoctor = (doctor) => async (dispatch) => {
     try {
         const {data} = await axios.patch(`/doctor/status/${doctor._id}`, doctor)
+        console.log(data)
         dispatch(patchStatusDoctor(data))
     } catch (err) {
         console.log(err)       
@@ -137,6 +148,7 @@ export const updatePhotoDoctor = (doctor) => async (dispatch) => {
 export const removeRecentDoctor = (doctor) => async (dispatch) => {
     try {
         const {data} = await axios.delete(`/doctor/${doctor._id}`)
+        consloe.log(data)
         dispatch(fetchDataDoctor())
     } catch (err) {
         console.log(err)
