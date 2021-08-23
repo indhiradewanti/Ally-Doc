@@ -8,6 +8,8 @@ services:
         command: "redis-server"
 
     app:
+        depends_on:
+            - redis
         image: "final-project-orchestrator"
         ports:
             - "3000:3000"
