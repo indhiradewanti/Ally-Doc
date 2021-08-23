@@ -28,7 +28,7 @@ export default function Chat() {
   let inputUserId = useRef("");
   let inputMessage = useRef("");
   let inputPeerId = useRef("");
-
+  let userId = String(inputUserId.current.value);
   // CHAT
   useEffect(() => {
     handleListen();
@@ -83,7 +83,6 @@ export default function Chat() {
     console.log(uid);
     await client.login({ uid });
   };
-  let userId = String(inputUserId.current.value);
 
   const logoutHandler = async () => {
     await client.logout();
@@ -191,6 +190,43 @@ export default function Chat() {
     }
   }
 
+  // CALL
+
+  const startBasicCall = async () => {
+    rtc.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
+    rtc.client.on("user-published", async (user, mediaType) => {
+      await rtc.client.subscribe(user, mediaType);
+      console.log("subscribe success");
+
+      if (mediaType === "audio") {
+        const remoteAudioTrack = user.audioTrack;
+        remoteAudioTrack.play();
+      }
+
+      rtc.client.on("user-unpublished", async (user) => {
+        await rtc.client.unsubscribe(user);
+      });
+    });
+  };
+  const joinHandler = async () => {
+    await rtc.client.join(options.appId, options.channel, options.token, options.uid);
+    rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+    await rtc.client.publish([rtc.localAudioTrack]);
+    console.log("publish success!");
+  };
+
+  const leaveHandler = async () => {
+    if (!inputUser.current.value) {
+      setIsCall(false);
+    } else {
+      setIsCall(false);
+      rtc.localAudioTrack.close();
+      await rtc.client.leave();
+    }
+  };
+
+  startBasicCall();
+
   return (
     <div className="relative inset-y-20 bg-white h-screen">
       <div className="flex he antialiased text-gray-800">
@@ -211,24 +247,40 @@ export default function Chat() {
               <div className="text-lg font-semibold mt-2">Nama Dokter</div>
               <div className="text-lg text-gray-500">Spesialis</div>
             </div>
-            <button className="flex flex-row items-center justify-center h-12 w-full mt-20 py-10 transition-transform transform hover:scale-110" onClick={() => setIsCall(true)}>
-              <div className="flex items-center justify-center rounded-full text-brown new-bg h-32 w-32">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-14 w-14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                  />
-                </svg>
-              </div>
+            <button className="flex flex-row items-center justify-center h-12 w-full mt-20 py-10 transition-transform transform hover:scale-110" onClick={() => setIsCall(true)} disabled={isVideoCall || isCall ? true : false}>
+              {!isCall && !isVideoCall ? (
+                <div className="flex items-center justify-center rounded-full text-brown bg-green h-32 w-32">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-14 w-14" viewBox="0 0 20 20" fill="white">
+                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                  </svg>
+                </div>
+              ) : (
+                <div className="flex items-center justify-center rounded-full text-brown new-bg h-32 w-32">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-14 w-14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                    />
+                  </svg>
+                </div>
+              )}
             </button>
-            <button className="flex flex-row items-center justify-center h-12 w-full mt-20  transition-transform transform hover:scale-110" onClick={() => setIsVideoCall(true)}>
-              <div className="flex items-center justify-center rounded-full text-brown new-bg h-32 w-32">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-14 w-14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                </svg>
-              </div>
+            <button className="flex flex-row items-center justify-center h-12 w-full mt-20  transition-transform transform hover:scale-110" onClick={() => setIsVideoCall(true)} disabled={isVideoCall || isCall ? true : false}>
+              {!isCall && !isVideoCall ? (
+                <div className="flex items-center justify-center rounded-full text-brown bg-green h-32 w-32">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-14 w-14" viewBox="0 0 20 20" fill="white">
+                    <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" />
+                  </svg>
+                </div>
+              ) : (
+                <div className="flex items-center justify-center rounded-full text-brown new-bg h-32 w-32">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-14 w-14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                </div>
+              )}
             </button>
             {!isVideoCall && !isCall && (
               <form id="loginForm">
@@ -261,49 +313,83 @@ export default function Chat() {
           </div>
           <div className="flex flex-col flex-auto px-6 py-6">
             {isVideoCall && (
-              <div className="flex flex-col flex-auto px-6 py-6">
-                <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl chat-bg h-full p-4">
-                  <div className="flex flex-col h-full overflow-x-auto mb-4">
-                    <div className="flex flex-col h-full mt-12 items-center">
-                      <div className="">
-                        {joined ? (
-                          <div className="grid grid-flow-col grid-cols-2 gap-36">
-                            <div>
-                              <div className="ml-2 text-3xl vogue font-bold">Nama kita</div>
-                              <div className="w-24 h-2 bg-green mb-6 mx-auto"></div>
+              <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl chat-bg h-full p-4">
+                <div className="flex flex-col h-full overflow-x-auto mb-4">
+                  <div className="flex flex-col h-full mt-12 items-center">
+                    <div className="">
+                      {joined ? (
+                        <div className="grid grid-flow-col grid-cols-2 gap-36">
+                          <div>
+                            <div className="ml-2 text-3xl vogue font-bold">Nama kita</div>
+                            <div className="w-24 h-2 bg-green mb-6 mx-auto"></div>
 
-                              <div
-                                id="local-stream"
-                                className=""
-                                style={{ height: "360px", width: "520px" }} // Untuk ngubah ukuran video sendiri
-                              ></div>
-                            </div>
-                            <div>
-                              <div className="ml-2 text-3xl vogue font-bold">Nama Dokter</div>
-                              <div className="w-24 h-2 bg-green mb-6 mx-auto"></div>
-                              <div id="remote-stream" ref={remoteRef} style={{ height: "360px", width: "520px" }}></div>
-                            </div>
+                            <div
+                              id="local-stream"
+                              className=""
+                              style={{ height: "360px", width: "520px" }} // Untuk ngubah ukuran video sendiri
+                            ></div>
                           </div>
-                        ) : null}
-                      </div>
-                      <button className="flex items-center justify-center transition-transform transform hover:scale-105" onClick={handleLeave}>
-                        <div className="flex items-center justify-center rounded-full bg-green h-20 w-20 mt-10">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="white">
-                            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-                            <path d="M16.707 3.293a1 1 0 010 1.414L15.414 6l1.293 1.293a1 1 0 01-1.414 1.414L14 7.414l-1.293 1.293a1 1 0 11-1.414-1.414L12.586 6l-1.293-1.293a1 1 0 011.414-1.414L14 4.586l1.293-1.293a1 1 0 011.414 0z" />
-                          </svg>
+                          <div>
+                            <div className="ml-2 text-3xl vogue font-bold">Nama Dokter</div>
+                            <div className="w-24 h-2 bg-green mb-6 mx-auto"></div>
+                            <div id="remote-stream" ref={remoteRef} style={{ height: "360px", width: "520px" }}></div>
+                          </div>
                         </div>
-                      </button>
-                      <div className="container">
-                        <input type="submit" value="Join" onClick={handleSubmit} disabled={joined ? true : false} />
-                        <input type="button" ref={leaveRef} value="Leave" onClick={handleLeave} disabled={joined ? false : true} />
-                        <input type="text" ref={inputUser} className="border" />
+                      ) : null}
+                    </div>
+                    <button className="flex items-center justify-center transition-transform transform hover:scale-105" onClick={handleLeave}>
+                      <div className="flex items-center justify-center rounded-full bg-green h-20 w-20 mt-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="white">
+                          <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                          <path d="M16.707 3.293a1 1 0 010 1.414L15.414 6l1.293 1.293a1 1 0 01-1.414 1.414L14 7.414l-1.293 1.293a1 1 0 11-1.414-1.414L12.586 6l-1.293-1.293a1 1 0 011.414-1.414L14 4.586l1.293-1.293a1 1 0 011.414 0z" />
+                        </svg>
+                      </div>
+                    </button>
+                    <div className="container">
+                      <input type="submit" value="Join" onClick={handleSubmit} disabled={joined ? true : false} />
+                      <input type="button" ref={leaveRef} value="Leave" onClick={handleLeave} disabled={joined ? false : true} />
+                      <input type="text" ref={inputUser} className="border" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            {isCall && (
+              <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl chat-bg h-full p-4">
+                <div className="flex flex-col h-full overflow-x-auto mb-4">
+                  <div className="flex flex-col h-full mt-12 items-center mx-auto">
+                    <div>
+                      <div className="ml-2 text-3xl vogue font-bold">Nama</div>
+                      <div className="w-24 h-2 bg-green mx-auto"></div>
+                    </div>
+                    <div className="p-20">
+                      <div class="avatar online">
+                        <div class="rounded-btn w-64 h-64">
+                          <img src="http://daisyui.com/tailwind-css-component-profile-1@94w.png" />
+                        </div>
+                      </div>
+                    </div>
+                    <button className="flex items-center justify-center transition-transform transform hover:scale-105" onClick={() => leaveHandler()}>
+                      <div className="flex items-center justify-center rounded-full bg-green h-20 w-20">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="white">
+                          <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                          <path d="M16.707 3.293a1 1 0 010 1.414L15.414 6l1.293 1.293a1 1 0 01-1.414 1.414L14 7.414l-1.293 1.293a1 1 0 11-1.414-1.414L12.586 6l-1.293-1.293a1 1 0 011.414-1.414L14 4.586l1.293-1.293a1 1 0 011.414 0z" />
+                        </svg>
+                      </div>
+                    </button>
+                    <div className="row">
+                      <div>
+                        <button onClick={() => joinHandler()} type="button" id="join">
+                          JOIN
+                        </button>
+                        <input type="text" ref={inputUser} />
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             )}
+
             {!isVideoCall && !isCall && (
               <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl chat-bg h-full p-4">
                 <div className="flex flex-col h-full overflow-x-auto mb-4">
