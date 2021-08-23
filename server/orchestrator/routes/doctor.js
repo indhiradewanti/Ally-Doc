@@ -26,7 +26,12 @@ router.put(
 	authorizationDoctor,
 	DoctorController.updateDoctor
 );
-router.patch("/status/:id", DoctorController.updateStatus);
+router.patch(
+	"/status/:id",
+	authentication,
+	authorizationDoctor,
+	DoctorController.updateStatus
+);
 router.patch(
 	"/photo/:id",
 	upload.single("photo"),

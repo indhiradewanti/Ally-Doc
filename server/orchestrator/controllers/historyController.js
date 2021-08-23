@@ -12,6 +12,9 @@ class HistoryController {
 				const historyData = await axios({
 					method: "GET",
 					url: "/history",
+					headers: {
+						access_token: req.headers.access_token,
+					},
 				});
 				await redis.set(
 					"history",
@@ -54,6 +57,9 @@ class HistoryController {
 				url: `/history/${id}`,
 				data: {
 					status,
+				},
+				headers: {
+					access_token: req.headers.access_token,
 				},
 			});
 			await redis.del("history");

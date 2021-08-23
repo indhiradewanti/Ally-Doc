@@ -151,7 +151,6 @@ class DoctorController {
 	static async updatePhoto(req, res, next) {
 		try {
 			let { id } = req.params;
-			console.log(req.file);
 			let uploadedImage = await uploadImage(
 				req.file.buffer,
 				req.file.originalname
