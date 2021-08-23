@@ -1,6 +1,10 @@
 const axios = require("../helpers/axiosDoctor.js");
 const Redis = require("ioredis");
-const redis = new Redis();
+const redis = new Redis({
+	host: "redis-14354.c61.us-east-1-3.ec2.cloud.redislabs.com",
+	port: 14354,
+	password: "rafipratama",
+});
 
 class HistoryController {
 	static async getHistory(req, res) {
