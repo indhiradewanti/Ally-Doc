@@ -1,13 +1,6 @@
-const multer = require("multer");
-
 const errorHandler = (err, req, res, next) => {
 	let msg;
 	let code = err.code || 500;
-
-	if (err instanceof multer.MulterError) {
-		code = 400;
-		err.msg = `File size is larger than 1,5mb`;
-	}
 
 	switch (code) {
 		case 400:

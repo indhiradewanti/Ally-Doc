@@ -33,6 +33,7 @@ class MainController {
 			);
 			res.status(201).json({ access_token });
 		} catch (err) {
+			/* istanbul ignore else  */
 			if (err.code) {
 				next(err);
 			} else if (err.name === "ValidationError") {
@@ -87,6 +88,7 @@ class MainController {
 			);
 			res.status(200).json({ access_token });
 		} catch (err) {
+			/* istanbul ignore else  */
 			if (err.code) {
 				next(err);
 			} else {
@@ -103,6 +105,7 @@ class MainController {
 			);
 			res.status(200).json(foundListUsers);
 		} catch (err) {
+			/* istanbul ignore next */
 			next({ code: 500 });
 		}
 	} // Admin
@@ -119,6 +122,7 @@ class MainController {
 			}
 			res.status(200).json(foundUser);
 		} catch (err) {
+			/* istanbul ignore else */
 			if (err.code) {
 				next(err);
 			} else {
@@ -145,6 +149,7 @@ class MainController {
 				msg: `Profile picture updated successfully`,
 			});
 		} catch (err) {
+			/* istanbul ignore else */
 			if (err.code) {
 				next(err);
 			} else {
@@ -191,6 +196,7 @@ class MainController {
 			);
 			res.status(201).json(updatedUser);
 		} catch (err) {
+			/* istanbul ignore else */
 			if (err.code) {
 				next(err);
 			} else {
@@ -242,6 +248,7 @@ class MainController {
 			);
 			res.status(201).json({ msg: `Payment updated successfully` });
 		} catch (err) {
+			/* istanbul ignore else */
 			if (err.code) {
 				next(err);
 			} else {
@@ -259,6 +266,7 @@ class MainController {
 			}
 			res.status(200).json({ msg: `User deleted successfully` });
 		} catch (err) {
+			/* istanbul ignore else */
 			if (err.code) {
 				next(err);
 			} else {

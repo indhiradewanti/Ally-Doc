@@ -294,8 +294,8 @@ describe("POST /login [ERROR CASE]", () => {
 
 // FIND ALL USERS - BELOM SELESAI
 describe("GET / [SUCCESS CASE]", () => {
-	let access_token = jwt.sign({ role: "Admin" }, process.env.SECRET_KEY);
 	test(`Should return a list of users`, (done) => {
+		let access_token = jwt.sign({ role: "Admin" }, process.env.SECRET_KEY);
 		request(app)
 			.get("/")
 			.set("access_token", access_token)
@@ -344,8 +344,8 @@ describe("GET / [SUCCESS CASE]", () => {
 });
 
 describe("GET / [ERROR CASE]", () => {
-	let access_token = jwt.sign({ role: "User" }, process.env.SECRET_KEY);
 	test(`[Case - Requester is not admin] Should return 'Unauthorized access'`, (done) => {
+		let access_token = jwt.sign({ role: "User" }, process.env.SECRET_KEY);
 		request(app)
 			.get("/")
 			.set("access_token", access_token)
@@ -354,6 +354,22 @@ describe("GET / [ERROR CASE]", () => {
 				expect(response.body).toHaveProperty(
 					"msg",
 					"Unauthorized access"
+				);
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+
+	test(`[Case - No access token] Should return 'You are not logged in'`, (done) => {
+		request(app)
+			.get("/")
+			.then((response) => {
+				expect(response.status).toBe(401);
+				expect(response.body).toHaveProperty(
+					"msg",
+					"You are not logged in"
 				);
 				done();
 			})
@@ -444,6 +460,50 @@ describe("GET /:id [ERROR CASE]", () => {
 				done(err);
 			});
 	});
+
+	test("[Case - User Id is wrong] Should return Error 404 'User not found' ", (done) => {
+		let access = jwt.verify(
+			createdUser.access_token,
+			process.env.SECRET_KEY
+		);
+		access.id = access.id.split("");
+		access.id[0] === "a" ? (access.id[0] = "b") : (access.id[0] = "b");
+		access.id = access.id.join("");
+		request(app)
+			.get(`/${access.id}`)
+			.set("access_token", createdUser.access_token)
+			.then((response) => {
+				expect(response.status).toBe(404);
+				expect(response.body).toHaveProperty("msg", "User not found");
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+
+	test("[Case - No access token] Should return Error 401 'You are not logged in' ", (done) => {
+		let access = jwt.verify(
+			createdUser.access_token,
+			process.env.SECRET_KEY
+		);
+		access.id = access.id.split("");
+		access.id[0] === "a" ? (access.id[0] = "b") : (access.id[0] = "b");
+		access.id = access.id.join("");
+		request(app)
+			.get(`/${access.id}`)
+			.then((response) => {
+				expect(response.status).toBe(401);
+				expect(response.body).toHaveProperty(
+					"msg",
+					"You are not logged in"
+				);
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
 });
 
 // // UPDATE USER IMAGE
@@ -488,6 +548,27 @@ describe("PATCH /image/:id [ERROR CASE]", () => {
 			.then((response) => {
 				expect(response.status).toBe(400);
 				expect(response.body).toHaveProperty("msg", "No file chosen");
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+
+	test(`[Case - No access token]`, (done) => {
+		let access = jwt.verify(
+			createdUser.access_token,
+			process.env.SECRET_KEY
+		);
+		request(app)
+			.patch(`/image/${access.id}`)
+			.attach("display_picture", "")
+			.then((response) => {
+				expect(response.status).toBe(401);
+				expect(response.body).toHaveProperty(
+					"msg",
+					"You are not logged in"
+				);
 				done();
 			})
 			.catch((err) => {
@@ -710,6 +791,35 @@ describe("PATCH /:id [ERROR CASES]", () => {
 				done(err);
 			});
 	});
+
+	test("[Case - No access token] Should return 'You are not logged in'", (done) => {
+		let updateUser = {
+			email: "test@mail.com",
+			height: 100,
+			weight: 100,
+			age: 100,
+			phone_number: "1234567890",
+			gender: "Male",
+		};
+		let access = jwt.verify(
+			createdUser.access_token,
+			process.env.SECRET_KEY
+		);
+		request(app)
+			.patch(`/${access.id}`)
+			.send(updateUser)
+			.then((response) => {
+				expect(response.status).toBe(401);
+				expect(response.body).toHaveProperty(
+					"msg",
+					"You are not logged in"
+				);
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
 });
 
 // UPDATE USER PAYMENT
@@ -855,6 +965,33 @@ describe("PATCH /payment/:id [ERROR CASES]", () => {
 				done(err);
 			});
 	});
+
+	test("[Case - No access token] Should return 'You are not logged in'", (done) => {
+		let paymentData = {
+			card_number: `1234 5678 8765 4321`,
+			cvv: `123`,
+			expiry_month: `12`,
+			expiry_year: `12`,
+		};
+		let access = jwt.verify(
+			createdUser.access_token,
+			process.env.SECRET_KEY
+		);
+		request(app)
+			.patch(`/payment/${access.id}`)
+			.send(paymentData)
+			.then((response) => {
+				expect(response.status).toBe(401);
+				expect(response.body).toHaveProperty(
+					"msg",
+					"You are not logged in"
+				);
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
 });
 
 // DELETE USER
@@ -895,6 +1032,26 @@ describe("DELETE /:id [ERROR CASE]", () => {
 			.then((response) => {
 				expect(response.status).toBe(404);
 				expect(response.body).toHaveProperty("msg", "User not found");
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+
+	test("[Case - No access token] Should return 'You are not logged in'", (done) => {
+		let access = jwt.verify(
+			createdUser.access_token,
+			process.env.SECRET_KEY
+		);
+		request(app)
+			.delete(`/${access.id}`)
+			.then((response) => {
+				expect(response.status).toBe(401);
+				expect(response.body).toHaveProperty(
+					"msg",
+					"You are not logged in"
+				);
 				done();
 			})
 			.catch((err) => {

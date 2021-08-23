@@ -5,7 +5,7 @@
 	"main": "app.js",
 	"scripts": {
 		"dev": "npx nodemon bin/www",
-		"test": "jest --detectOpenHandles --forceExit --runInBand",
+		"test": "jest --detectOpenHandles --forceExit --runInBand --coverage",
 		"start": "node bin/www"
 	},
 	"keywords": [],

@@ -8,6 +8,7 @@ const authentication = async (req, res, next) => {
 		}
 		next();
 	} catch (err) {
+		/* istanbul ignore else  */
 		if (err.code) {
 			next(err);
 		} else {
@@ -29,6 +30,7 @@ const authorizationUser = async (req, res, next) => {
 		}
 		next();
 	} catch (err) {
+		/* istanbul ignore else  */
 		if (err.code) {
 			next(err);
 		} else {
@@ -50,6 +52,7 @@ const authorizationAdmin = async (req, res, next) => {
 		}
 		next();
 	} catch (err) {
+		/* istanbul ignore else  */
 		if (err.code) {
 			next(err);
 		} else {
