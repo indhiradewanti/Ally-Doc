@@ -5,7 +5,7 @@ import { Dashboard, DoctorDetail, DoctorsList, Payment, Login, Register, UserDet
 
 function App() {
   return (
-    <div className="App font-sans text-gray-700">
+    <div className="App font-sans text-gray-700 bg-white">
       <Navbar />
       <Switch>
         <Route path="/payment">
