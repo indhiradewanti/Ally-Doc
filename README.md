@@ -1259,7 +1259,7 @@ _Request Body_
 
 ```
 {
-    "status": <in progress | >
+    "status": <"in progress" |  "completed">
 }
 ```
 
