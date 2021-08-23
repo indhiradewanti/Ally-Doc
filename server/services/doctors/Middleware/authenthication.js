@@ -10,6 +10,10 @@ function authenDoctor(req, res, next) {
             throw { code: 403, message: 'Forbidden to access'}
         }
     }catch(err){
+        // if (err.message === "jwt malformed") {
+        //     err.code = 403;
+        //     err.message = "Forbidden to access";
+        // }
         const code = err.code;
         const message = err.message;
         next({

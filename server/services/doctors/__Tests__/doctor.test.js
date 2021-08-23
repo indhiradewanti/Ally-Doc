@@ -10,6 +10,8 @@ const Doctor = require('../Model/DoctorSchema')
 mongoose.connect("mongodb://localhost:27017/test_database", {useNewUrlParser: true, useUnifiedTopology: true})
 
 let access_token = jwt.sign({role: 'Admin'}, process.env.SECRET_KEY)
+let fake_token = jwt.sign({ role: 'Users'}, process.env.SECRET_KEY)
+let fake_id = '61223a29bd98b27e34d31603'
 let token_doctor
 let id
 
@@ -63,6 +65,16 @@ describe("POST Register Doctor", () => {
             expect(response.body).toHaveProperty('message', 'Forbidden access')
             done()
         }))
+    })
+    test('Should error forbidden', (done) => {
+        request(app)
+        .post(`/doctor/`)
+        .set("access_token", fake_token)
+        .then((response) => {
+            expect(response.status).toBe(403)
+            expect(response.body).toHaveProperty('message', "Forbidden to access" )
+            done()
+        })
     })
     test('Should POST return email error', (done) => {
         request(app)
@@ -225,6 +237,15 @@ describe("GET Id Doctor", () => {
             done()
         })
     })
+    test('Should Error -  return 404 error not found', (done) => {
+        request(app)
+        .get(`/doctor/${fake_id}`)
+        .then((response) => {
+            expect(response.status).toBe(404)
+            expect(response.body).toHaveProperty('message', 'Data not found')
+            done()
+        })
+    })
 })
 
 describe("PUT Update Doctor", () => {
@@ -346,6 +367,16 @@ describe("Should PATCH Status", () => {
             done()
         })
     })
+    test('Should return error data not found', (done) => {
+        request(app)
+        .patch(`/doctor/status/${fake_id}`)
+        .send({status: 'coba coba'})
+        .then((response) => {
+            expect(response.status).toBe(404)
+            expect(response.body).toHaveProperty('message', 'Data not found')
+            done()
+        })
+    })
 })
 
 describe("Should PATCH Photo", () => {
@@ -379,6 +410,16 @@ describe("Should PATCH Photo", () => {
             done()
         })
     })
+    test('Should return error data not found', (done) => {
+        request(app)
+        .patch(`/doctor/photo/${fake_id}`)
+        .send({photo: 'coba coba'})
+        .then((response) => {
+            expect(response.status).toBe(404)
+            expect(response.body).toHaveProperty('message', 'Data not found')
+            done()
+        })
+    })
 })
 
 describe("Should DELETE Success", () => {
@@ -386,6 +427,16 @@ describe("Should DELETE Success", () => {
         request(app)
         .delete(`/doctor/${id}`)
         .set("access_token", "bababab")
+        .then((response) => {
+            expect(response.status).toBe(403)
+            expect(response.body).toHaveProperty('message', "Forbidden to access" )
+            done()
+        })
+    })
+    test('Should error forbidden', (done) => {
+        request(app)
+        .delete(`/doctor/${id}`)
+        .set("access_token", fake_token)
         .then((response) => {
             expect(response.status).toBe(403)
             expect(response.body).toHaveProperty('message', "Forbidden to access" )

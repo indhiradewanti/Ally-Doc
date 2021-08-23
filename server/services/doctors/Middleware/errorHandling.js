@@ -6,15 +6,12 @@ const errorHandling = (err, req, res, next) => {
         case 400:
             res.status(code).json({message})
             break;
-        case 401:
-            res.status(code).json({message})
-            break;
         case 403:
             res.status(code).json({message})
             break;
-        case 500:
-            res.status(code).json({message})
-            break
+        // case 500:
+        //     res.status(code).json({message})
+        //     break
         case 404:
             res.status(code).json({message})
             break

@@ -49,17 +49,7 @@ describe("POST History", () => {
         done();
       });
   });
-  test("Should POST error access_token", (done) => {
-    request(app)
-    .post("/history/")
-    .set("access_token", false_token)
-      .send(postHistory)
-      .then((response) => {
-        expect(response.status).toBe(403);
-        expect(response.body).toHaveProperty("message", "Forbidden to access");
-        done();
-      });
-  });
+  
   test("Should POST return name error", (done) => {
     request(app)
     .post("/history/")

@@ -23,6 +23,7 @@ class ControllerDoctor {
           role: "Doctor",
         });
         if (!data) {
+           /* istanbul ignore next */
           throw { code: 400, message: "Error Create Doctor" };
         } else {
           const token_doctor = jwt.sign(
@@ -32,9 +33,10 @@ class ControllerDoctor {
           res.status(201).json({ access_token: token_doctor });
         }
       } else {
-        throw { code: 403, message: "Forbidden access" };
+        throw { code: 403, message: "Forbidden to access" };
       }
     } catch (err) {
+      console.log(err.message);
       if (err.name === "ValidationError") {
         let errorMessages = [];
         for (let key in err.errors) {
@@ -43,7 +45,9 @@ class ControllerDoctor {
         next({ code: 400, message: errorMessages.join(", ") });
       }
       if (err.message === "Illegal arguments: undefined, string") {
+        /* istanbul ignore next */
         err.code = 400;
+        /* istanbul ignore next */
         err.message = "Password wrong/empty";
       }
       if (err.message === "jwt malformed") {
@@ -63,11 +67,10 @@ class ControllerDoctor {
       const data = await Doctor.find({}, { password: 0 });
       res.status(200).json(data);
     } catch (err) {
-      const code = err.code;
-      const message = err.message;
+      /* istanbul ignore next */
       next({
-        code,
-        message,
+        code: err.code,
+        message: err.message,
       });
     }
   }
@@ -83,6 +86,7 @@ class ControllerDoctor {
           .status(200)
           .json({ email, username, specialist, address, price, photo, status });
       } else {
+        /* istanbul ignore next */
         throw { code: 404, message: "Data not found" };
       }
     } catch (err) {
@@ -133,17 +137,11 @@ class ControllerDoctor {
             .status(201)
             .json({ email, username, specialist, address, price, photo });
         } else {
+          /* istanbul ignore next */
           throw { code: 404, message: "Data not found" };
         }
       }
     } catch (err) {
-      if (err.name === "ValidationError") {
-        let errorMessages = [];
-        for (let key in err.errors) {
-          errorMessages.push(err.errors[key].message);
-        }
-        next({ code: 400, message: errorMessages.join(", ") });
-      }
       if (!err.code) {
         err = { code: 404, message: "Data not found" };
       }
@@ -211,6 +209,7 @@ class ControllerDoctor {
         throw { code: 400, message: "Email/Password is wrong" };
       }
     } catch (err) {
+      console.log(err);
       if (err.message === "Illegal arguments: undefined, string") {
         err.code = 400;
         err.message = "Password wrong/empty";
@@ -231,14 +230,16 @@ class ControllerDoctor {
       if (!status) {
         throw { code: 400, message: "Status cannot be empty" };
       } else {
-        const data = await Doctor.updateOne({ _id }, { $set: { status } });
+        const data = await Doctor.findById(_id).exec()
         if (data) {
+          const response = await Doctor.updateOne({ _id }, { $set: { status } });
           res.status(201).json({ message: "success to update" });
         } else {
           throw { code: 404, message: "Data not found" };
         }
       }
     } catch (err) {
+      console.log(err);
       if (!err.code) {
         err = { code: 404, message: "Data not found" };
       }
@@ -256,8 +257,9 @@ class ControllerDoctor {
       const { _id } = req.params;
       const { photo } = req.body;
       if (photo) {
-        const data = await Doctor.updateOne({ _id }, { $set: { photo } });
+        const data = await Doctor.findById(_id).exec()
         if (data) {
+          const response = await Doctor.updateOne({ _id }, { $set: { photo } });
           res.status(201).json({ message: "success update photo" });
         } else {
           throw { code: 404, message: "Data not found" };
