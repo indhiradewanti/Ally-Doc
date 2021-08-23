@@ -1,5 +1,5 @@
 const axios = require("../helpers/axiosDoctor.js");
-const Redis = require("redis");
+const Redis = require("ioredis");
 const redis = new Redis();
 
 class HistoryController {

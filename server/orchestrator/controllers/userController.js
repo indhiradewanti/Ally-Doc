@@ -4,7 +4,7 @@ const Redis = require("ioredis");
 const redis = new Redis();
 
 class UserController {
-	static async createNewUser(req, res, next) {
+	static async createNewUser(req, res) {
 		try {
 			let uploadedImage = await uploadImage(
 				req.file.buffer,
@@ -14,7 +14,6 @@ class UserController {
 			newUserData.display_picture = uploadedImage.url;
 			let createdUser = await axios({
 				method: "POST",
-				url: "/",
 				data: newUserData,
 			});
 			await redis.del(`user`);
@@ -57,7 +56,7 @@ class UserController {
 				});
 				await redis.set(
 					"user",
-					JSON.stringify(allUsersData),
+					JSON.stringify(allUsersData.data),
 					"EX",
 					86400
 				);
@@ -83,7 +82,12 @@ class UserController {
 						access_token,
 					},
 				});
-				await redis.set(`user${id}`);
+				await redis.set(
+					`user${id}`,
+					JSON.stringify(foundUserById.data),
+					"EX",
+					86400
+				);
 				res.status(200).json(foundUserById.data);
 			}
 		} catch (err) {

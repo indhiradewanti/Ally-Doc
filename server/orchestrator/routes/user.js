@@ -20,7 +20,12 @@ router.get(
 	authorizationAdmin,
 	UserController.findAllUsers
 );
-router.get("/:id", authorizationUser, UserController.findUserById);
+router.get(
+	"/:id",
+	authentication,
+	authorizationUser,
+	UserController.findUserById
+);
 
 router.patch(
 	"/image/:id",
@@ -29,13 +34,24 @@ router.patch(
 	authorizationUser,
 	UserController.updateUserImage
 );
-router.patch("/:id", authorizationUser, UserController.updateUserData);
+router.patch(
+	"/:id",
+	authentication,
+	authorizationUser,
+	UserController.updateUserData
+);
 router.patch(
 	"/payment/:id",
+	authentication,
 	authorizationUser,
 	UserController.updateUserPayment
 );
 
-router.delete("/:id", authorizationUser, UserController.deleteUser);
+router.delete(
+	"/:id",
+	authentication,
+	authorizationUser,
+	UserController.deleteUser
+);
 
 module.exports = router;
