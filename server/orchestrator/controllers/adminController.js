@@ -1,6 +1,4 @@
 const axios = require("../helpers/axiosAdmin.js");
-const Redis = require("ioredis");
-const redis = new Redis();
 
 class AdminController {
 	static async registerAdmin(req, res, next) {
@@ -12,6 +10,7 @@ class AdminController {
 				data: {
 					email,
 					password,
+					username,
 				},
 			});
 			res.status(201).json(registeredAdmin.data);
@@ -20,7 +19,7 @@ class AdminController {
 		}
 	}
 
-	static async loginAdmin(req, res, next) {
+	static async loginAdmin(req, res) {
 		try {
 			let { email, password } = req.body;
 			let loggedInAdmin = await axios({

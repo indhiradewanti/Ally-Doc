@@ -14,6 +14,8 @@
     -   [Update User Payment](#patch-userpaymentid)
     -   [Delete User](#delete-userid)
 -   [Admin Endpoints](#admin-endpoints)
+    -   [Create Admin](#post-adminregister)
+    -   [Login Admin](#post-adminlogin)
 -   [Doctor Endpoints](#doctor-endpoints)
 
 ## USER ENDPOINTS
@@ -537,12 +539,116 @@ _Response ( 404 - Not Found )_
 
 ## ADMIN ENDPOINTS
 
+### POST /admin/register
+
+> Register admin
+
+_Request Headers_
+
+```
+Not needed
+```
+
+_Request Params_
+
+```
+Not needed
+```
+
+_Request Body_
+
+```
+{
+    "email": <email> : String (Required),
+    "password": <password> : String (Required),
+    "username": <username> : String (Required)
+}
+```
+
+_Response ( 201 - Created )_
+
+```
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxMjM0OTI2NjM1M2MzMDAyMDQxM2UyMSIsInVzZXJuYW1lIjoiYXNkZiIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTYyOTcwMjQzOH0.rtSel1SoQB64K1SFM3Z2IpeJexUlhWtZzC6SJI6MR3I"
+}
+```
+
+_Response ( 400 - Bad Request )_
+
+```
+{
+    "message": "email cannot be empty"
+}
+{
+    "message": "password cannot be empty"
+}
+{
+    "message": "username cannot be empty"
+}
+```
+
+_Response ( 500 - Internal Server Error )_
+
+```
+{
+    "message": "Internal Server Error"
+}
+```
+
+### POST /admin/login
+
+> Login User
+
+_Request Headers_
+
+```
+Not Needed
+```
+
+_Request Params_
+
+```
+Not Needed
+```
+
+_Request Body_
+
+```
+{
+    "email": <email>,
+    "password": <password>
+}
+```
+
+_Response ( 200 - OK )_
+
+```
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxMjM0ZWQ3NjM1M2MzMDAyMDQxM2UzNSIsInVzZXJuYW1lIjoiYXNkZiIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTYyOTcwMzkwM30.w1OGEoMYtjW5dl3uqXNmXxLy-uScCMI9kWev1pZMoM0"
+}
+```
+
+_Response ( 401 - Unauthorized )_
+
+```
+{
+    "message": "Email/Password is Wrong"
+}
+{
+    "message": "Data Not Found" // Kalo password salah
+}
+```
+
+_Response ( 500 - Internal Server Error )_
+
+```
+{
+    "message": "Internal Server Error"
+}
+```
+
 -   [Go to Top](#ally-doc)
 
 ## DOCTOR ENDPOINTS
 
 -   [Go to Top](#ally-doc)
-
-```
-
-```
