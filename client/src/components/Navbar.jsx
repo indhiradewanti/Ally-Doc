@@ -14,7 +14,7 @@ export default function Navbar() {
             <NavLink to="/" className="hidden sm:inline-block text-gray-700 hover:text-indigo-700 vogue font-bold w-24">
               Home
             </NavLink>
-            <NavLink to="/doctors/patient" className="hidden sm:inline-block text-gray-700 hover:text-indigo-700 vogue font-bold w-24">
+            {/* <NavLink to="/doctors/patient" className="hidden sm:inline-block text-gray-700 hover:text-indigo-700 vogue font-bold w-24">
               Home
             </NavLink>
             <NavLink to="/doctors/history" className="hidden sm:inline-block text-gray-700 hover:text-indigo-700 vogue font-bold w-24">
@@ -22,7 +22,7 @@ export default function Navbar() {
             </NavLink>
             <NavLink to="/doctors/list" className="hidden sm:inline-block text-gray-700 hover:text-indigo-700 vogue font-bold w-24">
               Doctors
-            </NavLink>
+            </NavLink> */}
             <NavLink to="/sign-in" className="text-gray-700">
               <button className="btn btn-outline1 hidden sm:inline-block text-gray-700 hover:text-indigo-700 vogue font-bold w-24">Login</button>
             </NavLink>

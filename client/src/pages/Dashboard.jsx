@@ -58,12 +58,12 @@ export default function Dashboard() {
         </div>
       </div>
       <section className="text-gray-600 body-font">
-        <div className="container -mt-60 mx-10">
+        <div className="container -mt-60 mx-auto">
           <div className="flex flex-wrap">
             <div className="p-3 -mb-20 lg:w-1/3">
               <div className="h-full bg-brown bg-opacity-75 px-8 pt-16 rounded-lg overflow-hidden text-center relative">
                 <h1 className="title-font font-bold text-4xl text-white my-auto meg">Why Choose AllyDoc?</h1>
-                <p className="leading-relaxed my-auto mt-10">
+                <p className="leading-relaxed my-auto mt-10 text-lg">
                   AllyDoc is a Telemedicine platform where users can get medical advice from doctors. We stringently verify our online doctors to ensure they are fully licensed so that the care we provide will always be of the highest
                   quality. Team-AllyDoc consists of eminent doctors, researchers and programmers who work round the clock to innovate, create and implement the best web technologies for the use of doctors, users and hospitals.
                 </p>
@@ -72,23 +72,23 @@ export default function Dashboard() {
             <div className="p-2 lg:h-80 lg:w-1/3 mt-20">
               <div className="h-full bg-gray-100 bg-opacity-75 px-8 pt-16 pb-24 rounded-lg overflow-hidden text-center relative">
                 <div className="flex flex-row justify-center">
-                  <h1 className="title-font sm:text-2xl text-xl mx-auto font-medium text-gray-900 mb-3">
+                  <h1 className="title-font sm:text-2xl text-xl mx-auto font-medium text-gray-900 -mt-4 mb-8">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-20 w-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                     </svg>
                   </h1>
                 </div>
-                <p className="leading-relaxed mb-3">Our Live Chat feature allows you to “chat” with our qualified and fully registered Doctors, Pharmacists and Nutritionists anytime, anywhere</p>
+                <p className="leading-relaxed mb-3 text-lg">Our Live Chat feature allows you to “chat” with our qualified and fully registered Doctors, Pharmacists and Nutritionists anytime, anywhere</p>
               </div>
             </div>
             <div className="p-2 lg:h-80 lg:w-1/3 mt-20 ">
               <div className="h-full bg-gray-100 bg-opacity-75 px-8 pt-16 pb-24 rounded-lg overflow-hidden text-center relative">
                 <div className="flex flex-row justify-center">
-                  <h1 className="title-font sm:text-2xl text-xl font-medium text-gray-900 mb-3">
+                  <h1 className="title-font sm:text-2xl text-xl font-medium text-gray-900 -mt-4 mb-8">
                     <Icon icon="mdi:stethoscope" className="h-20 w-20" />
                   </h1>
                 </div>
-                <p className="leading-relaxed mb-3">Advice from best doctors and top medical experts</p>
+                <p className="leading-relaxed mt-8 mb-3">Advice from best doctors and top medical experts</p>
               </div>
             </div>
           </div>

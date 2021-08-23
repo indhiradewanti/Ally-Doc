@@ -47,7 +47,6 @@ export default function Chat() {
         .map((result) => result[0])
         .map((result) => result.transcript)
         .join("");
-      console.log(transcript);
       setNote(transcript);
       mic.onerror = (event) => {
         console.log(event.error);
@@ -57,12 +56,14 @@ export default function Chat() {
 
   const handleSaveNote = () => {
     sendPeerMessage();
-    setSavedNotes([...savedNotes, note]);
-    setNote("");
-  };
 
+    // setMessages("")
+    // setMessages([...messages, note]);
+    // setNote("");
+  };
+  // console.log(note);
   client.on("MessageFromPeer", ({ text }, peerId) => {
-    let newMessages = [...messages, `Message from: ${peerId}, Message: ${text}`];
+    let newMessages = [...messages, `${peerId}, ${text}`];
     setMessages(newMessages);
   });
 
@@ -76,27 +77,27 @@ export default function Chat() {
     console.log(uid);
     await client.login({ uid });
   };
+  let userId = String(inputUserId.current.value);
 
   const logoutHandler = async () => {
     await client.logout();
   };
-
   const sendPeerMessage = async () => {
     let peerId = String(inputPeerId.current.value);
+    let userId = String(inputUserId.current.value);
     let peerMessage = String(inputMessage.current.value);
 
-    await client.sendMessageToPeer({ text: peerMessage }, peerId).then((sendResult) => {
+    await client.sendMessageToPeer({ text: peerMessage }, peerId, userId).then((sendResult) => {
       if (sendResult.hasPeerReceived) {
-        let newMessages = [...messages, peerMessage];
+        let newMessages = [...messages, `${userId},${peerMessage}`];
         setMessages(newMessages);
       } else {
-        let newMessages = [...messages, peerMessage];
+        let newMessages = [...messages, `Message sent to: ${peerId}, Message: ${peerMessage}`];
         setMessages(newMessages);
       }
     });
   };
 
-  console.log(messages);
   return (
     <div className="relative inset-y-20">
       <div className="flex he antialiased text-gray-800">
@@ -122,44 +123,66 @@ export default function Chat() {
             <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl chat-bg h-full p-4">
               <div className="flex flex-col h-full overflow-x-auto mb-4">
                 <div className="flex flex-col h-full">
-                  <div className="grid grid-cols-12 gap-y-2">
-                    <div className="col-start-1 col-end-8 p-3 rounded-lg">
-                      <div className="flex flex-row items-center">
-                        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">A</div>
-                        <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                          <div>oi test</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-start-1 col-end-8 p-3 rounded-lg">
-                      <div className="flex flex-row items-center">
-                        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">A</div>
-                        <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                          <div>test 123</div>
-                        </div>
-                      </div>
-                    </div>
-                    {savedNotes.map((n) => (
-                      <div className="col-start-6 col-end-13 p-3 rounded-lg" key={n}>
-                        <div className="flex items-center justify-start flex-row-reverse">
-                          <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">A</div>
-                          <div className="relative mr-3 text-sm nudebrown text-white py-2 px-4 shadow rounded-xl">
-                            <div>{n}</div>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                    {messages.length && (
-                      messages.map((mess, index) => (
-                        <div className="col-start-6 col-end-13 p-3 rounded-lg" key={`${index}${mess}`} >
-                          <div className="flex items-center justify-start flex-row-reverse">
-                            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">A</div>
-                            <div className="relative mr-3 text-sm nudebrown text-white py-2 px-4 shadow rounded-xl">
-                              <div>{mess}</div>
+                  <div className="mt-20">
+                    <h1>RTM Quickstart</h1>
+                    <form id="loginForm">
+                      <div className="col">
+                        <div className="card">
+                          <div className="row card-content">
+                            <div className="input-field">
+                              <label>User ID</label>
+                              <input ref={inputUserId} type="text" placeholder="User ID" id="userID" />
+                            </div>
+                            <div className="row">
+                              <div>
+                                <button className="px-5" type="button" id="login" onClick={() => loginHandler()}>
+                                  LOGIN
+                                </button>
+                                <button className="px-5" type="button" id="logout" onClick={() => logoutHandler()}>
+                                  LOGOUT
+                                </button>
+                              </div>
+                            </div>
+                            <div className="input-field">
+                              <label>Peer Id</label>
+                              <input ref={inputPeerId} type="text" placeholder="peer id" id="peerId" />
                             </div>
                           </div>
                         </div>
-                      ))
+                      </div>
+                    </form>
+                  </div>
+                  <div className="grid grid-cols-12 gap-y-2">
+                    {messages.length > 1 && (
+                      <div className="grid">
+                        {messages.map((mess, index) => (
+                          <div key={`${index}${mess}`}>
+                            {mess !== "State changed to CONNECTING reason: LOGIN" && mess !== "State changed to CONNECTED reason: LOGIN_SUCCESS" && (
+                              <div className="grid">
+                                {mess.split(",")[0] === userId ? (
+                                  <div className="col-start-6 col-end-13 p-3 rounded-lg">
+                                    <div className="flex items-center justify-start flex-row-reverse">
+                                      <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">A</div>
+                                      <div className="relative mr-3 text-sm nudebrown text-white py-2 px-4 shadow rounded-xl">
+                                        <div>{mess.split(",")[1]}</div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <div className="col-start-1 col-end-8 p-3 rounded-lg">
+                                    <div className="flex flex-row items-center">
+                                      <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">A</div>
+                                      <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
+                                        <div>{mess.split(",")[1]}</div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
                     )}
                   </div>
                 </div>
@@ -174,7 +197,7 @@ export default function Chat() {
                 </div>
                 <div className="flex-grow ml-4">
                   <div className="relative w-full">
-                    <input type="text" className="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10" ref={inputMessage || note} />
+                    <input type="text" className="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10" id="peerMessage" ref={inputMessage} />
                     <button className="absolute flex items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600 -mt-1" onClick={() => setIsListening((prevState) => !prevState)}>
                       {isListening ? (
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -193,7 +216,7 @@ export default function Chat() {
                   </div>
                 </div>
                 <div className="ml-4">
-                  <button className="flex items-center justify-center brown-bg hover:bg-brown rounded-xl text-white px-4 py-1 flex-shrink-0" onClick={handleSaveNote}>
+                  <button className="flex items-center justify-center brown-bg hover:bg-brown rounded-xl text-white px-4 py-1 flex-shrink-0" id="send_peer_message" onClick={handleSaveNote}>
                     <span>Send</span>
                     <span className="ml-2">
                       <svg className="w-4 h-4 transform rotate-45 -mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -207,43 +230,33 @@ export default function Chat() {
           </div>
         </div>
       </div>
-      <div className="mt-20">
-        <h1>RTM Quickstart</h1>
-        <form id="loginForm">
-          <div className="col">
-            <div className="card">
-              <div className="row card-content">
-                <div className="input-field">
-                  <label>User ID</label>
-                  <input ref={inputUserId} type="text" placeholder="User ID" id="userID" />
-                </div>
-                <div className="row">
-                  <div>
-                    <button className="px-5" type="button" id="login" onClick={() => loginHandler()}>
-                      LOGIN
-                    </button>
-                    <button className="px-5" type="button" id="logout" onClick={() => logoutHandler()}>
-                      LOGOUT
-                    </button>
-                  </div>
-                </div>
-                <div className="input-field">
-                  <label>Peer Id</label>
-                  <input ref={inputPeerId} type="text" placeholder="peer id" id="peerId" />
-                </div>
-                <div className="input-field channel-padding">
-                  <label>Peer Message</label>
-                  <input ref={inputMessage} type="text" placeholder="peer message" id="peerMessage" />
-                  <button onClick={handleSaveNote} type="button" id="send_peer_message">
-                    SEND
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-        
-      </div>
     </div>
   );
 }
+
+{
+  /* {savedNotes &&
+                      savedNotes.map((n) => (
+                        <div className="col-start-6 col-end-13 p-3 rounded-lg" key={n}>
+                          <div className="flex items-center justify-start flex-row-reverse">
+                            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">A</div>
+                            <div className="relative mr-3 text-sm nudebrown text-white py-2 px-4 shadow rounded-xl">
+                              <div>{n}</div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                     */
+}
+
+// {chatUserId.map((mess, index) => (
+//   <div className="col-start-6 col-end-13 p-3 rounded-lg" key={`${index}${mess}`}>
+//     <div className="flex items-center justify-start flex-row-reverse">
+//       <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">A</div>
+//       <div className="relative mr-3 text-sm nudebrown text-white py-2 px-4 shadow rounded-xl">
+//         <div>{mess}</div>
+//       </div>
+//     </div>
+//   </div>
+// ))}
+// </div>
