@@ -582,25 +582,6 @@ describe("PATCH /image/:id [ERROR CASE]", () => {
 				done(err);
 			});
 	});
-
-	test(`[Case - User id not found]`, (done) => {
-		let userImageData = {
-			display_picture:
-				"https://upload.wikimedia.org/wikipedia/en/9/95/Test_image.jpg",
-		};
-		request(app)
-			.patch(`/image/61234532f49c9bb025911111`)
-			.send(userImageData)
-			.set("access_token", createdUser.access_token)
-			.then((response) => {
-				expect(response.status).toBe(404);
-				expect(response.body).toHaveProperty("msg", "User not found");
-				done();
-			})
-			.catch((err) => {
-				done(err);
-			});
-	});
 });
 
 // UPDATE USER
