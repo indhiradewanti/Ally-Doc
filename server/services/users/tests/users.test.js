@@ -541,9 +541,12 @@ describe("PATCH /image/:id [ERROR CASE]", () => {
 			createdUser.access_token,
 			process.env.SECRET_KEY
 		);
+		let updatePicture = {
+			display_picture: "",
+		};
 		request(app)
 			.patch(`/image/${access.id}`)
-			.attach("display_picture", "")
+			.send(updatePicture)
 			.set("access_token", createdUser.access_token)
 			.then((response) => {
 				expect(response.status).toBe(400);
@@ -560,15 +563,38 @@ describe("PATCH /image/:id [ERROR CASE]", () => {
 			createdUser.access_token,
 			process.env.SECRET_KEY
 		);
+		let updatePicture = {
+			display_picture:
+				"https://upload.wikimedia.org/wikipedia/en/9/95/Test_image.jpg",
+		};
 		request(app)
 			.patch(`/image/${access.id}`)
-			.attach("display_picture", "")
+			.send(updatePicture)
 			.then((response) => {
 				expect(response.status).toBe(401);
 				expect(response.body).toHaveProperty(
 					"msg",
 					"You are not logged in"
 				);
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+
+	test(`[Case - User id not found]`, (done) => {
+		let userImageData = {
+			display_picture:
+				"https://upload.wikimedia.org/wikipedia/en/9/95/Test_image.jpg",
+		};
+		request(app)
+			.patch(`/image/61234532f49c9bb025911111`)
+			.send(userImageData)
+			.set("access_token", createdUser.access_token)
+			.then((response) => {
+				expect(response.status).toBe(404);
+				expect(response.body).toHaveProperty("msg", "User not found");
 				done();
 			})
 			.catch((err) => {

@@ -137,6 +137,10 @@ class MainController {
 			if (!req.body.display_picture) {
 				throw { code: 400, msg: "No file chosen" };
 			}
+			let isUserExist = await UserModel.findOne({ _id: id });
+			if (!isUserExist) {
+				throw { code: 404, msg: "User not found" };
+			}
 			let updateUser = await UserModel.updateOne(
 				{ _id: id },
 				{
@@ -176,6 +180,10 @@ class MainController {
 			}
 			if (!phone_number) {
 				throw { code: 400, msg: `Phone Number cannot be empty` };
+			}
+			let isUserExist = await UserModel.findOne({ _id: id });
+			if (!isUserExist) {
+				throw { code: 404, msg: "User not found" };
 			}
 			let updateUser = await UserModel.updateOne(
 				{ _id: id },
@@ -232,6 +240,10 @@ class MainController {
 					code: 400,
 					msg: `Expiry year cannot be empty`,
 				};
+			}
+			let isUserExist = await UserModel.findOne({ _id: id });
+			if (!isUserExist) {
+				throw { code: 404, msg: "User not found" };
 			}
 			let updateUserCard = await UserModel.updateOne(
 				{ _id: id },
