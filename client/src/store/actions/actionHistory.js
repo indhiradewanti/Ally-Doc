@@ -32,7 +32,7 @@ export const fetchDataHistory = () => async (dispatch) => {
     try {
         dispatch(loadingDoctor(true))
         const access_token = localStorage.getItem('access_token')
-        const {data} = await axios.get(`/history/`, {
+        const {data} = await axios.get(`/history`, {
             headers: {access_token}
         })
         console.log(data)
@@ -46,7 +46,7 @@ export const fetchDataHistory = () => async (dispatch) => {
 
 export const createDataHistory = () => async (dispatch) => {
     try {
-        const {data} = await axios.post(`/history/`)
+        const {data} = await axios.post(`/history`)
         console.log(data)
         dispatch(fetchDataHistory())
     } catch (err) {

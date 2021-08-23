@@ -35,7 +35,7 @@ export const errorUser = (payload) => {
     }
 }
 
-export const fetchDataUser = (payload) => async (dispatch) => {
+export const fetchDataUser = () => async (dispatch) => {
     try {
         dispatch(loadingUser(true))
         const access_token = localStorage.getItem('access_token')

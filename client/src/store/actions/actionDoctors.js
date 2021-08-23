@@ -72,7 +72,7 @@ export const loggedIn = (payload) => {
 export const fetchDataDoctor = () => async (dispatch) => {
     try {
         dispatch(loadingDoctor(true))
-        const {data} = await axios.get('/doctor/')
+        const {data} = await axios.get('/doctor')
         console.log(data)
         dispatch(loadingDoctor(false))
         dispatch(allDoctor(data))
@@ -95,7 +95,7 @@ export const fetchDetailDoctor = (id) => async (dispatch) => {
 export const createNewDoctor = (doctor) => async (dispatch) => {
     try {
         const access_token = localStorage.getItem('access_token')
-        const {data} = await axios.post(`/doctor/`, doctor, {
+        const {data} = await axios.post(`/doctor/register`, doctor, {
             headers: {access_token}
         })
         console.log(data)
