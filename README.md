@@ -1296,7 +1296,3 @@ _Response ( 500 - Internal Server Error )_
 ```
 
 -   [Go to Top](#ally-doc)
-
-```
-
-```
