@@ -151,6 +151,12 @@ _Response ( 500 - Internal Server Error )_
 _Response Headers_
 
 ```
+Not Needed
+```
+
+_Request Params_
+
+```
 
 ```
 
@@ -1306,3 +1312,17 @@ _Response ( 500 - Internal Server Error )_
 ```
 
 -   [Go to Top](#ally-doc)
+
+```
+{
+    UserId = ObjectID User
+    UserName = Nama User
+    UserAge = Age User
+    UserGender = Gender User
+    UserPhoto = Photo User
+    DoctorId = ObjectID Doctor
+    DoctorName = Name Doctor
+    DoctorPhoto = Photo Doctor
+    DoctorSpecialist = Specialist Doctor
+}
+```
