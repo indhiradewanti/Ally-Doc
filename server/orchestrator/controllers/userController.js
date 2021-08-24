@@ -106,7 +106,7 @@ class UserController {
 			} else {
 				let foundUserById = await axios({
 					method: "GET",
-					url: `${id}`,
+					url: `/${id}`,
 					headers: {
 						access_token,
 					},
