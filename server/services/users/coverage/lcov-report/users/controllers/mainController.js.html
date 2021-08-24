@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">98% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>98/100</span>
+                <span class='fraction'>90/90</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.92% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>47/49</span>
+                <span class='fraction'>43/43</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">98% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>98/100</span>
+                <span class='fraction'>90/90</span>
             </div>
         
             
@@ -336,20 +336,7 @@
 <a name='L277'></a><a href='#L277'>277</a>
 <a name='L278'></a><a href='#L278'>278</a>
 <a name='L279'></a><a href='#L279'>279</a>
-<a name='L280'></a><a href='#L280'>280</a>
-<a name='L281'></a><a href='#L281'>281</a>
-<a name='L282'></a><a href='#L282'>282</a>
-<a name='L283'></a><a href='#L283'>283</a>
-<a name='L284'></a><a href='#L284'>284</a>
-<a name='L285'></a><a href='#L285'>285</a>
-<a name='L286'></a><a href='#L286'>286</a>
-<a name='L287'></a><a href='#L287'>287</a>
-<a name='L288'></a><a href='#L288'>288</a>
-<a name='L289'></a><a href='#L289'>289</a>
-<a name='L290'></a><a href='#L290'>290</a>
-<a name='L291'></a><a href='#L291'>291</a>
-<a name='L292'></a><a href='#L292'>292</a>
-<a name='L293'></a><a href='#L293'>293</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L280'></a><a href='#L280'>280</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -483,17 +470,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -506,8 +488,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -532,10 +514,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -592,10 +570,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -674,7 +648,7 @@ class MainController {
 				createdNewUser.email,
 				createdNewUser.role
 			);
-			res.status(201).json({ access_token });
+			res.status(201).json({ access_token, id: createdNewUser._id });
 		} catch (err) {
 			/* istanbul ignore else  */
 			if (err.code) {
@@ -729,7 +703,7 @@ class MainController {
 				foundUser.email,
 				foundUser.role
 			);
-			res.status(200).json({ access_token });
+			res.status(200).json({ access_token, id: foundUser._id });
 		} catch (err) {
 			/* istanbul ignore else  */
 			if (err.code) {
@@ -780,11 +754,6 @@ class MainController {
 			if (!req.body.display_picture) {
 				throw { code: 400, msg: "No file chosen" };
 			}
-			let isUserExist = await UserModel.findOne({ _id: id });
-			if (!isUserExist) {
-				throw { code: 404, msg: "User not found" };
-			}
-			console.log(isUserExist);
 			let updateUser = await UserModel.updateOne(
 				{ _id: id },
 				{
@@ -824,10 +793,6 @@ class MainController {
 			}
 			if (!phone_number) {
 				throw { code: 400, msg: `Phone Number cannot be empty` };
-			}
-			let isUserExist = await UserModel.findOne({ _id: id });
-			<span class="missing-if-branch" title="if path not taken" >I</span>if (!isUserExist) {
-<span class="cstat-no" title="statement not covered" >				throw { code: 404, msg: "User not found" };</span>
 			}
 			let updateUser = await UserModel.updateOne(
 				{ _id: id },
@@ -885,10 +850,6 @@ class MainController {
 					msg: `Expiry year cannot be empty`,
 				};
 			}
-			let isUserExist = await UserModel.findOne({ _id: id });
-			<span class="missing-if-branch" title="if path not taken" >I</span>if (!isUserExist) {
-<span class="cstat-no" title="statement not covered" >				throw { code: 404, msg: "User not found" };</span>
-			}
 			let updateUserCard = await UserModel.updateOne(
 				{ _id: id },
 				{
@@ -940,7 +901,7 @@ module.exports = MainController;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Mon Aug 23 2021 13:52:14 GMT+0700 (Western Indonesia Time)
+                at Tue Aug 24 2021 16:13:11 GMT+0700 (Western Indonesia Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
