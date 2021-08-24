@@ -1,0 +1,8 @@
+version: "3.6"
+
+services:
+    app:
+        image: "final-project-doctor"
+        ports:
+            - "3003:3003"
+        command: "npm run start"
