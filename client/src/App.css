@@ -298,3 +298,15 @@
   --tw-text-opacity: 1;
   color: hsla(var(--b1) / var(--tw-text-opacity, 1));
 }
+
+/* Toggle A */
+input:checked ~ .dot {
+  transform: translateX(100%);
+  background-color: #48bb78;
+}
+
+/* Toggle B */
+input:checked ~ .dot {
+  transform: translateX(100%);
+  background-color: #48bb78;
+}

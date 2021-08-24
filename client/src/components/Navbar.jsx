@@ -89,6 +89,12 @@ export default function Navbar() {
                 Sign up
               </button>
             </NavLink>
+            <NavLink
+              to="/user-profile"
+              className={isLogged === 'user' ? "hidden sm:inline-block text-gray-700 hover:text-indigo-700 vogue font-bold w-24" : "hidden"}
+            >
+              Profile
+            </NavLink>
             <button
               onClick={logOut}
               className={
@@ -99,12 +105,6 @@ export default function Navbar() {
             >
               Logout
             </button>
-            <NavLink
-              to="/user-profile"
-              className={isLogged === 'user' ? "hidden sm:inline-block text-gray-700 hover:text-indigo-700 vogue font-bold w-24" : "hidden"}
-            >
-              Profile
-            </NavLink>
           </li>
         </ul>
       </nav>

@@ -1,6 +1,6 @@
 export default function DoctorPage() {
   return (
-    <div className=" mt-32 h-screen">
+    <div className=" mt-20 h-screen">
       <div className="max-w-xl mx-auto text-center">
         <div className="w-24 h-2 bg-nude1 mb-4 mx-auto"></div>
         <h2 className="font-display font-bold text-3xl md:text-4xl lg:text-5xl mb-3 meg">Patient</h2>
