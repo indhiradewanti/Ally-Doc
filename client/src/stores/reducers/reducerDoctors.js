@@ -24,7 +24,8 @@ const initialState = {
         specialist: '',
         price: null,
         role: '',
-        status: ''
+        status: '',
+        address: ''
     },
     loggedIn: false,
     patchStatusDoctor: {
