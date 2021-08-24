@@ -1,14 +1,44 @@
-import './App.css';
+import { Route, Switch } from "react-router-dom";
+import "./App.css";
+import { Navbar } from "./components";
+import { Dashboard, DoctorDetail, DoctorsList, Payment, Login, Register, UserDetail, Chat, DoctorPage, HistoryDoctor } from "./pages";
 
 function App() {
   return (
-    <div className="App">
-      <div className="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4">
-        <div>
-          <div className="text-xl font-medium text-black">ChitChat</div>
-          <p className="text-gray-500">You have a new message!</p>
-        </div>
-      </div>
+    <div className="App font-sans bg-white text-gray-700">
+      <Navbar />
+      <Switch>
+        <Route path="/payment">
+          <Payment />
+        </Route>
+        <Route path="/doctors/list">
+          <DoctorsList />
+        </Route>
+        <Route path="/doctors/history">
+          <HistoryDoctor />
+        </Route>
+        <Route path="/doctors/patient">
+          <DoctorPage />
+        </Route>
+        <Route path="/doctors/:id">
+          <DoctorDetail />
+        </Route>
+        <Route path="/sign-in">
+          <Login />
+        </Route>
+        <Route path="/sign-up">
+          <Register />
+        </Route>
+        <Route path="/user-profile">
+          <UserDetail />
+        </Route>
+        <Route path="/chat">
+          <Chat />
+        </Route>
+        <Route path="/">
+          <Dashboard />
+        </Route>
+      </Switch>
     </div>
   );
 }
