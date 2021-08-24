@@ -12,7 +12,7 @@ export default function EditForm() {
   const detailUser = useSelector(state => state.users.detailUser)
   useEffect(() => {
     dispatch(fetchDetailUser(localStorage.getItem('_id')))
-  })
+  },[detailUser])
   const [edittedUser, setEdittedUser] = useState({
     email: detailUser.email,
     height: detailUser.height,
@@ -21,12 +21,20 @@ export default function EditForm() {
     phone_number: detailUser.phone_number,
   },[]);
   
+  const goToDetail = () => {
+    history.push('/user-profile')
+  }
+
   let id  = localStorage.getItem("_id");
-  console.log(id)
   const handleEdit = (e) => {
     e.preventDefault();
-    console.log(edittedUser, "editted user");
+    // console.log(edittedUser, "editted user");
     dispatch(updateUser(edittedUser));
+    Swal.fire({
+      icon: 'success',
+      title: 'Edit Success...'
+    })
+    setTimeout(goToDetail,2000)
   };
 
   return (
@@ -82,7 +90,7 @@ export default function EditForm() {
         </label>
         <input
           onChange={(e) =>
-            setEdittedUser({ ...edittedUser, age: Number(e.target.defaultValue) })
+            setEdittedUser({ ...edittedUser, age: Number(e.target.value) })
           }
           className="w-full content-center text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-green-400"
           type="number"
