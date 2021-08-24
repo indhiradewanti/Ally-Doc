@@ -98,7 +98,8 @@ console.log(email, password, username, height, weight, age, phone_number, gender
       <div class="grid grid-cols-1 mt-5 mx-7">
         <label class="text-lg text-gray-500 text-light caslon">Gender</label>
         <select onChange={(e) => setGender(e.target.value)} class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent">
-          <option selected value="male">
+          <option selected disabled="true" >Choose your gender</option>
+          <option value="male">
             Male
           </option>
           <option value="female">Female</option>

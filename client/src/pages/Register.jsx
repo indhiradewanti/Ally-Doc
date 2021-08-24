@@ -7,8 +7,8 @@ export default function Register() {
       <div className=" bg-base-300 opacity-10 inset-0 z-0"></div>
       <div class="p-12  mx-auto rounded-2xl w-100 grid bg-white  shadow-xl w-11/12 md:w-9/12 lg:w-1/2 mt-40 mb-20">
         <div className="w-full pt-1 pb-5">
-          <div className="new-bg text-white overflow-hidden rounded-full w-20 h-20 -mt-24 mx-auto shadow-lg flex justify-center items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="new-bg text-white overflow-hidden rounded-full w-20 h-20 -mt-24 mx-auto shadow-lg flex justify-center items-center ">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="black">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
