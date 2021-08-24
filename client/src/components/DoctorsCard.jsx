@@ -7,8 +7,8 @@ export default function DoctorCard({ doctor }) {
     history.push(`/doctors/${doctor._id}`);
   };
 
-   const toChat = () => {
-    history.push(`/payment`);
+  const toChat = () => {
+    history.push(`/payment/${doctor._id}`);
   };
 
   return (
@@ -22,7 +22,9 @@ export default function DoctorCard({ doctor }) {
           />
         </div>
         <div className="flex flex-col justify-center ml-5">
-          <h4 className="text-xl text-gray-800 font-semibold mb-2">{doctor.username}</h4>
+          <h4 className="text-xl text-gray-800 font-semibold mb-2">
+            {doctor.username}
+          </h4>
           <p className="text-gray-800 font-semibold mb-3">
             status : {doctor.status}
           </p>
@@ -32,12 +34,18 @@ export default function DoctorCard({ doctor }) {
       </div>
       <div className="flex mt-8 mb-5  flex-row justify-around">
         <div className="flex flex-col">
-          <button onClick={toDoctorDetail} className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-full w-40">
+          <button
+            onClick={toDoctorDetail}
+            className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-full w-40"
+          >
             Doctor Detail
           </button>
         </div>
         <div className="flex flex-col">
-          <button onClick={toChat} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full w-40">
+          <button
+            onClick={toChat}
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full w-40"
+          >
             CHAT
           </button>
         </div>

@@ -80,6 +80,7 @@ export const regisUser = (user) => async (dispatch) => {
         })
         const access_token = data.access_token
         console.log(data,'data')
+        localStorage.setItem('UserId', data.id)
         localStorage.setItem('access_token', access_token)
         dispatch(isLogin(access_token))
     } catch (err) {
@@ -92,6 +93,7 @@ export const loginUser = (user) => async (dispatch) => {
     try {
         const {data} = await axios.post('/user/login', user)
         const access_token = data.access_token
+        localStorage.setItem('UserId', data.id)
         localStorage.setItem('access_token', access_token )
         dispatch(isLogin(access_token))
     } catch (err) {

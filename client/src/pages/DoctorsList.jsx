@@ -10,7 +10,7 @@ export default function DoctorsList() {
   const allDoctor = useSelector(state => state.doctors.allDoctor)
   useEffect(() => {
     dispatch(fetchDataDoctor())
-  },[allDoctor])
+  },[])
 
   // console.log(allDoctor,'all doctors')
 

@@ -112,6 +112,7 @@ export const loginDoctor = (doctor) => async (dispatch) => {
     try {
         const {data} = await axios.post(`/doctor/login`, doctor)
         console.log(data)
+        localStorage.setItem('DoctorId', data.id)
         localStorage.setItem('access_token', data.access_token)
     } catch (err) {
         console.log(err)

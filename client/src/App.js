@@ -1,14 +1,25 @@
 import { Route, Switch } from "react-router-dom";
 import "./App.css";
 import { Navbar } from "./components";
-import { Dashboard, DoctorDetail, DoctorsList, Payment, Login, Register, UserDetail, Chat, DoctorPage, HistoryDoctor } from "./pages";
+import {
+  Dashboard,
+  DoctorDetail,
+  DoctorsList,
+  Payment,
+  Login,
+  Register,
+  UserDetail,
+  Chat,
+  DoctorPage,
+  HistoryDoctor,
+} from "./pages";
 
 function App() {
   return (
     <div className="App font-sans bg-white text-gray-700">
       <Navbar />
       <Switch>
-        <Route path="/payment">
+        <Route path="/payment/:id">
           <Payment />
         </Route>
         <Route path="/doctors/list">

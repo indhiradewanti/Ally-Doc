@@ -3,11 +3,13 @@ import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { loginUser } from "../stores/actions/actionUsers";
+import { loginDoctor } from "../stores/actions/actionDoctors";
 
 export default function LoginForm() {
   const history = useHistory();
   const dispatch = useDispatch();
   const isLogin = useSelector((state) => state.users.accessToken);
+
   const [loggedCurrentUser, setCurrentUser] = useState({
     email: "",
     password: "",
@@ -16,15 +18,16 @@ export default function LoginForm() {
   const handleLogin = async (e) => {
     e.preventDefault();
     await dispatch(loginUser(loggedCurrentUser));
+    // await dispatch(loginDoctor(loggedCurrentUser))
+    if (isLogin) {
+      Swal.fire({
+        icon: "success",
+        title: "Login success"
+      });
+      history.push("/");
+    }
   };
 
-  if (isLogin) {
-    Swal.fire({
-      icon: "success",
-      title: "Login success"
-    });
-    history.push("/");
-  }
 
   return (
     <form onSubmit={handleLogin} className="space-y-5">

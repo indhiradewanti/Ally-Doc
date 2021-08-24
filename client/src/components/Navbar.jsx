@@ -7,7 +7,8 @@ import "../App.css";
 import logo from "../assets/logo.PNG";
 
 export default function Navbar() {
-  const isLogin = useSelector((state) => state.users.accessToken);
+  // const isLogin = useSelector((state) => state.users.accessToken)
+  const isLogin = localStorage.getItem('access_token')
   const history = useHistory()
   const logOut = () => {
     localStorage.clear()
