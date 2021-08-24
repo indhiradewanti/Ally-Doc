@@ -42,12 +42,12 @@ export default function Navbar() {
               <button className={ isLogin ? "hidden" : "btn btn-outline1 hidden sm:inline-block text-gray-700 hover:text-indigo-700 vogue font-bold w-24"}>Sign up</button>
             </NavLink>
               <button onClick={logOut} className={ isLogin ? "btn btn-outline1 hidden sm:inline-block text-gray-700 hover:text-indigo-700 vogue font-bold w-24" : "hidden" }>Logout</button>
+             <NavLink to="/user-profile" className="hidden sm:inline-block text-gray-700 hover:text-indigo-700 vogue font-bold w-24">
+              Profile
+            </NavLink> 
           </li>
-          <div className="sm:hidden space-y-1 hover:cursor-pointer">
-            <span className="w-10 h-1 bg-gray-600 rounded-full block"></span>
-            <span className="w-10 h-1 bg-gray-600 rounded-full block"></span>
-            <span className="w-10 h-1 bg-gray-600 rounded-full block"></span>
-          </div>
+
+          
         </ul>
       </nav>
     </div>

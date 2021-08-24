@@ -17,7 +17,7 @@ export default function DoctorsList() {
   return (
     <article>
       <div className="bg-white h-full">
-        <div className="mt-20">
+        <div className="mt-28">
           <h1 className="mt-12 text-center text-4xl text-yellow-500 font-bold">Our Doctors List</h1>
           <h5 className="text-center mt-4 text-yellow-400">We are here to help you feel better</h5>
           <section className="container px-8 py-14 mx-auto">

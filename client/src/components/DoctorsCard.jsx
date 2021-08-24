@@ -17,12 +17,12 @@ export default function DoctorCard({ doctor }) {
         <div className="flex flex-col">
           <img
             alt="mountain"
-            className="w-45 rounded-full ring-2 ring-white border-4 border-yellow-500"
+            className="w-40 rounded-full ring-2 ring-white border-4 border-yellow-500"
             src={doctor.photo}
           />
         </div>
         <div className="flex flex-col justify-center ml-5">
-          <h4 className="text-xl font-semibold mb-2">{doctor.name}</h4>
+          <h4 className="text-xl text-gray-800 font-semibold mb-2">{doctor.username}</h4>
           <p className="text-gray-800 font-semibold mb-3">
             status : {doctor.status}
           </p>
@@ -32,12 +32,12 @@ export default function DoctorCard({ doctor }) {
       </div>
       <div className="flex mt-8 mb-5  flex-row justify-around">
         <div className="flex flex-col">
-          <div onClick={toDoctorDetail} className="border border-yellow-500 text-grey px-5 py-2">
-            Detail dokter
-          </div>
+          <button onClick={toDoctorDetail} className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-full w-40">
+            Doctor Detail
+          </button>
         </div>
         <div className="flex flex-col">
-          <button onClick={toChat} className="bg-green-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-full w-40">
+          <button onClick={toChat} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full w-40">
             CHAT
           </button>
         </div>
