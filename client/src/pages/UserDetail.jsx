@@ -1,24 +1,27 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router";
 import { fetchDetailUser } from "../stores/actions/actionUsers";
 
 export default function UserDetail() {
+  const _id = localStorage.getItem('_id')
   const dispatch = useDispatch();
   const detailUser = useSelector((state) => state.users.detailUser);
   useEffect(() => {
-    dispatch(fetchDetailUser());
+    dispatch(fetchDetailUser(_id));
   }, [detailUser]);
 
   console.log(detailUser,'detailUser')
+  console.log(_id)
 
   return (
     <div className="containers mx-40 my-20 h-screen">
       <div className="grid grid-cols-4 bg-white gap-2 justify-center h-3/4 p-4 rounded-xl">
-        <div className="col-span-1 shadow-xl ">
+        <div className="col-span-1 shadow-xl px-10">
           <div className="flex w-full h-full relative">
             <img
               src={detailUser.display_picture}
-              className="w-44 h-44 m-auto"
+              className="w-96 h-96 m-auto rounded"
               alt=""
             />
           </div>

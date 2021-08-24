@@ -58,18 +58,20 @@ export const isLogin = (payload) => {
 //     }
 // }
 
-export const fetchDetailUser = (user) => async (dispatch) => {
+export const fetchDetailUser = (id) => async (dispatch) => {
     try {
         dispatch(loadingUser(true))
         const access_token = localStorage.getItem('access_token')
-        const {data} = await axios.get(`/user/${user.id}`, {
-            headers: {access_token}
+        const {data} = await axios.get(`/user/${id}`, {
+            headers: {"access_token": access_token}
         })
-        dispatch(loadingUser(false))
+        console.log(data)       
         dispatch(detailUser(data))
     } catch (err) {
         console.log(err)
         dispatch(errorUser(err))
+    } finally {
+        dispatch(loadingUser(false))
     }
 }
 
@@ -79,8 +81,10 @@ export const regisUser = (user) => async (dispatch) => {
             headers: {'Content-Type': 'multipart/form-data'}
         })
         const access_token = data.access_token
-        console.log(data,'data')
+        const id = data.id
+        // console.log(data,'data register')
         localStorage.setItem('access_token', access_token)
+        localStorage.setItem('_id', id)
         dispatch(isLogin(access_token))
     } catch (err) {
         console.log(err)
@@ -92,7 +96,9 @@ export const loginUser = (user) => async (dispatch) => {
     try {
         const {data} = await axios.post('/user/login', user)
         const access_token = data.access_token
+        const id = data.id
         localStorage.setItem('access_token', access_token )
+        localStorage.setItem('_id', id)
         dispatch(isLogin(access_token))
     } catch (err) {
         dispatch(errorUser(err))

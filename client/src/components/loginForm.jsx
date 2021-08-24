@@ -13,9 +13,9 @@ export default function LoginForm() {
     password: "",
   });
 
-  const handleLogin = async (e) => {
+  const handleLogin =  (e) => {
     e.preventDefault();
-    await dispatch(loginUser(loggedCurrentUser));
+     dispatch(loginUser(loggedCurrentUser));
   };
 
   if (isLogin) {

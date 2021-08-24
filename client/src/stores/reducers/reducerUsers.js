@@ -10,6 +10,7 @@ const initialState = {
       age: null,
       phone_number: "",
       gender: "",
+      role: "User",
       height: null,
       display_picture: "",
     },
