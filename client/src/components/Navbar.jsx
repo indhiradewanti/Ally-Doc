@@ -101,7 +101,7 @@ export default function Navbar() {
             </button>
             <NavLink
               to="/user-profile"
-              className="hidden sm:inline-block text-gray-700 hover:text-indigo-700 vogue font-bold w-24"
+              className={isLogged === 'user' ? "hidden sm:inline-block text-gray-700 hover:text-indigo-700 vogue font-bold w-24" : "hidden"}
             >
               Profile
             </NavLink>

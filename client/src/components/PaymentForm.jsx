@@ -35,7 +35,7 @@ export default function Payment() {
     expYear: "",
     cvv: "",
   });
-  const [success, setSuccess] = useState(false);
+  const history = useHistory();
   const { nama, no, expMonth, expYear, cvv } = data;
   const input = (e) => {
     let { name, value } = e.target;
@@ -71,7 +71,7 @@ export default function Payment() {
         if (response.data.success) {
           console.log("Successful payment");
           dispatch(userDoctor(idDoctor))
-          setSuccess(true);
+          history.push('/chat/')
         }
       } catch (error) {
         console.log("Error", error);
@@ -147,7 +147,6 @@ export default function Payment() {
                 </label>
               </div>
             </div>
-            {!success ? (
               <form onSubmit={handleSubmit}>
                 <fieldset className="FormGroup">
                   <div className="FormRow">
@@ -160,15 +159,6 @@ export default function Payment() {
               </button>
             </div>
               </form>
-            ) : (
-              <div>
-                <h2>
-                  You just bought a sweet spatula congrats this is the best
-                  decision of you're life
-                </h2>
-                <h2>{console.log("success")}</h2>
-              </div>
-            )}
             {/* <div className="mb-3">
               <label className="font-bold text-sm mb-2 ml-1">Name on card</label>
               <div>
