@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { regisUser } from "../stores/actions/actionUsers";
+import { regisUser } from "../stores/actions/actionDoctorUser";
 import FileUploaded from './FileUploader'
 
 export default function RegisterForm() {

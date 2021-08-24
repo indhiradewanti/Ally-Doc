@@ -1,4 +1,5 @@
 import axios from '../../url/axios'
+import { isLogin } from './actionDoctorUser'
 
 export const ActionTypeUser = {
     allUser: 'ALL_USER',
@@ -36,12 +37,12 @@ export const errorUser = (payload) => {
     }
 }
 
-export const isLogin = (payload) => {
-    return {
-        type: ActionTypeUser.isLogin,
-        payload : payload
-    }
-}
+// export const isLogin = (payload) => {
+//     return {
+//         type: ActionTypeUser.isLogin,
+//         payload : payload
+//     }
+// }
 
 // export const fetchDataUser = () => async (dispatch) => {
 //     try {
@@ -73,33 +74,6 @@ export const fetchDetailUser = (user) => async (dispatch) => {
     }
 }
 
-export const regisUser = (user) => async (dispatch) => {
-    try {
-        const {data} = await axios.post('/user/create', user,{
-            headers: {'Content-Type': 'multipart/form-data'}
-        })
-        const access_token = data.access_token
-        console.log(data,'data')
-        localStorage.setItem('UserId', data.id)
-        localStorage.setItem('access_token', access_token)
-        dispatch(isLogin(access_token))
-    } catch (err) {
-        console.log(err)
-        dispatch(errorUser(err))
-    }
-}
-
-export const loginUser = (user) => async (dispatch) => {
-    try {
-        const {data} = await axios.post('/user/login', user)
-        const access_token = data.access_token
-        localStorage.setItem('UserId', data.id)
-        localStorage.setItem('access_token', access_token )
-        dispatch(isLogin(access_token))
-    } catch (err) {
-        dispatch(errorUser(err))
-    }
-}
 
 // export const updateUserImage = (user) => async (dispatch) => {
 //     try {

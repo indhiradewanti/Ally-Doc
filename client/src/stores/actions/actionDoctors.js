@@ -1,4 +1,5 @@
 import axios from '../../url/axios'
+import { isLogin, typeLogin } from './actionDoctorUser'
 
 export const ActionTypeDoctor = {
     allDoctor: 'ALL_DOCTOR',
@@ -107,17 +108,6 @@ export const createNewDoctor = (doctor) => async (dispatch) => {
     }
 }
 
-
-export const loginDoctor = (doctor) => async (dispatch) => {
-    try {
-        const {data} = await axios.post(`/doctor/login`, doctor)
-        console.log(data)
-        localStorage.setItem('DoctorId', data.id)
-        localStorage.setItem('access_token', data.access_token)
-    } catch (err) {
-        console.log(err)
-    }
-}
 
 export const updateRecentDoctor = (doctor) => async (dispatch) => {
     try {

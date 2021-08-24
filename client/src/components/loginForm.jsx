@@ -2,34 +2,64 @@ import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { loginUser } from "../stores/actions/actionUsers";
-import { loginDoctor } from "../stores/actions/actionDoctors";
+import { loginDoctor, loginUser } from "../stores/actions/actionDoctorUser";
 
 export default function LoginForm() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const isLogin = useSelector((state) => state.users.accessToken);
-
+  const isLogin = useSelector((state) => state.doctorUser.isLogin)
+  const [state, setState] = useState('user')
   const [loggedCurrentUser, setCurrentUser] = useState({
     email: "",
     password: "",
   });
 
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    await dispatch(loginUser(loggedCurrentUser));
-    // await dispatch(loginDoctor(loggedCurrentUser))
-    if (isLogin) {
-      Swal.fire({
-        icon: "success",
-        title: "Login success"
-      });
-      history.push("/");
+    if(state === 'user'){
+      dispatch(loginUser(loggedCurrentUser));
+    }else{
+      dispatch(loginDoctor(loggedCurrentUser))
     }
+    console.log(isLogin, 'ini di handle')
   };
+
+  const handleChange = () => {
+    if(state === 'user'){
+      setState('doctor')
+    } else{
+      setState('user')
+    }
+  }
+  console.log(isLogin, 'ini di luar')
+  useEffect(() => {
+    if (isLogin || localStorage.getItem('access_token')) {
+      if(isLogin === 'user'){
+        Swal.fire({
+          icon: "success",
+          title: "Login success"
+        });
+        history.push("/");
+      } else{
+        Swal.fire({
+          icon: "success",
+          title: "Login success"
+        });
+        history.push("/doctors/patient");
+      }
+    }
+  }, [isLogin])
 
 
   return (
+  <div>
+    <div>
+      <span>{state}</span>
+      <input type="checkbox" className="toggle"
+      // onChange={handleChange}
+      onClick={handleChange}
+      />
+      </div>
     <form onSubmit={handleLogin} className="space-y-5">
       <div className="space-y-2">
         <label className="text-sm font-medium text-gray-700 tracking-wide">
@@ -67,5 +97,6 @@ export default function LoginForm() {
         </button>
       </div>
     </form>
+    </div>
   );
 }

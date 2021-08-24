@@ -23,10 +23,11 @@ const initialState = {
         doctorPhoto: "",
         doctorSpecialist: "",
     },
+    isLogin: '', 
 };
 
 export default function ReducerDoctorUser(state = initialState, action) {
-    switch (ActionTypeUserDoctor.allUserDoctor) {
+    switch (action.type) {
         case ActionTypeUserDoctor.allUserDoctor:
             return {
                 ...state,
@@ -37,6 +38,9 @@ export default function ReducerDoctorUser(state = initialState, action) {
                 (userDoctor) => userDoctor.doctorId === action.payload
             );
             return { ...state, filterUserDoctor: filter };
+        case ActionTypeUserDoctor.isLogin:
+            console.log(action.payload)
+            return {...state, isLogin: action.payload }
         default:
             return state;
     }
