@@ -8,7 +8,7 @@ export default function DoctorCard({ doctor }) {
   };
 
    const toChat = () => {
-    history.push(`/chat`);
+    history.push(`/payment`);
   };
 
   return (
