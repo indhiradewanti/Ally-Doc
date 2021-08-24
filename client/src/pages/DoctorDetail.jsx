@@ -1,10 +1,27 @@
+import React, { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import {
+  useParams
+} from "react-router-dom";
+import { fetchDetailDoctor } from "../stores/actions/actionDoctors";
+
 export default function DoctorDetail() {
+  const {id} = useParams()
+  const dispatch = useDispatch()
+  const detailDoctor = useSelector(state => state.doctors.detailDoctor)
+
+  useEffect(() => {
+    dispatch(fetchDetailDoctor(id))
+  }, [detailDoctor])
+
   return (
     <div className="containers mx-40 my-30">
       <div className="shadow-xl mt-40">
         <div className="flex flex-row justify-center items-center">
             <div>
-                <img src="https://res.cloudinary.com/dboafhu31/image/upload/v1625318266/imagen_2021-07-03_091743_vtbkf8.png" className="w-44 h-44 m-auto" alt=""/>
+                <img src={detailDoctor.photo} className="w-44 h-44 m-auto" alt=""/>
             </div>
         </div>
         <div className="flex flex-row justify-center items-center">
@@ -13,7 +30,7 @@ export default function DoctorDetail() {
                   Name :
                 </div>
                 <div className="flex-col ml-5">
-                      Cut Aisyah Ilmy
+                      {detailDoctor.username}
                 </div>
             </div>
         </div>
@@ -23,17 +40,17 @@ export default function DoctorDetail() {
                       Spesialis : 
                 </div>
                 <div className="flex-col ml-5">
-                      Dokter umum
+                      {detailDoctor.specialist}
                 </div>
             </div>
         </div>
         <div className="flex flex-row justify-center items-center">
             <div className="flex">
                 <div className="flex-col">
-                      Pengalaman : 
+                      Status : 
                 </div>
                 <div className="flex-col ml-5">
-                      2 tahun
+                      {detailDoctor.status}
                 </div>
             </div>
         </div>
