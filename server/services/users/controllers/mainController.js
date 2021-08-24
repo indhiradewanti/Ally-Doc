@@ -31,7 +31,7 @@ class MainController {
 				createdNewUser.email,
 				createdNewUser.role
 			);
-			res.status(201).json({ access_token });
+			res.status(201).json({ access_token, id: createdNewUser._id });
 		} catch (err) {
 			/* istanbul ignore else  */
 			if (err.code) {
@@ -86,7 +86,7 @@ class MainController {
 				foundUser.email,
 				foundUser.role
 			);
-			res.status(200).json({ access_token });
+			res.status(200).json({ access_token, id: foundUser._id });
 		} catch (err) {
 			/* istanbul ignore else  */
 			if (err.code) {
