@@ -122,11 +122,12 @@ export const loginUser = (user) => async (dispatch) => {
 export const updateUser = (user) => async (dispatch) => {
     try {
         const access_token = localStorage.getItem('access_token')
-        const {data} = await axios.patch(`/user/${user._id}`, user, {
-            headers: {access_token}
+        console.log(access_token,'at')
+        const {data} = await axios.patch(`/user/612514f81388d0001373abd2`, user, {
+            headers: {"access_token" : access_token}
         })
-        console.log(data)
-        dispatch(fetchDetailUser(user._id))
+        console.log(data,'data')
+        // dispatch(fetchDetailUser(user._id))
     } catch (err) {
         console.log(err)
         dispatch(errorUser(err))

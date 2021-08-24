@@ -3,31 +3,32 @@ import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { fetchDetailUser, updateUser } from "../stores/actions/actionUsers";
-import {
-  useParams
-} from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export default function EditForm() {
-  let {id} = useParams()
+
   const history = useHistory();
   const dispatch = useDispatch();
-  const detailUser = useSelector((state) => state.users.detailUser);
+  const detailUser = useSelector(state => state.users.detailUser)
+  useEffect(() => {
+    dispatch(fetchDetailUser(localStorage.getItem('_id')))
+  })
   const [edittedUser, setEdittedUser] = useState({
     email: detailUser.email,
     height: detailUser.height,
     weight: detailUser.weight,
     age: detailUser.age,
-    phone_number: detailUser.age,
-  });
-
-  useEffect(() => {
-    dispatch(fetchDetailUser(id));
-  });
-
-  const handleEdit = async (e) => {
+    phone_number: detailUser.phone_number,
+  },[]);
+  
+  let id  = localStorage.getItem("_id");
+  console.log(id)
+  const handleEdit = (e) => {
     e.preventDefault();
-    await dispatch(updateUser(edittedUser));
+    console.log(edittedUser, "editted user");
+    dispatch(updateUser(edittedUser));
   };
+
   return (
     <form onSubmit={handleEdit} className="space-y-5">
       <div className="space-y-2">
@@ -40,7 +41,7 @@ export default function EditForm() {
           }
           className=" w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-green-400"
           type="email"
-          value={detailUser.email}
+          defaultValue={detailUser.email}
         />
       </div>
       <div className="space-y-2">
@@ -56,7 +57,7 @@ export default function EditForm() {
           }
           className="w-full content-center text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-green-400"
           type="number"
-          value={detailUser.height}
+          defaultValue={detailUser.height}
         />
       </div>
       <div className="space-y-2">
@@ -72,7 +73,7 @@ export default function EditForm() {
           }
           className="w-full content-center text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-green-400"
           type="number"
-          value={detailUser.weight}
+          defaultValue={detailUser.weight}
         />
       </div>
       <div className="space-y-2">
@@ -81,11 +82,11 @@ export default function EditForm() {
         </label>
         <input
           onChange={(e) =>
-            setEdittedUser({ ...edittedUser, age: Number(e.target.value) })
+            setEdittedUser({ ...edittedUser, age: Number(e.target.defaultValue) })
           }
           className="w-full content-center text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-green-400"
           type="number"
-          value={detailUser.age}
+          defaultValue={detailUser.age}
         />
       </div>
       <div className="space-y-2">
@@ -94,14 +95,14 @@ export default function EditForm() {
         </label>
         <input
           onChange={(e) =>
-            setEdittedUser({ ...edittedUser, phone_number: e.target.value })
+            setEdittedUser({ ...edittedUser, phone_number: e.target.defaultValue })
           }
           className="w-full content-center text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-green-400"
           type="text"
-          value={detailUser.phone_number}
+          defaultValue={detailUser.phone_number}
         />
       </div>
-      <div>
+      <div> 
         <button
           type="submit"
           className="w-full flex justify-center bg-green-400  hover:bg-green-500 text-gray-100 p-3  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500"
