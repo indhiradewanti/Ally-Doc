@@ -71,7 +71,7 @@ export default function Payment() {
         if (response.data.success) {
           console.log("Successful payment");
           dispatch(userDoctor(idDoctor))
-          history.push('/chat/')
+          history.push(`/chat/${idDoctor}`)
         }
       } catch (error) {
         console.log("Error", error);

@@ -4,6 +4,8 @@ import AgoraRTM from "agora-rtm-sdk";
 import AgoraRTC from "agora-rtc-sdk-ng";
 import ReactDOM from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { filter } from "../stores/actions/actionDoctorUser";
 
 const appId = "ca2e9fc223264aa59fecda2bbcded5fc";
 const client = AgoraRTM.createInstance(appId);
@@ -22,15 +24,18 @@ mic.lang = "id-ID";
 
 export default function Chat() {
   let isLogged = useSelector((state) => state.doctorUser.isLogin);
+  let filtered = useSelector((state) => state.doctorUser.filterUserDoctor)
+  let {id} = useParams()
+  let dispatch = useDispatch()
   let [messages, setMessages] = useState([]);
   const [isListening, setIsListening] = useState(false);
   const [isVideoCall, setIsVideoCall] = useState(false);
   const [isCall, setIsCall] = useState(false);
 
-  let inputUserId = useRef("");
+  // let inputUserId = useRef("");
   let inputMessage = useRef("");
-  let inputPeerId = useRef("");
-  let userId = String(inputUserId.current.value);
+  let inputPeerId = isLogged === 'user' ? filtered.doctorId : filtered.userId
+  let userId = isLogged === 'user' ? filtered.userId : filtered.doctorId;
 
   // CHAT
   useEffect(() => {
@@ -38,9 +43,8 @@ export default function Chat() {
   }, [isListening]);
 
   useEffect(() => {
-    if(isLogged === 'user'){
-      
-    }
+    dispatch(filter(id))
+    loginHandler()
   }, [])
   const handleListen = () => {
     if (isListening) {
@@ -87,7 +91,7 @@ export default function Chat() {
   });
 
   const loginHandler = async () => {
-    let uid = `${inputUserId.current.value}`;
+    let uid = isLogged === 'user' ? filtered.userId : filtered.doctorId;
     console.log(uid);
     await client.login({ uid });
   };
@@ -96,8 +100,8 @@ export default function Chat() {
     await client.logout();
   };
   const sendPeerMessage = async () => {
-    let peerId = String(inputPeerId.current.value);
-    let userId = String(inputUserId.current.value);
+    let peerId = isLogged === 'user' ? filtered.doctorId : filtered.userId
+    let userId = isLogged === 'user' ? filtered.userId : filtered.doctorId
     let peerMessage = String(inputMessage.current.value);
 
     await client.sendMessageToPeer({ text: peerMessage }, peerId, userId).then((sendResult) => {
@@ -121,9 +125,9 @@ export default function Chat() {
 
   let options = {
     appId: "ca2e9fc223264aa59fecda2bbcded5fc",
-    channel: "testing", // Untuk channel, harus sama untuk 2 orang bisa dikonek (ObjectId(User) + ObjectId(Doctor))
+    channel: `${filtered.userId}${filtered.doctorId}`, // Untuk channel, harus sama untuk 2 orang bisa dikonek (ObjectId(User) + ObjectId(Doctor))
     token: null,
-    uid: inputUserId.current.value, // "test",
+    uid: isLogged === 'user' ? filtered.userId : filtered.doctorId, // "test",
   };
 
   async function handleSubmit(e) {
@@ -224,7 +228,7 @@ export default function Chat() {
   };
 
   const leaveHandler = async () => {
-    if (!inputUserId.current.value) {
+    if (!isLogged === 'user' ? filtered.userId : filtered.doctorId) {
       setIsCall(false);
     } else {
       setIsCall(false);
@@ -300,7 +304,7 @@ export default function Chat() {
                     <div className="row card-content">
                       <div className="input-field">
                         <label>User ID</label>
-                        <input ref={inputUserId} type="text" placeholder="User ID" id="userID" />
+                        {/* <input ref={inputUserId} type="text" placeholder="User ID" id="userID" /> */}
                       </div>
                       <div className="row">
                         <div>
@@ -314,7 +318,7 @@ export default function Chat() {
                       </div>
                       <div className="input-field">
                         <label>Peer Id</label>
-                        <input ref={inputPeerId} type="text" placeholder="peer id" id="peerId" />
+                        {/* <input ref={inputPeerId} type="text" placeholder="peer id" id="peerId" /> */}
                       </div>
                     </div>
                   </div>
@@ -359,7 +363,7 @@ export default function Chat() {
                     <div className="container">
                       <input type="submit" value="Join" onClick={handleSubmit} disabled={joined ? true : false} />
                       <input type="button" ref={leaveRef} value="Leave" onClick={handleLeave} disabled={joined ? false : true} />
-                      <input type="text" ref={inputUserId} className="border" />
+                      {/* <input type="text" ref={inputUserId} className="border" /> */}
                     </div>
                   </div>
                 </div>
@@ -393,7 +397,8 @@ export default function Chat() {
                         <button onClick={() => joinHandler()} type="button" id="join">
                           JOIN
                         </button>
-                        <input type="text" ref={inputUserId} />
+                        {/* <input type="text" 
+                        ref={inputUserId} /> */}
                       </div>
                     </div>
                   </div>

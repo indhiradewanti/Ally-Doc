@@ -43,7 +43,7 @@ function App() {
         <Route path="/user-profile">
           <UserDetail />
         </Route>
-        <Route path="/chat">
+        <Route path="/chat/:id">
           <Chat />
         </Route>
         <Route path="/">
