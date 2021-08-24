@@ -69,7 +69,8 @@ _Response ( 201 - OK )_
 
 ```
 {
-  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.        eyJpZCI6IjYxMjMyOGRjYWZkN2Y5MDAxMzNkYWYzMCIsImVtYWlsIjoidGVzdEBtYWlsLmNvbSIsInJvbGUiOiJVc2VyIiwiaWF0IjoxNjI5Njk0MTcyfQ.wOJ6POwuz7CSUF_SsctYEaM7ctprtfhUBCw_EXa210k"
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.        eyJpZCI6IjYxMjMyOGRjYWZkN2Y5MDAxMzNkYWYzMCIsImVtYWlsIjoidGVzdEBtYWlsLmNvbSIsInJvbGUiOiJVc2VyIiwiaWF0IjoxNjI5Njk0MTcyfQ.wOJ6POwuz7CSUF_SsctYEaM7ctprtfhUBCw_EXa210k",
+  "id": <user id>
 }
 ```
 
@@ -118,7 +119,8 @@ _Response ( 200 - OK )_
 
 ```
 {
-  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxMjEwNWVkODRhNTg4MDAxMzI4NmI4NyIsImVtYWlsIjoid2lsc29uQG1haWwuY29tIiwicm9sZSI6IlVzZXIiLCJpYXQiOjE2Mjk2OTQ4NDd9.MUSDW3L1wEDQoFygnJtUowfzqp0qjC7dxnZnZjXLhZA"
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxMjEwNWVkODRhNTg4MDAxMzI4NmI4NyIsImVtYWlsIjoid2lsc29uQG1haWwuY29tIiwicm9sZSI6IlVzZXIiLCJpYXQiOjE2Mjk2OTQ4NDd9.MUSDW3L1wEDQoFygnJtUowfzqp0qjC7dxnZnZjXLhZA",
+  "id": <user id>
 }
 ```
 
