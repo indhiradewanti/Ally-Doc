@@ -1,4 +1,4 @@
-import ActionTypeUserDoctor from "../../";
+import ActionTypeUserDoctor from "../../stores/actions/actionDoctorUser.js";
 
 const initialState = {
 	allUserDoctors: [
