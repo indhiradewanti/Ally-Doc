@@ -121,7 +121,7 @@ class DoctorController {
 					username,
 					specialist,
 					address,
-					price,
+					price: Number(price),
 					photo: uploadedImage.url,
 				},
 			});
