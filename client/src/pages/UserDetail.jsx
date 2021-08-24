@@ -6,8 +6,11 @@ export default function UserDetail() {
   const dispatch = useDispatch();
   const detailUser = useSelector((state) => state.users.detailUser);
   useEffect(() => {
-    dispatch(fetchDetailUser);
+    dispatch(fetchDetailUser());
   }, [detailUser]);
+
+  console.log(detailUser,'detailUser')
+
   return (
     <div className="containers mx-40 my-20 h-screen">
       <div className="grid grid-cols-4 bg-white gap-2 justify-center h-3/4 p-4 rounded-xl">
