@@ -12,7 +12,7 @@ export default function DoctorCard({ doctor }) {
   };
 
   return (
-    <div onClick={toDoctorDetail} className="p-4 bg-white rounded-xl shadow-lg hover:shadow-xl transform hover:scale-110 transition duration-500 ">
+    <div className="p-4 bg-white rounded-xl shadow-lg hover:shadow-xl transform hover:scale-110 transition duration-500 ">
       <div className="flex flex-row">
         <div className="flex flex-col">
           <img
@@ -32,8 +32,8 @@ export default function DoctorCard({ doctor }) {
       </div>
       <div className="flex mt-8 mb-5  flex-row justify-around">
         <div className="flex flex-col">
-          <div className="border border-yellow-500 text-grey px-5 py-2">
-            {doctor.address}
+          <div onClick={toDoctorDetail} className="border border-yellow-500 text-grey px-5 py-2">
+            Detail dokter
           </div>
         </div>
         <div className="flex flex-col">
