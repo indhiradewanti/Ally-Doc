@@ -54,7 +54,7 @@ export const allUserDoctors = (payload) => async (dispatch) => {
 export const filter = (payload) => async (dispatch) => {
 	try {
 		dispatch({
-			type: ActionTypeUserDoctor.allUserDoctor,
+			type: ActionTypeUserDoctor.filterUserDoctor,
 			payload,
 		});
 	} catch (err) {
