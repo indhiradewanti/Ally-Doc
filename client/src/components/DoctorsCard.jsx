@@ -12,29 +12,29 @@ export default function DoctorCard({ doctor }) {
   };
 
   return (
-    <div class="flex justify-center transition-transform transform hover:scale-110">
-      <div class="p-3 new-bg rounded-xl max-w-lg hover:shadow">
-        <div class="flex justify-between w-full">
-          <div class="ml-2">
-            <div class="p-3">
-              <h3 class="text-2xl caslon">{doctor.username}</h3>
+    <div className="flex justify-center transition-transform transform hover:scale-110">
+      <div className="p-3 new-bg rounded-xl max-w-lg hover:shadow">
+        <div className="flex justify-between w-full">
+          <div className="ml-2">
+            <div className="p-3">
+              <h3 className="text-2xl caslon">{doctor.username}</h3>
             </div>
-            <div class="flex justify-between items-center p-3 bg-gray-100 rounded-lg">
+            <div className="flex justify-between items-center p-3 bg-gray-100 rounded-lg">
               {doctor.status === "online" ? (
-                <div class="avatar online">
-                  <div class="rounded-full w-24 h-24">
+                <div className="avatar online">
+                  <div className="rounded-full w-24 h-24">
                     <img src={doctor.photo} />
                   </div>
                 </div>
               ) : (
-                <div class="avatar offline">
-                  <div class="rounded-full w-24 h-24">
+                <div className="avatar offline">
+                  <div className="rounded-full w-24 h-24">
                     <img src={doctor.photo} />
                   </div>
                 </div>
               )}
-              <div class="px-10 my-5">
-                <span class="text-gray-400 block font-bold">{doctor.specialist}</span> <span class="font-bold text-black text-xl">{doctor.price ? (doctor.price).toLocaleString('id-ID', {style: 'currency',currency: 'IDR'}) : ""}</span>
+              <div className="px-10 my-5">
+                <span className="text-gray-400 block font-bold">{doctor.specialist}</span> <span className="font-bold text-black text-xl">{doctor.price ? (doctor.price).toLocaleString('id-ID', {style: 'currency',currency: 'IDR'}) : ""}</span>
               </div>
             </div>
             <div className="flex flex-row justify-between">
