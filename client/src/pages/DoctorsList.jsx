@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { fetchDataDoctor } from "../stores/actions/actionDoctors";
 import DoctorCard from "../components/DoctorsCard";
+import loading from "../assets/loading.gif";
 
 export default function DoctorsList() {
   const dispatch = useDispatch();
@@ -13,7 +14,7 @@ export default function DoctorsList() {
   }, []);
 
   // console.log(allDoctor,'all doctors')
-console.log(allDoctor);
+
   return (
     <article>
       <div className="bg-white h-full justify-center place-content-center flex">
@@ -23,13 +24,18 @@ console.log(allDoctor);
             <h2 className="font-display font-bold text-3xl md:text-4xl lg:text-5xl mb-3 meg">Our Doctors</h2>
             <p className="font-light text-lg text-gray-600 mb-6 leading-relaxed">We are here to help you feel better</p>
           </div>
-         
           <section className="container px-8 py-14 mx-auto">
-            <div className="grid gap-12 mb-8 grid-cols-3">
-              {allDoctor.map((doctor) => (
-                <DoctorCard doctor={doctor} key={doctor._id} />
-              ))}
-            </div>
+            {allDoctor.length === 1 ? (
+              <div className="bg-white h-screen">
+                <img src={loading} alt="" className="h-40 w-40 "/>
+              </div>
+            ) : (
+              <div className="grid gap-12 mb-8 grid-cols-3">
+                {allDoctor.map((doctor) => (
+                  <DoctorCard doctor={doctor} key={doctor._id} />
+                ))}
+              </div>
+            )}
           </section>
         </div>
       </div>
