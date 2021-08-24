@@ -39,7 +39,13 @@ export default function DoctorCard({ doctor }) {
             </div>
             <div className="flex flex-row justify-between">
             <button onClick={toDoctorDetail} className="btn btn-outline1 hidden sm:inline-block text-white transition-transform transform hover:scale-110 hover:text-indigo-700 w-32 mt-5 vogue">Details</button>
-            <button onClick={toChat} className="btn btn-outline1 hidden sm:inline-block text-white transition-transform transform hover:scale-110 hover:text-indigo-700 w-32 mt-5 vogue">View Chat</button>
+            {doctor.status === "online" ? 
+            
+            <button onClick={toChat} className="btn btn-outline1 hidden sm:inline-block text-white transition-transform transform hover:scale-110 hover:text-indigo-700 w-32 mt-5 vogue">Chat Now</button>
+            :
+            <button className="btn btn-outline2 hidden sm:inline-block text-white w-32 mt-5 vogue">Chat Now</button>
+          
+          }
             </div>
           </div>
         </div>

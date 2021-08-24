@@ -281,3 +281,20 @@
 .bg-green {
   background-color: #6e7461;
 }
+
+
+.btn-outline2 {
+  background-color: #5a5956;
+  border-color: #b3a075;
+  --tw-text-opacity: 1;
+  color: hsla(var(--bc) / var(--tw-text-opacity, 1));
+}
+
+.btn-outline2:hover {
+  --tw-bg-opacity: 1;
+  background-color: #222222;
+  --tw-border-opacity: 1;
+  border-color: #b3a075;
+  --tw-text-opacity: 1;
+  color: hsla(var(--b1) / var(--tw-text-opacity, 1));
+}
