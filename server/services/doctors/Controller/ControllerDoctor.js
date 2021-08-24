@@ -30,7 +30,7 @@ class ControllerDoctor {
             { _id: data._id, email: data.email, role: data.role },
             process.env.SECRET_KEY
           );
-          res.status(201).json({ access_token: token_doctor });
+          res.status(201).json({ access_token: token_doctor, id: data._id });
         }
       } else {
         throw { code: 403, message: "Forbidden to access" };
@@ -201,7 +201,7 @@ class ControllerDoctor {
             },
             process.env.SECRET_KEY
           );
-          res.status(200).json({ access_token });
+          res.status(200).json({ access_token, id: data._id});
         } else {
           throw { code: 400, message: "Bad Request" };
         }
