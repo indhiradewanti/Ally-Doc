@@ -27,7 +27,7 @@ class UserController {
 		}
 	}
 
-	static async loginUser(req, res, next) {
+	static async loginUser(req, res) {
 		try {
 			let { email, password } = req.body;
 			let loggedInUser = await axios({
@@ -44,7 +44,29 @@ class UserController {
 		}
 	}
 
-	static async findAllUsers(req, res, next) {
+	static async payConsultation(req, res) {
+		try {
+			let { amount, id } = req.body;
+			const payment = await stripe.paymentIntents.create({
+				amount,
+				currency: "IDR",
+				description: "Spatula company",
+				payment_method: id,
+				confirm: true,
+			});
+			res.status(200).json({
+				message: "Payment successful",
+				success: true,
+			});
+		} catch (err) {
+			res.status(400).json({
+				message: "Payment failed",
+				success: false,
+			});
+		}
+	}
+
+	static async findAllUsers(req, res) {
 		try {
 			let { access_token } = req.headers;
 			let redisUserStorage = await redis.get("user");
@@ -71,7 +93,7 @@ class UserController {
 		}
 	}
 
-	static async findUserById(req, res, next) {
+	static async findUserById(req, res) {
 		try {
 			let { id } = req.params;
 			let { access_token } = req.headers;
@@ -99,7 +121,7 @@ class UserController {
 		}
 	}
 
-	static async updateUserImage(req, res, next) {
+	static async updateUserImage(req, res) {
 		try {
 			let { id } = req.params;
 			let { access_token } = req.headers;
@@ -125,7 +147,7 @@ class UserController {
 		}
 	}
 
-	static async updateUserData(req, res, next) {
+	static async updateUserData(req, res) {
 		try {
 			let { email, height, weight, age, phone_number } = req.body;
 			let { id } = req.params;
@@ -152,7 +174,7 @@ class UserController {
 		}
 	}
 
-	static async updateUserPayment(req, res, next) {
+	static async updateUserPayment(req, res) {
 		try {
 			let { card_number, cvv, expiry_month, expiry_year } = req.body;
 			let { id } = req.params;
@@ -177,7 +199,7 @@ class UserController {
 		}
 	}
 
-	static async deleteUser(req, res, next) {
+	static async deleteUser(req, res) {
 		try {
 			let { id } = req.params;
 			let { access_token } = req.headers;

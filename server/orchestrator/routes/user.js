@@ -13,6 +13,7 @@ router.post(
 	UserController.createNewUser
 );
 router.post("/login", UserController.loginUser);
+router.post("/payment", UserController.payConsultation);
 
 router.get(
 	"/",
