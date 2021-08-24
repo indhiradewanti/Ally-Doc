@@ -1,7 +1,7 @@
 const axios = require("../helpers/axiosAdmin.js");
 
 class AdminController {
-	static async registerAdmin(req, res, next) {
+	static async registerAdmin(req, res) {
 		try {
 			let { email, password, username } = req.body;
 			let registeredAdmin = await axios({
