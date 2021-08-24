@@ -144,6 +144,16 @@ _Response ( 500 - Internal Server Error )_
 }
 ```
 
+### POST /user/payment
+
+> Handle user payment
+
+_Response Headers_
+
+```
+
+```
+
 ### GET /user
 
 > Find all Users

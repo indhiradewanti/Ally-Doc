@@ -6,6 +6,9 @@ const redis = new Redis({
 	port: 14354,
 	password: "rafipratama",
 });
+const stripe = require("stripe")(
+	"sk_test_51JRftzFd2reQx6UClSENIZDqZ53DPOQTw9Jf89CK4BVrGJK0xZtCCzdWtdnDi1wJWKxknZp9noDTxSk7D0AiMabc001OatB6FH"
+);
 
 class UserController {
 	static async createNewUser(req, res) {
