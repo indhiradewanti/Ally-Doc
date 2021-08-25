@@ -378,6 +378,7 @@ _Request Body_
         "weight": <new weight> : Number (Required),
         "age": <new age> : Number (Required),
         "phone_number": <new phone number> : String (Required)
+        "gender": <gender> : String (Required)
     }
 }
 ```
