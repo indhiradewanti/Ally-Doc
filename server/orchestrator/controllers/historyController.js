@@ -11,7 +11,7 @@ class HistoryController {
 		try {
 			let historyStorage = await redis.get("history");
 			if (historyStorage) {
-				res.status(200).json(JSON.parse(historyData));
+				res.status(200).json(JSON.parse(historyStorage));
 			} else {
 				const historyData = await axios({
 					method: "GET",
