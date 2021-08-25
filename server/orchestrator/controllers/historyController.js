@@ -35,14 +35,28 @@ class HistoryController {
 
 	static async postHistory(req, res) {
 		try {
-			let { name, age, gender } = req.body;
+			let {
+				userId,
+				userGender,
+				userPhoto,
+				userName,
+				doctorId,
+				doctorName,
+				doctorPhoto,
+				doctorSpecialist,
+			} = req.body;
 			let createdHistory = await axios({
 				method: "POST",
 				url: "/history",
 				data: {
-					name,
-					age,
-					gender,
+					userId,
+					userGender,
+					userPhoto,
+					userName,
+					doctorId,
+					doctorName,
+					doctorPhoto,
+					doctorSpecialist,
 				},
 			});
 			await redis.del("history");
