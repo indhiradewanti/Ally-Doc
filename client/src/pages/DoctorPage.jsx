@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { fetchDataHistory } from "../stores/actions/actionHistory.js";
+import { doctorHistory, filter } from "../stores/actions/actionDoctorUser.js";
 
 export default function DoctorPage() {
 	const history = useHistory();
@@ -11,10 +12,13 @@ export default function DoctorPage() {
 			(history) => history.status === "in progress"
 		);
 	});
+	console.log(patientData, "patientData");
 	let idDoctor = localStorage.getItem("DoctorId");
 	let access_token = localStorage.getItem("access_token");
 
-	const chatButton = () => {
+	const chatButton = async () => {
+		await dispatch(doctorHistory(patientData));
+		await dispatch(filter(idDoctor));
 		history.push(`/chat/${idDoctor}`);
 	};
 
@@ -65,7 +69,6 @@ export default function DoctorPage() {
 											test
 										</span>
 									)}
-
 									{/* <span className="font-bold text-black text-xl">
 										Umur
 									</span> */}

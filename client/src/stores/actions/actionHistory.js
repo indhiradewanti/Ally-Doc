@@ -41,9 +41,8 @@ export const fetchDataHistory = (access_token) => async (dispatch) => {
 				access_token,
 			},
 		});
-		console.log(patientData, `ini data history`);
 		dispatch(loadingHistory(false));
-		dispatch(allHistory(patientData));
+		dispatch(allHistory(patientData.data));
 	} catch (err) {
 		console.log(err);
 		dispatch(errorHistory(err));

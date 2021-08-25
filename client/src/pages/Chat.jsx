@@ -120,7 +120,7 @@ export default function Chat() {
 	const sendPeerMessage = async () => {
 		let peerId = isLogged === "user" ? filtered.doctorId : filtered.userId;
 		let userId = isLogged === "user" ? filtered.userId : filtered.doctorId;
-		let peerMessage = String(inputMessage.current.value);
+		let peerMessage = inputMessage.current.value;
 
 		await client
 			.sendMessageToPeer({ text: peerMessage }, peerId, userId)
@@ -141,11 +141,10 @@ export default function Chat() {
 	const channelRef = useRef("");
 	const remoteRef = useRef("");
 	const leaveRef = useRef("");
-	// const inputUser = useRef(""); // Untuk uid yang unik (boleh masukin ObjectId(User/Doctor))
 
 	async function handleSubmit(e) {
 		try {
-			// setIsVideoCall(true);
+			setIsVideoCall(true);
 			setJoined(true);
 
 			rtc.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
@@ -257,18 +256,21 @@ export default function Chat() {
 	};
 
 	const leaveHandler = async () => {
-		if (!isLogged === "user" ? filtered.userId : filtered.doctorId) {
-			setIsCall(false);
-		} else {
-			setIsCall(false);
-			rtc.localAudioTrack.close();
-			await rtc.client.leave();
-		}
+		// if (!isLogged === "user" ? filtered.userId : filtered.doctorId) {
+		setIsCall(false);
+		rtc.localAudioTrack.close();
+		await rtc.client.leave();
+		// } else {
+		// setIsCall(false);
+		// rtc.localAudioTrack.close();
+		// await rtc.client.leave();
+		// }
 	};
 
 	const call = () => {
 		startBasicCall();
 		setIsCall(true);
+		joinHandler();
 	};
 
 	return (
@@ -300,16 +302,24 @@ export default function Chat() {
 						<div className="flex flex-col items-center new-bg border border-gray-200 mt-4 w-full py-6 px-4 rounded-lg">
 							<div className="h-20 w-20 rounded-full border overflow-hidden">
 								<img
-									src="https://avatars3.githubusercontent.com/u/2763884?s=128"
+									src={
+										isLogged === "user"
+											? filtered.doctorPhoto
+											: filtered.userPhoto
+									}
 									alt="Avatar"
 									className="h-full w-full"
 								/>
 							</div>
 							<div className="text-lg font-semibold mt-2">
-								Nama Dokter
+								{isLogged === "user"
+									? filtered.doctorName
+									: filtered.userName}
 							</div>
 							<div className="text-lg text-gray-500">
-								Spesialis
+								{isLogged === "user"
+									? filtered.doctorSpecialist
+									: filtered.userGender}
 							</div>
 						</div>
 						<button
@@ -349,7 +359,7 @@ export default function Chat() {
 						</button>
 						<button
 							className="flex flex-row items-center justify-center h-12 w-full mt-20  transition-transform transform hover:scale-110"
-							onClick={() => setIsVideoCall(true)}
+							onClick={() => handleSubmit()}
 							disabled={isVideoCall || isCall ? true : false}
 						>
 							{!isCall && !isVideoCall ? (
@@ -382,14 +392,14 @@ export default function Chat() {
 								</div>
 							)}
 						</button>
-						{!isVideoCall && !isCall && (
+						{/* {!isVideoCall && !isCall && (
 							<form id="loginForm">
 								<div className="col">
 									<div className="card">
 										<div className="row card-content">
 											<div className="input-field">
 												<label>User ID</label>
-												{/* <input ref={inputUserId} type="text" placeholder="User ID" id="userID" /> */}
+												<input ref={inputUserId} type="text" placeholder="User ID" id="userID" />
 											</div>
 											<div className="row">
 												<div>
@@ -417,13 +427,18 @@ export default function Chat() {
 											</div>
 											<div className="input-field">
 												<label>Peer Id</label>
-												{/* <input ref={inputPeerId} type="text" placeholder="peer id" id="peerId" /> */}
+												<input
+													ref={inputPeerId}
+													type="text"
+													placeholder="peer id"
+													id="peerId"
+												/>
 											</div>
 										</div>
 									</div>
 								</div>
 							</form>
-						)}
+						)} */}
 					</div>
 					<div className="flex flex-col flex-auto px-6 py-6">
 						{isVideoCall && (
@@ -481,7 +496,7 @@ export default function Chat() {
 												</svg>
 											</div>
 										</button>
-										<div className="container">
+										{/* <div className="container">
 											<input
 												type="submit"
 												value="Join"
@@ -495,8 +510,12 @@ export default function Chat() {
 												onClick={handleLeave}
 												disabled={joined ? false : true}
 											/>
-											{/* <input type="text" ref={inputUserId} className="border" /> */}
-										</div>
+											<input
+												type="text"
+												ref={inputUserId}
+												className="border"
+											/>
+										</div> */}
 									</div>
 								</div>
 							</div>
@@ -534,26 +553,10 @@ export default function Chat() {
 												</svg>
 											</div>
 										</button>
-										<div className="row">
-											<div>
-												<button
-													onClick={() =>
-														joinHandler()
-													}
-													type="button"
-													id="join"
-												>
-													JOIN
-												</button>
-												{/* <input type="text" 
-                        ref={inputUserId} /> */}
-											</div>
-										</div>
 									</div>
 								</div>
 							</div>
 						)}
-
 						{!isVideoCall && !isCall && (
 							<div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl chat-bg h-full p-4">
 								<div className="flex flex-col h-full overflow-x-auto mb-4">
@@ -573,7 +576,12 @@ export default function Chat() {
 															<div className="col-start-6 col-end-13 p-3 rounded-lg">
 																<div className="flex items-center justify-start flex-row-reverse">
 																	<div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
-																		A
+																		{isLogged ===
+																		"user"
+																			? filtered
+																					.userName[0]
+																			: filtered
+																					.doctorName[0]}
 																	</div>
 																	<div className="relative mr-3 text-lg bg-indigo-100 py-2 px-4 shadow rounded-xl">
 																		<div>
@@ -590,7 +598,12 @@ export default function Chat() {
 															<div className="col-start-1 col-end-8 p-3 rounded-lg">
 																<div className="flex flex-row items-center">
 																	<div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
-																		A
+																		{isLogged ===
+																		"user"
+																			? filtered
+																					.doctorName[0]
+																			: filtered
+																					.userName[0]}
 																	</div>
 																	<div className="relative ml-3 text-lg bg-white py-2 px-4 shadow rounded-xl">
 																		<div>

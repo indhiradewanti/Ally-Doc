@@ -20,6 +20,13 @@ export const filter = (payload) => {
 	};
 };
 
+export const doctorHistory = (payload) => (dispatch) => {
+	dispatch({
+		type: ActionTypeUserDoctor.allUserDoctor,
+		payload,
+	});
+};
+
 export const userDoctor = (payload) => async (dispatch) => {
 	try {
 		const id = localStorage.getItem("UserId");
