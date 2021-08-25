@@ -152,7 +152,7 @@ class UserController {
 
 	static async updateUserData(req, res) {
 		try {
-			let { email, height, weight, age, phone_number } = req.body;
+			let { email, height, weight, age, phone_number, gender } = req.body;
 			let { id } = req.params;
 			let { access_token } = req.headers;
 			let updatedUserData = await axios({
@@ -164,6 +164,7 @@ class UserController {
 					weight,
 					age,
 					phone_number,
+					gender,
 				},
 				headers: {
 					access_token,
