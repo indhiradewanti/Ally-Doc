@@ -6,7 +6,7 @@ class ControllerHistory{
           const data = await History.find();
           res.status(200).json(data);
         } catch (err) {
-            // console.log(err)
+            console.log(err.message)
             /* istanbul ignore next */
           next({
             code: err.code,
@@ -25,7 +25,7 @@ class ControllerHistory{
             throw { code: 400, message: "Error create history" };
           }
         } catch (err) {
-            // console.log(err)
+            console.log(err.message)
             if (err.name === "ValidationError") {
                 let errorMessages = [];
                 for (let key in err.errors) {
@@ -59,7 +59,7 @@ class ControllerHistory{
             throw { code: 400, message: "status cannot be empty" };
           }
         } catch (err) {
-            // console.log(err.message)
+            console.log(err.message)
           const code = err.code;
           const message = err.message;
           next({

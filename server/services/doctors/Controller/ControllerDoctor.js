@@ -36,7 +36,7 @@ class ControllerDoctor {
         throw { code: 403, message: "Forbidden to access" };
       }
     } catch (err) {
-      console.log(err.message);
+      console.log(err.message, 'ini di error doctor');
       if (err.name === "ValidationError") {
         let errorMessages = [];
         for (let key in err.errors) {

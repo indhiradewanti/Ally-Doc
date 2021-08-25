@@ -47,49 +47,106 @@ describe("POST History", () => {
       .then((response) => {
           id = response.body._id
         expect(response.status).toBe(201);
-        expect(response.body).toHaveProperty("_id", expect.any(String))
         expect(response.body).toHaveProperty("userName", "test");
         expect(response.body).toHaveProperty("userPhoto", 'balalala');
         expect(response.body).toHaveProperty("userGender", "male");
         expect(response.body).toHaveProperty("userId", '612514f81388d0001373abd2')
         expect(response.body).toHaveProperty("doctorId", '612514f81388d0001373abd2')
-
+        expect(response.body).toHaveProperty("doctorName", 'test')
+        expect(response.body).toHaveProperty("doctorPhoto", 'test')
+        expect(response.body).toHaveProperty("doctorSpecialist", 'test')
+        expect(response.body).toHaveProperty("status", 'in progress')
         done();
       });
   });
   
-  test("Should POST return name error", (done) => {
+  test("Should POST return userName error", (done) => {
     request(app)
     .post("/history/")
     .set("access_token", access_token)
-      .send({ ...postHistory, name: undefined })
+      .send({ ...postHistory, userName: undefined })
       .then((response) => {
         expect(response.status).toBe(400);
-        expect(response.body).toHaveProperty("message", "name cannot be empty");
+        expect(response.body).toHaveProperty("message", "userName cannot be empty");
         done()
       });
   });
-  test("Should POST return age error", (done) => {
+  test("Should POST return userId error", (done) => {
       request(app)
       .post("/history/")
       .set("access_token", access_token)
-        .send({...postHistory, age: undefined})
+        .send({...postHistory, userId: undefined})
         .then((response) => {
             expect(response.status).toBe(400)
-            expect(response.body).toHaveProperty("message", "age cannot be empty")
+            expect(response.body).toHaveProperty("message", "userId cannot be empty")
             done()
         })
   })
-  test("Should POST return gender error", (done) => {
+  test("Should POST return userGender error", (done) => {
       request(app)
       .post("/history/")
       .set("access_token", access_token)
-      .send({...postHistory, gender: undefined})
+      .send({...postHistory, userGender: undefined})
       .then((response) => {
           expect(response.status).toBe(400)
-          expect(response.body).toHaveProperty("message", "gender cannot be empty")
+          expect(response.body).toHaveProperty("message", "userGender cannot be empty")
           done()
       })
+  })
+  test("Should POST return userPhoto error", (done) => {
+    request(app)
+    .post("/history/")
+    .set("access_token", access_token)
+    .send({...postHistory, userPhoto: undefined})
+    .then((response) => {
+        expect(response.status).toBe(400)
+        expect(response.body).toHaveProperty("message", "userPhoto cannot be empty")
+        done()
+    })
+  })
+  test("Should POST return doctorId error", (done) => {
+    request(app)
+    .post("/history/")
+    .set("access_token", access_token)
+    .send({...postHistory, doctorId: undefined})
+    .then((response) => {
+        expect(response.status).toBe(400)
+        expect(response.body).toHaveProperty("message", "doctorId cannot be empty")
+        done()
+    })
+  })
+  test("Should POST return doctorName error", (done) => {
+    request(app)
+    .post("/history/")
+    .set("access_token", access_token)
+    .send({...postHistory, doctorName: undefined})
+    .then((response) => {
+        expect(response.status).toBe(400)
+        expect(response.body).toHaveProperty("message", "doctorName cannot be empty")
+        done()
+    })
+  })
+  test("Should POST return doctorPhoto error", (done) => {
+    request(app)
+    .post("/history/")
+    .set("access_token", access_token)
+    .send({...postHistory, doctorPhoto: undefined})
+    .then((response) => {
+        expect(response.status).toBe(400)
+        expect(response.body).toHaveProperty("message", "doctorPhoto cannot be empty")
+        done()
+    })
+  })
+  test("Should POST return doctorSpecialist error", (done) => {
+    request(app)
+    .post("/history/")
+    .set("access_token", access_token)
+    .send({...postHistory, doctorSpecialist: undefined})
+    .then((response) => {
+        expect(response.status).toBe(400)
+        expect(response.body).toHaveProperty("message", "doctorSpecialist cannot be empty")
+        done()
+    })
   })
 })
 
