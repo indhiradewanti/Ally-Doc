@@ -59,20 +59,23 @@ export const errorUser = (payload) => {
 //     }
 // }
 
-export const fetchDetailUser = (user) => async (dispatch) => {
+export const fetchDetailUser = (id) => async (dispatch) => {
     try {
         dispatch(loadingUser(true))
         const access_token = localStorage.getItem('access_token')
-        const {data} = await axios.get(`/user/${user.id}`, {
-            headers: {access_token}
+        const {data} = await axios.get(`/user/${id}`, {
+            headers: {"access_token": access_token}
         })
-        dispatch(loadingUser(false))
+        console.log(data)       
         dispatch(detailUser(data))
     } catch (err) {
         console.log(err)
         dispatch(errorUser(err))
+    } finally {
+        dispatch(loadingUser(false))
     }
 }
+
 
 
 // export const updateUserImage = (user) => async (dispatch) => {
@@ -92,11 +95,13 @@ export const fetchDetailUser = (user) => async (dispatch) => {
 export const updateUser = (user) => async (dispatch) => {
     try {
         const access_token = localStorage.getItem('access_token')
-        const {data} = await axios.patch(`/user/${user._id}`, user, {
-            headers: {access_token}
+        const id = localStorage.getItem('UserId')
+        console.log(access_token,'at')
+        const {data} = await axios.patch(`/user/${id}`, user, {
+            headers: {"access_token" : access_token}
         })
-        console.log(data)
-        dispatch(fetchDetailUser(user._id))
+        console.log(data,'data')
+        // dispatch(fetchDetailUser(user._id))
     } catch (err) {
         console.log(err)
         dispatch(errorUser(err))

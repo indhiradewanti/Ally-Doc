@@ -256,11 +256,18 @@ export default function Chat() {
               <div className="ml-2 text-3xl caslon">Messanger</div>
             </div>
             <div className="flex flex-col items-center new-bg border border-gray-200 mt-4 w-full py-6 px-4 rounded-lg">
-              <div className="h-20 w-20 rounded-full border overflow-hidden">
-                <img src="https://avatars3.githubusercontent.com/u/2763884?s=128" alt="Avatar" className="h-full w-full" />
-              </div>
+
+                <img src="https://avatars3.githubusercontent.com/u/2763884?s=128" alt="Avatar" className="mask mask-circle" />
+
               <div className="text-lg font-semibold mt-2">Nama Dokter</div>
               <div className="text-lg text-gray-500">Spesialis</div>
+              <button
+              
+              className="btn btn-outline1 hidden sm:inline-block text-gray-700 hover:text-indigo-700 vogue font-bold w-24 ml-5"
+              
+            >
+              Logout
+            </button>
             </div>
             <button className="flex flex-row items-center justify-center h-12 w-full mt-20 py-10 transition-transform transform hover:scale-110" onClick={call} disabled={isVideoCall || isCall ? true : false}>
               {!isCall && !isVideoCall ? (

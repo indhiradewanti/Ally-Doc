@@ -35,7 +35,7 @@ export default function Navbar() {
           <img src={logo} alt="logo" className="w-44" />
         </NavLink>
         <ul>
-          <li className="space-x-5 text-xl">
+          <li className="text-xl">
             {isLogged === "doctor" ? (
               <>
                 <NavLink
@@ -72,7 +72,7 @@ export default function Navbar() {
                 className={
                   isLogged
                     ? "hidden"
-                    : "visibile btn btn-outline1 hidden sm:inline-block text-gray-700 hover:text-indigo-700 vogue font-bold w-24"
+                    : "visibile btn btn-outline1 hidden sm:inline-block text-gray-700 hover:text-indigo-700 vogue font-bold w-24 ml-5"
                 }
               >
                 Login
@@ -83,7 +83,7 @@ export default function Navbar() {
                 className={
                   isLogged
                     ? "hidden"
-                    : "btn btn-outline1 hidden sm:inline-block text-gray-700 hover:text-indigo-700 vogue font-bold w-24"
+                    : "btn btn-outline1 hidden sm:inline-block text-gray-700 hover:text-indigo-700 vogue font-bold w-24 ml-5"
                 }
               >
                 Sign up
@@ -99,7 +99,7 @@ export default function Navbar() {
               onClick={logOut}
               className={
                 isLogged
-                  ? "btn btn-outline1 hidden sm:inline-block text-gray-700 hover:text-indigo-700 vogue font-bold w-24"
+                  ? "btn btn-outline1 hidden sm:inline-block text-gray-700 hover:text-indigo-700 vogue font-bold w-24 ml-5"
                   : "hidden"
               }
             >
