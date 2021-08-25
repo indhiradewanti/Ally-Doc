@@ -24,12 +24,10 @@ export const userDoctor = (payload) => async (dispatch) => {
 	try {
 		const id = localStorage.getItem("UserId");
 		const access_token = localStorage.getItem("access_token");
-		console.log(access_token);
 		const { data: user } = await axios.get(`/user/${id}`, {
 			headers: { access_token },
 		});
 		const { data: doctor } = await axios.get(`/doctor/${payload}`);
-		console.log(doctor);
 		const obj = {
 			userId: id,
 			userName: user.username,
@@ -40,7 +38,12 @@ export const userDoctor = (payload) => async (dispatch) => {
 			doctorPhoto: doctor.photo,
 			doctorSpecialist: doctor.specialist,
 		};
-		console.log(obj);
+		console.log(obj, "ini obj");
+		let patientHistory = await axios({
+			method: "POST",
+			url: "/history",
+			data: obj,
+		});
 		dispatch({
 			type: ActionTypeUserDoctor.allUserDoctor,
 			payload: obj,

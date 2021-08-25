@@ -6,6 +6,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { userDoctor } from "../stores/actions/actionDoctorUser";
 import { useDispatch, useSelector } from "react-redux";
 import { filter } from "../stores/actions/actionDoctorUser.js";
+import { createDataHistory } from "../stores/actions/actionHistory.js";
 
 const CARD_OPTIONS = {
 	iconStyle: "solid",
@@ -50,6 +51,11 @@ export default function Payment() {
 	const doctorData = useSelector((state) => {
 		return state.doctors.allDoctor.find((doc) => doc._id === idDoctor);
 	});
+	const historyData = useSelector((state) => {
+		return state.doctorUser.allUserDoctors.filter(
+			(data) => data.doctorId === idDoctor
+		);
+	});
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -63,7 +69,6 @@ export default function Payment() {
 		if (!error) {
 			try {
 				const { id } = paymentMethod;
-				console.log(doctorData);
 				const response = await axios.post(
 					"http://34.207.67.233:3000/user/payment",
 					{

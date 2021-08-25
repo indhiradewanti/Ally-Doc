@@ -28,25 +28,31 @@ export const errorHistory = (payload) => {
 	};
 };
 
-export const fetchDataHistory = () => async (dispatch) => {
+export const fetchDataHistory = (access_token) => async (dispatch) => {
 	try {
+		console.log("ini test");
+		console.log(access_token);
 		dispatch(loadingHistory(true));
-		const access_token = localStorage.getItem("access_token");
-		const { data } = await axios.get(`/history`, {
-			headers: { access_token },
+		// const access_token = localStorage.getItem("access_token");
+		const patientData = await axios({
+			method: "GET",
+			url: "/history",
+			headers: {
+				access_token,
+			},
 		});
-		console.log(data);
+		console.log(patientData, `ini data history`);
 		dispatch(loadingHistory(false));
-		dispatch(allHistory(data));
+		dispatch(allHistory(patientData));
 	} catch (err) {
 		console.log(err);
 		dispatch(errorHistory(err));
 	}
 };
 
-export const createDataHistory = () => async (dispatch) => {
+export const createDataHistory = (historyData) => async (dispatch) => {
 	try {
-		const { data } = await axios.post(`/history`);
+		const { data } = await axios.post(`/history`, historyData);
 		console.log(data);
 		dispatch(fetchDataHistory());
 	} catch (err) {
