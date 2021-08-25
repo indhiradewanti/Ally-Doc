@@ -60,12 +60,11 @@ export default function LoginForm() {
 	return (
 		<div>
 			<div>
-				<div className="w-full text-base flex rounded-lg focus:outline-none focus:border-gray-700 mx-auto justify-center vogue font-bold">
+				<div className="w-full text-base flex rounded-lg focus:outline-none focus:border-gray-700 mx-auto justify-center font-serif font-bold text-lg">
 					<span className="justify-items-center">User</span>
 					<input
 						type="checkbox"
 						className="toggle my-auto mx-3"
-						// onChange={handleChange}
 						onClick={handleChange}
 					/>
 					<span className="justify-items-center">Doctor</span>

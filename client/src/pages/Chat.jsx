@@ -53,11 +53,15 @@ export default function Chat() {
 
 	// CHAT
 	useEffect(() => {
-		handleListen();
+		if (isLogged) {
+			handleListen();
+		}
 	}, [isListening]);
 
 	useEffect(() => {
-		loginHandler();
+		if (isLogged) {
+			loginHandler();
+		}
 	}, []);
 
 	const endChat = () => {
@@ -188,7 +192,7 @@ export default function Chat() {
 						document.getElementById("remote-stream")
 					);
 
-					user.videoTrack.play(`${user.uid}`);
+					remoteVideoTrack.play(`${user.uid}`);
 				}
 
 				if (mediaType === "audio" || mediaType === "all") {

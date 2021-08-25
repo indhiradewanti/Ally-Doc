@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
-import Swal from "sweetalert2";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { fetchDataDoctor } from "../stores/actions/actionDoctors";
 import DoctorCard from "../components/DoctorsCard";
 import loading from "../assets/loading.gif";
@@ -9,11 +7,10 @@ import loading from "../assets/loading.gif";
 export default function DoctorsList() {
 	const dispatch = useDispatch();
 	const allDoctor = useSelector((state) => state.doctors.allDoctor);
+
 	useEffect(() => {
 		dispatch(fetchDataDoctor());
 	}, []);
-
-	// console.log(allDoctor,'all doctors')
 
 	return (
 		<article>

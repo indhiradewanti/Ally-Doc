@@ -78,17 +78,24 @@ export default function DoctorPage() {
 												No Patient
 											</span>
 										)}
-										{/* <span className="font-bold text-black text-xl">
-										Umur
-									</span> */}
 									</div>
 								</div>
-								<button
-									onClick={() => chatButton()}
-									className="btn btn-outline1 hidden sm:inline-block text-white transition-transform transform hover:scale-110 hover:text-indigo-700 vogue font-bold w-32 mt-5"
-								>
-									Chat now
-								</button>
+								{patientData ? (
+									<button
+										onClick={() => chatButton()}
+										className="btn btn-outline1 hidden sm:inline-block text-white transition-transform transform hover:scale-110 hover:text-indigo-700 vogue font-bold w-32 mt-5"
+									>
+										Chat now
+									</button>
+								) : (
+									<button
+										onClick={() => chatButton()}
+										className="btn btn-outline1 hidden sm:inline-block text-white transition-transform transform hover:scale-110 hover:text-indigo-700 vogue font-bold w-32 mt-5"
+										disabled
+									>
+										Chat now
+									</button>
+								)}
 							</div>
 						</div>
 					</div>

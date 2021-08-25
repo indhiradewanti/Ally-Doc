@@ -1,5 +1,4 @@
 import axios from "../../url/axios";
-import { isLogin, typeLogin } from "./actionDoctorUser";
 
 export const ActionTypeDoctor = {
 	allDoctor: "ALL_DOCTOR",

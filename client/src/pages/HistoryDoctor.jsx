@@ -32,7 +32,7 @@ export default function DoctorPage() {
 								<div className="flex justify-center">
 									<div className="p-3 new-bg rounded-xl max-w-lg hover:shadow">
 										<div className="flex justify-between w-full">
-											<div className="ml-2">
+											<div className="mx-2">
 												<div className="p-3">
 													<h3 className="text-2xl">
 														{patient.userName
@@ -48,7 +48,7 @@ export default function DoctorPage() {
 																	src={
 																		patient.userPhoto
 																	}
-																	alt="patients-photo"
+																	alt="patients"
 																/>
 															) : (
 																<img

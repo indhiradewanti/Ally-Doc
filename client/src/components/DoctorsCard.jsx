@@ -22,7 +22,6 @@ export default function DoctorCard({ doctor }) {
 							</h3>
 						</div>
 						<div className="flex justify-between items-center p-3 bg-gray-100 rounded-lg">
-							<span>{doctor.status}</span>
 							{doctor.status === "Online" ? (
 								<div className="avatar online">
 									<div className="rounded-full w-24 h-24">
@@ -31,7 +30,7 @@ export default function DoctorCard({ doctor }) {
 								</div>
 							) : (
 								<div className="avatar offline">
-									<div className="rounded-full w-24 h-24">
+									<div className="rounded-full w-24 h-24 bg-grey-200 opacity-50">
 										<img src={doctor.photo} />
 									</div>
 								</div>
@@ -65,7 +64,10 @@ export default function DoctorCard({ doctor }) {
 									Chat Now
 								</button>
 							) : (
-								<button className="btn btn-outline2 hidden sm:inline-block text-white w-32 mt-5 vogue">
+								<button
+									className="btn btn-outline2 hidden sm:inline-block text-white w-32 mt-5 vogue"
+									disabled={true}
+								>
 									Chat Now
 								</button>
 							)}

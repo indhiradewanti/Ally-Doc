@@ -6,13 +6,6 @@ export const ActionTypeUserDoctor = {
 	isLogin: "IS_LOGIN_DOCTOR_USER",
 };
 
-// export const allChat = (payload) => {
-//     return {
-//         type: ActionTypeChat.allChat,
-//         payload
-//     }
-// }
-
 export const filter = (payload) => {
 	return {
 		type: ActionTypeUserDoctor.filterUserDoctor,
@@ -60,28 +53,6 @@ export const userDoctor = (payload) => async (dispatch) => {
 	}
 };
 
-// export const allUserDoctors = (payload) => async (dispatch) => {
-//     try {
-//         dispatch({
-//             type: ActionTypeUserDoctor.allUserDoctor,
-//             payload,
-//         });
-//     } catch (err) {
-//         console.log(err);
-//     }
-// };
-
-// export const filter = (payload) => async (dispatch) => {
-//     try {
-//         dispatch({
-//             type: ActionTypeUserDoctor.filterUserDoctor,
-//             payload,
-//         });
-//     } catch (err) {
-//         console.log(err);
-//     }
-// };
-
 export const isLogin = (payload) => {
 	console.log(payload);
 	return {
@@ -108,7 +79,6 @@ export const loginUser = (user) => async (dispatch) => {
 		const access_token = data.access_token;
 		localStorage.setItem("UserId", data.id);
 		localStorage.setItem("access_token", access_token);
-		// dispatch(isLogin(access_token))
 		dispatch(isLogin("user"));
 	} catch (err) {
 		console.log(err);
