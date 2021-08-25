@@ -31,7 +31,7 @@ export default function ReducerDoctorUser(state = initialState, action) {
 		case ActionTypeUserDoctor.allUserDoctor:
 			return {
 				...state,
-				allUserDoctors: [...state.allUserDoctors, action.payload],
+				allUserDoctors: [action.payload],
 			};
 		case ActionTypeUserDoctor.filterUserDoctor:
 			let filter = state.allUserDoctors.find(

@@ -30,10 +30,7 @@ export const errorHistory = (payload) => {
 
 export const fetchDataHistory = (access_token) => async (dispatch) => {
 	try {
-		console.log("ini test");
-		console.log(access_token);
 		dispatch(loadingHistory(true));
-		// const access_token = localStorage.getItem("access_token");
 		const patientData = await axios({
 			method: "GET",
 			url: "/history",
@@ -61,7 +58,14 @@ export const createDataHistory = (historyData) => async (dispatch) => {
 
 export const patchStatusHistory = (history) => async (dispatch) => {
 	try {
-		const { data } = await axios.patch(`/history/${history._id}`);
+		const access_token = localStorage.getItem("access_token");
+		const { data } = await axios.patch(
+			`/history/${history._id}`,
+			{
+				status: "completed",
+			},
+			{ headers: { access_token } }
+		);
 		console.log(data);
 		dispatch(fetchDataHistory());
 	} catch (err) {

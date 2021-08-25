@@ -4,8 +4,8 @@ import AgoraRTM from "agora-rtm-sdk";
 import AgoraRTC from "agora-rtc-sdk-ng";
 import ReactDOM from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { filter } from "../stores/actions/actionDoctorUser";
+import { useParams, useHistory } from "react-router-dom";
+import { patchStatusHistory } from "../stores/actions/actionHistory.js";
 
 const appId = "ca2e9fc223264aa59fecda2bbcded5fc";
 const client = AgoraRTM.createInstance(appId);
@@ -32,6 +32,7 @@ export default function Chat() {
 	const [isListening, setIsListening] = useState(false);
 	const [isVideoCall, setIsVideoCall] = useState(false);
 	const [isCall, setIsCall] = useState(false);
+	const history = useHistory();
 
 	// let inputUserId = useRef("");
 	let inputMessage = useRef("");
@@ -55,11 +56,20 @@ export default function Chat() {
 		handleListen();
 	}, [isListening]);
 
-	useEffect(() => {}, []);
-
 	useEffect(() => {
 		loginHandler();
 	}, []);
+
+	const endChat = () => {
+		if (isLogged === "doctor") {
+			dispatch(patchStatusHistory(filtered));
+			logoutHandler();
+			history.push("/doctors/history");
+		} else {
+			logoutHandler();
+			history.push("/");
+		}
+	};
 
 	const handleListen = () => {
 		if (isListening) {
@@ -319,7 +329,10 @@ export default function Chat() {
 									? filtered.doctorSpecialist
 									: filtered.userGender}
 							</div>
-							<button className="btn btn-outline1 hidden sm:inline-block text-gray-700 hover:text-indigo-700 vogue font-bold w-32">
+							<button
+								onClick={() => endChat()}
+								className="btn btn-outline1 hidden sm:inline-block text-gray-700 hover:text-indigo-700 vogue font-bold w-32"
+							>
 								End Chat
 							</button>
 						</div>

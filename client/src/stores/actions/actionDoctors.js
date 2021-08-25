@@ -7,7 +7,7 @@ export const ActionTypeDoctor = {
 	createDoctor: "CREATE_DOCTOR",
 	removeDoctor: "REMOVE_DOCTOR",
 	updateDoctor: "UPDATE_DOCTOR",
-	patchStatus: "PATCH_STATUS_DOCTOR",
+	patchStatusDoctor: "PATCH_STATUS_DOCTOR",
 	patchPhoto: "PATCH_PHOTO_DOCTOR",
 	errorDoctor: "ERROR_DOCTOR",
 	loadingDoctor: "LOADING_DOCTOR",
