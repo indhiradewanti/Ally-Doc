@@ -1,17 +1,37 @@
 const {Schema, model} = require('mongoose')
 
 const HistorySchema = new Schema({
-    name: {
+    userName: {
         type: String,
-        required: [true, 'name cannot be empty']
+        required: [true, 'userName cannot be empty']
     },
-    age: {
-        type: Number,
-        required: [true, 'age cannot be empty']
-    },
-    gender: {
+    userId: {
         type: String,
-        required: [true, 'gender cannot be empty']
+        required: [true, 'userId cannot be empty']
+    },
+    userGender: {
+        type: String,
+        required: [true, 'userGender cannot be empty']
+    },
+    userPhoto: {
+        type: String,
+        required: [true, 'userPhoto cannot be empty']
+    },
+    doctorId: {
+        type: String,
+        required: [true, 'doctorId cannot be empty']
+    },
+    doctorName: {
+        type: String,
+        required: [true, 'doctorName cannot be empty']
+    },
+    doctorPhoto: {
+        type: String,
+        required: [true, 'doctorPhoto cannot be empty']
+    },
+    doctorSpecialist: {
+        type: String,
+        required: [true, 'doctorSpecialist cannot be empty']
     },
     status: {
         type: String,

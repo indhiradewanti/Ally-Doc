@@ -17,9 +17,14 @@ mongoose.connect("mongodb://localhost:27017/test_database", {
 let access_token = jwt.sign({ role: "Doctor" }, process.env.SECRET_KEY);
 let false_token = jwt.sign({ role: "Admin" }, process.env.SECRET_KEY);
 const postHistory = {
-    name: "test",
-    age: 17,
-    gender: "male",
+    userName: "test",
+    userPhoto: 'balalala',
+    userGender: "male",
+    userId: '612514f81388d0001373abd2',
+    doctorId: '612514f81388d0001373abd2',
+    doctorName: 'test',
+    doctorPhoto: 'test',
+    doctorSpecialist: 'test'
 };
 
 const History = require("../Model/HistorySchema");
@@ -43,9 +48,12 @@ describe("POST History", () => {
           id = response.body._id
         expect(response.status).toBe(201);
         expect(response.body).toHaveProperty("_id", expect.any(String))
-        expect(response.body).toHaveProperty("name", "test");
-        expect(response.body).toHaveProperty("age", 17);
-        expect(response.body).toHaveProperty("gender", "male");
+        expect(response.body).toHaveProperty("userName", "test");
+        expect(response.body).toHaveProperty("userPhoto", 'balalala');
+        expect(response.body).toHaveProperty("userGender", "male");
+        expect(response.body).toHaveProperty("userId", '612514f81388d0001373abd2')
+        expect(response.body).toHaveProperty("doctorId", '612514f81388d0001373abd2')
+
         done();
       });
   });

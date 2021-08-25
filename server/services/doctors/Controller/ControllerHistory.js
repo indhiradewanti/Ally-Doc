@@ -16,13 +16,8 @@ class ControllerHistory{
       }
       static async postHistory(req, res, next) {
         try {
-          const { name, age, gender } = req.body;
-          const data = await History.create({
-            name,
-            age,
-            gender,
-            status: "in progress",
-          });
+          const { userName, userId, userGender, userPhoto, doctorId, doctorName, doctorPhoto, doctorSpecialist} = req.body;
+          const data = await History.create({ userName, userId, userGender, userPhoto, doctorId, doctorName, doctorPhoto, doctorSpecialist, status: 'in progress'});
           if (data) {
             res.status(201).json(data);
           } else {
