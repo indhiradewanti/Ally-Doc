@@ -54,7 +54,7 @@ export default function DoctorPage() {
 								<div className="avatar">
 									<div className=" rounded-full w-24 h-24">
 										<img
-											src="https://i.imgur.com/CeVfZyY.jpg"
+											src={patientData.userPhoto}
 											alt=""
 										/>
 									</div>

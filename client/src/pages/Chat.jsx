@@ -300,17 +300,15 @@ export default function Chat() {
 							</div>
 						</div>
 						<div className="flex flex-col items-center new-bg border border-gray-200 mt-4 w-full py-6 px-4 rounded-lg">
-							<div className="h-20 w-20 rounded-full border overflow-hidden">
-								<img
-									src={
-										isLogged === "user"
-											? filtered.doctorPhoto
-											: filtered.userPhoto
-									}
-									alt="Avatar"
-									className="h-full w-full"
-								/>
-							</div>
+							<img
+								src={
+									isLogged === "user"
+										? filtered.doctorPhoto
+										: filtered.userPhoto
+								}
+								alt="Avatar"
+								className="mask mask-circle h-32"
+							/>
 							<div className="text-lg font-semibold mt-2">
 								{isLogged === "user"
 									? filtered.doctorName
@@ -321,6 +319,9 @@ export default function Chat() {
 									? filtered.doctorSpecialist
 									: filtered.userGender}
 							</div>
+							<button className="btn btn-outline1 hidden sm:inline-block text-gray-700 hover:text-indigo-700 vogue font-bold w-32">
+								End Chat
+							</button>
 						</div>
 						<button
 							className="flex flex-row items-center justify-center h-12 w-full mt-20 py-10 transition-transform transform hover:scale-110"
