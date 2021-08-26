@@ -10,7 +10,6 @@ class ControllerDoctor {
       if (role === "Admin") {
         let { email, username, password, specialist, address, price, photo } =
           req.body;
-        // console.log({ email, username, password, specialist, address, price, photo })
         password = password ? hashSync(password) : undefined;
         const data = await Doctor.create({
           email,
@@ -36,7 +35,6 @@ class ControllerDoctor {
         throw { code: 403, message: "Forbidden to access" };
       }
     } catch (err) {
-      console.log(err.message, 'ini di error doctor');
       if (err.name === "ValidationError") {
         let errorMessages = [];
         for (let key in err.errors) {
@@ -78,7 +76,6 @@ class ControllerDoctor {
   static async getIdDoctor(req, res, next) {
     try {
       const { _id } = req.params;
-      console.log(_id);
       const { email, username, specialist, address, price, photo, status } =
         await Doctor.findById(_id).exec();
       if (email) {
@@ -90,9 +87,7 @@ class ControllerDoctor {
         throw { code: 404, message: "Data not found" };
       }
     } catch (err) {
-      // console.log(err.message);
       if (!err.code) {
-        // console.log('masuk sini')
         err = { code: 404, message: "Data not found" };
       }
       const code = err.code;
@@ -132,7 +127,6 @@ class ControllerDoctor {
         );
         if (data) {
           const data = await Doctor.findById(_id).exec();
-          console.log(data);
           res
             .status(201)
             .json({ email, username, specialist, address, price, photo });
@@ -209,7 +203,6 @@ class ControllerDoctor {
         throw { code: 400, message: "Email/Password is wrong" };
       }
     } catch (err) {
-      console.log(err);
       if (err.message === "Illegal arguments: undefined, string") {
         err.code = 400;
         err.message = "Password wrong/empty";
@@ -239,7 +232,6 @@ class ControllerDoctor {
         }
       }
     } catch (err) {
-      console.log(err);
       if (!err.code) {
         err = { code: 404, message: "Data not found" };
       }

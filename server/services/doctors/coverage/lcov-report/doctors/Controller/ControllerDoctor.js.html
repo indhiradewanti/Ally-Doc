@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>133/133</span>
+                <span class='fraction'>128/128</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>128/128</span>
+                <span class='fraction'>123/123</span>
             </div>
         
             
@@ -333,15 +333,7 @@
 <a name='L274'></a><a href='#L274'>274</a>
 <a name='L275'></a><a href='#L275'>275</a>
 <a name='L276'></a><a href='#L276'>276</a>
-<a name='L277'></a><a href='#L277'>277</a>
-<a name='L278'></a><a href='#L278'>278</a>
-<a name='L279'></a><a href='#L279'>279</a>
-<a name='L280'></a><a href='#L280'>280</a>
-<a name='L281'></a><a href='#L281'>281</a>
-<a name='L282'></a><a href='#L282'>282</a>
-<a name='L283'></a><a href='#L283'>283</a>
-<a name='L284'></a><a href='#L284'>284</a>
-<a name='L285'></a><a href='#L285'>285</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<a name='L277'></a><a href='#L277'>277</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -353,7 +345,6 @@
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -380,7 +371,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
@@ -421,12 +411,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -435,7 +423,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
@@ -476,7 +463,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -553,7 +539,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -582,7 +567,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -637,7 +621,6 @@ class ControllerDoctor {
       if (role === "Admin") {
         let { email, username, password, specialist, address, price, photo } =
           req.body;
-        // console.log({ email, username, password, specialist, address, price, photo })
         password = password ? hashSync(password) : undefined;
         const data = await Doctor.create({
           email,
@@ -663,7 +646,6 @@ class ControllerDoctor {
         throw { code: 403, message: "Forbidden to access" };
       }
     } catch (err) {
-      console.log(err.message, 'ini di error doctor');
       if (err.name === "ValidationError") {
         let errorMessages = [];
         for (let key in err.errors) {
@@ -705,7 +687,6 @@ class ControllerDoctor {
   static async getIdDoctor(req, res, next) {
     try {
       const { _id } = req.params;
-      console.log(_id);
       const { email, username, specialist, address, price, photo, status } =
         await Doctor.findById(_id).exec();
       <span class="missing-if-branch" title="else path not taken" >E</span>if (email) {
@@ -717,9 +698,7 @@ class ControllerDoctor {
         throw { code: 404, message: "Data not found" };
       }
     } catch (err) {
-      // console.log(err.message);
       <span class="missing-if-branch" title="else path not taken" >E</span>if (!err.code) {
-        // console.log('masuk sini')
         err = { code: 404, message: "Data not found" };
       }
       const code = err.code;
@@ -759,7 +738,6 @@ class ControllerDoctor {
         );
         <span class="missing-if-branch" title="else path not taken" >E</span>if (data) {
           const data = await Doctor.findById(_id).exec();
-          console.log(data);
           res
             .status(201)
             .json({ email, username, specialist, address, price, photo });
@@ -836,7 +814,6 @@ class ControllerDoctor {
         throw { code: 400, message: "Email/Password is wrong" };
       }
     } catch (err) {
-      console.log(err);
       if (err.message === "Illegal arguments: undefined, string") {
         err.code = 400;
         err.message = "Password wrong/empty";
@@ -866,7 +843,6 @@ class ControllerDoctor {
         }
       }
     } catch (err) {
-      console.log(err);
       if (!err.code) {
         err = { code: 404, message: "Data not found" };
       }
@@ -916,7 +892,7 @@ module.exports = ControllerDoctor;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Wed Aug 25 2021 12:21:02 GMT+0700 (Indochina Time)
+                at Thu Aug 26 2021 10:03:44 GMT+0700 (Indochina Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>

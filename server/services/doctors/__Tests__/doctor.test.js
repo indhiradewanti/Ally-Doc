@@ -93,7 +93,6 @@ describe("POST Register Doctor", () => {
         .set("access_token", access_token)
         .send({...objDoctor, username: undefined})
         .then((response) => {
-            console.log(response.body)
             expect(response.status).toBe(400)
             expect(response.body).toHaveProperty('message', 'username cannot be empty')
             done()
