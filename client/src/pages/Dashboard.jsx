@@ -24,8 +24,7 @@ export default function Dashboard() {
 							</h1>
 							<h2 className="text-left text-4xl mt-10 caslon">
 								Connect securely anytime, <br />
-								anywhere with 24/7 doctors available just for
-								you
+								anywhere with doctors available 24/7
 							</h2>
 						</div>
 						<a href="/#slide2" className="btn btn-circle mt-10">

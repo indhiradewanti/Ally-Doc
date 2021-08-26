@@ -13,10 +13,10 @@ export default function DoctorCard({ doctor }) {
 
 	return (
 		<div className="flex justify-center transition-transform transform hover:scale-110">
-			<div className="p-3 new-bg rounded-xl max-w-lg hover:shadow">
+			<div className="p-3 new-bg rounded-xl max-w-lg hover:shadow min ">
 				<div className="flex justify-between w-full">
 					<div className="ml-2">
-						<div className="p-3">
+						<div className="p-8">
 							<h3 className="text-2xl caslon">
 								{doctor.username}
 							</h3>

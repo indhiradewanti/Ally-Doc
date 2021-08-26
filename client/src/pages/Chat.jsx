@@ -468,7 +468,7 @@ export default function Chat() {
 												<div className="grid grid-flow-col grid-cols-2 gap-36">
 													<div>
 														<div className="ml-2 text-3xl vogue font-bold">
-															Nama kita
+															{filtered.userName}
 														</div>
 														<div className="w-24 h-2 bg-green mb-6 mx-auto"></div>
 
@@ -483,7 +483,7 @@ export default function Chat() {
 													</div>
 													<div>
 														<div className="ml-2 text-3xl vogue font-bold">
-															Nama Dokter
+														{filtered.doctorName}
 														</div>
 														<div className="w-24 h-2 bg-green mb-6 mx-auto"></div>
 														<div
@@ -544,14 +544,14 @@ export default function Chat() {
 									<div className="flex flex-col h-full mt-12 items-center mx-auto">
 										<div>
 											<div className="ml-2 text-3xl vogue font-bold">
-												Nama
+											{filtered.doctorName}
 											</div>
 											<div className="w-24 h-2 bg-green mx-auto"></div>
 										</div>
 										<div className="p-20">
 											<div class="avatar online">
 												<div class="rounded-btn w-64 h-64">
-													<img src="http://daisyui.com/tailwind-css-component-profile-1@94w.png" />
+													<img src={filtered.doctorPhoto} />
 												</div>
 											</div>
 										</div>
